@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <!--[if lte IE 9]><meta http-equiv="refresh" content="0;url=/ie.html"><![endif]-->
+
+    <title>重置iOS App请求推送授权请求</title>
+    <meta name="description" content="">
+
+    <link rel="stylesheet" type="text/css" href="/assets/css/style.css">
+  </head>
+  <body>
+    <aside id="sidebar">
+      <nav id="tags">
+        <a href="/index.html" id="avatar"></a>
+
+        <ul id="tags__ul">
+          <li id="js-label1" class="tags__li tags-btn active">全部</li>
+          <li id="js-label2" class="tags__li tags-btn">中文</li>
+          <li id="js-label3" class="tags__li tags-btn">English</li>
+          <li id="js-label4" class="tags__li tags-btn">Python</li>
+          <li id="js-label5" class="tags__li tags-btn">Ruby</li>
+          <li id="js-label6" class="tags__li tags-btn">其它</li>
+        </ul>
+
+        <div id="tags__bottom">
+          <a href="mailto:wing.of.war.1980th@gmail.com" id="icon-email" class="tags-btn fontello"></a>
+          <a href="/rss.xml" id="icon-feed" class="tags-btn fontello"></a>
+        </div>
+      </nav> <!-- end #tags -->
+
+      <div id="posts-list">
+        <!-- 搜索框，使用GoogleEngine失败 -->
+<!--         <form action="" id="search-form">
+          <a href="/index.html" id="mobile-avatar"></a>
+          NOTE: input field is disabled by default
+          <input id="search-input" type="text" placeholder="Search..." >
+        </form>
+ -->
+        <nav id="pl__container">
+        
+          <a class="cn pl__all" href="/cn/2014/12/21/SubClass-Of-%20NSObject.html">
+            <span class="pl__circle"></span>
+            <span class="pl__title">创建Objective-C数据模型的心得1</span>
+            <span class="pl__date">Dec 2014</span>
+          </a>
+        
+          <a class="cn pl__all" href="/cn/2014/12/12/iOS%20Push%20Authoarztion%20Rest-CN.html">
+            <span class="pl__circle"></span>
+            <span class="pl__title">重置iOS App请求推送授权请求</span>
+            <span class="pl__date">Dec 2014</span>
+          </a>
+        
+          <a class="cn pl__all" href="/cn/2014/12/12/Golden%20Path%20Cn.html">
+            <span class="pl__circle"></span>
+            <span class="pl__title">Golden Path</span>
+            <span class="pl__date">Dec 2014</span>
+          </a>
+        
+          <a class="cn pl__all" href="/cn/2014/11/10/Raywenderlich-Objective-C-style-guide-CN.html">
+            <span class="pl__circle"></span>
+            <span class="pl__title">raywenderlich.com Objective-C代码规范中文简易注释</span>
+            <span class="pl__date">Nov 2014</span>
+          </a>
+        
+          <a class="cn pl__all" href="/cn/2014/11/03/SwitchInternetSetting-CN.html">
+            <span class="pl__circle"></span>
+            <span class="pl__title">如何快速的切换Mac系统的网络配置</span>
+            <span class="pl__date">Nov 2014</span>
+          </a>
+        
+          <a class="ruby pl__all" href="/ruby/2014/10/25/Ruby_Study-EN.html">
+            <span class="pl__circle"></span>
+            <span class="pl__title">Ruby Study Memo</span>
+            <span class="pl__date">Oct 2014</span>
+          </a>
+        
+          <a class="python pl__all" href="/python/2014/09/13/ACGArt-EN.html">
+            <span class="pl__circle"></span>
+            <span class="pl__title">ACGArt DownLoader</span>
+            <span class="pl__date">Sep 2014</span>
+          </a>
+        
+          <a class="cn pl__all" href="/cn/2014/08/10/Cocoapods-Research-CN.html">
+            <span class="pl__circle"></span>
+            <span class="pl__title">Cocoapods进阶教程</span>
+            <span class="pl__date">Aug 2014</span>
+          </a>
+        
+          <a class="en pl__all" href="/en/2014/08/09/FirstPost-EN.html">
+            <span class="pl__circle"></span>
+            <span class="pl__title">My first blog in github</span>
+            <span class="pl__date">Aug 2014</span>
+          </a>
+        
+          <a class="cn pl__all" href="/cn/2014/08/09/FirstPost-CN.html">
+            <span class="pl__circle"></span>
+            <span class="pl__title">GitHub 上的第一贴</span>
+            <span class="pl__date">Aug 2014</span>
+          </a>
+        
+        </nav>
+      </div> <!-- end #posts-list -->
+    </aside> <!-- end #sidebar -->
+
+    <div id="post">
+      <!-- 加载文章 -->
+      <div id="pjax">
+        <article id="post__content">
+  <h1 id="post__title" data-identifier="20141212">重置iOS App请求推送授权请求</h1>
+  <p>在iOS上给自己的App创建推送通并不容易，连测试用户给App进行授权推送通知也是件很麻烦的事情。这将直接关系到用户体验与应用流程的处理。</p>
+
+<p>之前一直是有在模拟器上测试授权（比如通讯录，月历访问等），通过模拟器的<code>Reset Content and Setting</code>来重置整个模拟器系统来进行调试。</p>
+
+<!-- more -->
+
+<p><img src="https://raw.githubusercontent.com/Wing-Of-War/wing-of-war.github.com/e2bf38e87f0c194df27a897c9f945f257bcf83b5/_postsImages/2014/12/1.png" alt="" /></p>
+
+<p>相比其它授权，Push Token是不能只使用模拟器进行测试的，因为iOS的服务器是不会给模拟器下发Push Token的。所以这个流程最好是用真机进行测试。</p>
+
+<p><img src="https://raw.githubusercontent.com/Wing-Of-War/wing-of-war.github.com/e2bf38e87f0c194df27a897c9f945f257bcf83b5/_postsImages/2014/12/2.png" alt="" /></p>
+
+<p>但如果使用真机进行反复测试，在之前几乎只有一个办法:  </p>
+
+<p><code>通用</code>-&gt;<code>还原</code>-&gt;<code>抹掉所有内容和设置</code></p>
+
+<p>清空所有内容不说，整个过程可能还长达数十分钟。</p>
+
+<p>昨天在和同事感叹这个问题的时候，搜索了一下stackoverflow.com上找到了答案：</p>
+
+<p>http://stackoverflow.com/questions/2438400/reset-push-notification-settings-for-app</p>
+
+<p>以及此答案指向的Apple官方解答：</p>
+
+<p>https://developer.apple.com/library/ios/technotes/tn2010/tn2265.html</p>
+
+<p>相关文档引用</p>
+
+<blockquote>
+  <h3 id="resetting-the-push-notifications-permissions-alert-on-ios">Resetting the Push Notifications Permissions Alert on iOS</h3>
+</blockquote>
+
+<blockquote>
+  <p>The first time a push-enabled app registers for push notifications, iOS asks the user if they wish to receive notifications for that app. Once the user has responded to this alert it is not presented again unless the device is restored or the app has been uninstalled for at least a day.</p>
+</blockquote>
+
+<blockquote>
+  <p>If you want to simulate a first-time run of your app, you can leave the app uninstalled for a day. You can achieve the latter without actually waiting a day by following these steps:</p>
+</blockquote>
+
+<blockquote>
+  <ul>
+    <li>Delete your app from the device.</li>
+    <li>Turn the device off completely and turn it back on.</li>
+    <li>Go to Settings &gt; General &gt; Date &amp; Time and set the date ahead a day or more.</li>
+    <li>Turn the device off completely again and turn it back on.</li>
+  </ul>
+</blockquote>
+
+<p>翻译一下：</p>
+
+<p>将App从设备上删除<br />
+将设备完全关机再重新启动<br />
+打开 设置-&gt;通用-&gt;日期与时间里 将设备时间拔快一天以上<br />
+将设备再次完全关机再重新启动</p>
+
+<p>此时再安装你的App可以像纯新的流程一样进行测试所有授权，</p>
+
+<p>在设置中查看你的App授权选项也是全部重置。</p>
+
+<p>分析：</p>
+
+<p>由于之前没有仔细看过相关文档，但可以肯定iOS的授权设置会在设备重新启动时进行更新，而重置的周期需要在一天以上。以后再看到更细的说明再补充。</p>
+
+</article> <!-- end #post__content -->
+
+<div id="post__share">
+  <a id="icon-twitter" class="fontello" href="https://twitter.com/intent/tweet?url=http://wing-of-war.github.io//cn/2014/12/12/iOS%20Push%20Authoarztion%20Rest-CN.html&text=重置iOS App请求推送授权请求" target="_blank"></a>
+  <a id="icon-cc" class="fontello" href="http://creativecommons.org/licenses/by-nc-sa/3.0" target="_blank"></a>
+  <a id="icon-weibo" class="fontello" href="http://v.t.sina.com.cn/share/share.php?url=http://wing-of-war.github.io//cn/2014/12/12/iOS%20Push%20Authoarztion%20Rest-CN.html&title=重置iOS App请求推送授权请求" target="_blank"></a>
+</div> <!-- end #post__share -->
+
+<div id="disqus_thread">
+  <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  <a href="http://disqus.com" class="dsq-brlink" target="_blank">Loading Disqus comments...</a>
+</div> <!-- end #disqus_thread -->
+
+<p id="copyright">Powered by <a href="http://jekyllrb.com" target="_blank">Jekyll</a>&nbsp;&nbsp;|&nbsp;&nbsp;Theme <a href="https://github.com/P233/3-Jekyll" target="_blank">3-Jekyll</a></p>
+      </div> <!-- end #pjax -->
+
+      <!-- 右侧文章导航栏 -->
+      <div id="post__toc-trigger">
+        <div id="post__toc">
+          <span id="post__toc-title">Table of Contents</span>
+          <ul id="post__toc-ul"></ul>
+        </div>
+      </div>
+    </div> <!-- end #post -->
+
+<!-- 右侧导航按钮 -->
+    <button id="js-fullscreen"><span id="icon-arrow" class="fontello"></span></button>
+
+    <script src="/assets/js/jquery-2.0.3.min.js"></script>
+    <script src="/assets/js/jquery.pjax.js"></script>
+    <script src="/assets/js/nprogress.js"></script>
+    <script src="/assets/js/script.js"></script>
+  </body>
+</html>

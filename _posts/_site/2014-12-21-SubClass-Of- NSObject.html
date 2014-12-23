@@ -1,0 +1,174 @@
+<p>之前自己在公司写iOS应用主要是写的逻辑层与数据层，也算有些心得。所以决定在最近几篇Blog里将一些网上不常见的方法总结一下。</p>
+
+<h2 id="section">本期的一个关键方法</h2>
+
+<blockquote>
+  <p>-(BOOL)isEqual:(id)object;</p>
+</blockquote>
+
+<h2 id="basic">Basic数据模型</h2>
+
+<p><code>Basic.h</code>定义了 </p>
+
+<ul>
+  <li>index: 数据模型在App中的唯一ID  </li>
+  <li>content: 数据模型装载的内容，用于显示  </li>
+</ul>
+
+<pre><code class="language-objc">@interface Basic : NSObject
+
+@property (assign) NSInteger index;
+@property (copy, nonatomic) NSString *content;
+
+- (instancetype)initWithIndex:(NSInteger)index andContent:(NSString *)content;
+
+@end
+</code></pre>
+
+<p><code>Basic.m</code>中实现初始化方法<code>-initWithIndex:andContent;</code></p>
+
+<pre><code class="language-objc">@implementation Basic
+- (instancetype)initWithIndex:(NSInteger)index andContent:(NSString *)content {
+  if (self = [super init]) {
+    _index = index;
+    _content = content;
+  }
+  return self;
+}
+@end
+</code></pre>
+
+<h3 id="section-1">内存比较</h3>
+
+<p>常用的逻辑判断中，经常会使用到类似于数据库的<code>插入</code>、<code>删除</code>、<code>查找</code>这几个方法。
+这些方法的关键则是对<strong>两个数据模型的比较结果</strong>，比如NSMutableArray中使用的排序方法
+&gt;<code>- (void)sortUsingComparator:(NSComparator)cmptr;</code></p>
+
+<p>其关键点就是对<code>NSComparator</code> Block的实现，定义如下：
+&gt;<code>typedef NSComparisonResult (^NSComparator)(id obj1, id obj2);</code>
+返回两个对象的<code>关系</code>。</p>
+
+<p>NSObject中定义的<code>- (BOOL)isEqual:(id)object;</code>就是对Objective-C中，对象内存地址的判断，如果两个对象所指向的地址相同，则判断为同一对象。在下面的代码中，我先创建了一组Basic对象数据，并且将index=2的对象赋值到了<code>preBasicObj2</code>。</p>
+
+<pre><code class="language-objc">  NSMutableArray *basics = [NSMutableArray array];
+  Basic *preBasicObj2 = nil;
+  for (NSInteger i = 0 ; i &lt; 5 ; i++) {
+    Basic *basic = [[Basic alloc]initWithIndex:i andContent:@"Temp"];
+    [basics addObject:basic];
+    if (i == 2) {
+      preBasicObj2 = basic;
+    }
+  }
+</code></pre>
+
+<p>这样，再从数组中拿到index=2的对象跟<code>preBasicObj2</code>进行一系列的比较。</p>
+
+<pre><code class="language-objc">  Basic *arrayObj2 = basics[2];
+  BOOL equalResult = [preBasicObj2 isEqual:arrayObj2];
+  BOOL containResult = [basics containsObject:preBasicObj2];
+  NSInteger index = [basics indexOfObject:preBasicObj2];
+  NSLog(@"equalResult:%d \n\
+        containResult:%d \n\
+        index:%ld ",equalResult, containResult, index);
+</code></pre>
+
+<p>理所当然的从console中输出以下结果：</p>
+
+<blockquote>
+  <p>equalResult:1<br />
+containResult:1<br />
+index:2</p>
+</blockquote>
+
+<h3 id="section-2">对象比较1</h3>
+
+<p>不过在实际开发中，我们拿到的对象可能不只是在内存中操作，仅使用内存比较是不够的。同样一个对象可以由多个地方生成，比如：</p>
+
+<ul>
+  <li>用户输入</li>
+  <li>网络返回</li>
+  <li>数据库读取</li>
+  <li>Copy方法</li>
+</ul>
+
+<p>下面的测试方法中，我重新创建了index==2的数据对象用于模拟从其它地方读取或者生成的情况。</p>
+
+<pre><code class="language-objc">  Basic *buildObj2 = [[Basic alloc]initWithIndex:2 andContent:@"Temp"];
+  BOOL equalResult = [buildObj2 isEqual:arrayObj2];
+  BOOL containResult = [basics containsObject:buildObj2];
+  NSInteger index = [basics indexOfObject:buildObj2];
+
+  NSLog(@"equalResult:%d \n\
+        containResult:%d \n\
+        index:%ld ",equalResult, containResult, index);
+        
+//Output:
+//equalResult:0
+//containResult:0
+//index:9223372036854775807
+</code></pre>
+
+<p>测试结果则如上所示，<strong>不相等</strong>，<strong>不存在</strong>，和<strong>找不到</strong>。所以曾经在相当长的一段时间里，都会使用<code>for循环</code>来进行判断。后来，我一般会改用</p>
+
+<p><code>- (void)enumerateObjectsUsingBlock:(void (^)(id obj, NSUInteger idx, BOOL *stop))block NS_AVAILABLE(10_6, 4_0);</code></p>
+
+<p>查找DEMO</p>
+
+<pre><code class="language-objc">  __block NSInteger index2 = NSNotFound;
+  [basics enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+    Basic *tempObj = (Basic *)obj;
+    if (tempObj.index == buildObj2.index) {
+      *stop = YES;
+      index2 = idx;
+    }
+  }];
+</code></pre>
+
+<h2 id="basic-1">Basic数据模型“改”</h2>
+
+<p>直至后来有一次偶然覆写了<code>NSObject</code>中的<code>-isEqual:</code>方法。此方法覆写的关键在于你需要知道你的数据模型里，哪一个是可以用于<strong>判断的关键属性</strong>，类似于数据库中的<code>PRIMARY KEY</code>。</p>
+
+<p>将下列代码添加于<code>Basic.m</code>中。<br />
+在<code>-isEqual:</code>具体实现中，还可以通过<code>==</code>来判断是否是同一地址和<code>isKindOfClass</code>判断是否是同一类型的数据模型来增加一些必要的限制。</p>
+
+<pre><code class="language-objc">- (BOOL)isEqual:(id)object {
+  if (self == object) {
+    return YES;
+  }
+  if (![object isKindOfClass:[self class]]) {
+    return NO;
+  }
+  Basic *inputObject = (Basic *)object;
+  if (inputObject.index == self.index) {
+    return YES;
+  }
+  return NO;
+}
+</code></pre>
+
+<h3 id="section-3">对象比较2</h3>
+
+<p>然后我们重新做一下不同来源的数组对象比较测试：</p>
+
+<pre><code class="language-obj">  Basic *buildObj2 = [[Basic alloc]initWithIndex:2 andContent:@"Temp"];
+  BOOL equalResult = [buildObj2 isEqual:arrayObj2];
+  BOOL containResult = [basics containsObject:buildObj2];
+  NSInteger index = [basics indexOfObject:buildObj2];
+
+  NSLog(@"equalResult:%d \n\
+        containResult:%d \n\
+        index:%ld ",equalResult, containResult, index);
+
+//Output:
+//equalResult:1
+//containResult:1
+//index:2
+</code></pre>
+
+<h2 id="section-4">总结</h2>
+
+<p>分析数据模型中的关键属性，找到其中的<strong>唯一</strong>的属性用于实现<code>-isEqual: </code>的方法。</p>
+
+<p>通过<code>-isEqual:</code>方法的实现可以强化很多<code>集合</code>类对象中对于<strong>对象存在</strong>的问题进行强化。</p>
+
+<p>可以参考自己数据库中的主键，网络服务返回回来的UID等</p>

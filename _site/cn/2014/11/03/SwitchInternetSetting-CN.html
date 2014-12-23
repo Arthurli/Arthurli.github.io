@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <!--[if lte IE 9]><meta http-equiv="refresh" content="0;url=/ie.html"><![endif]-->
+
+    <title>如何快速的切换Mac系统的网络配置</title>
+    <meta name="description" content="">
+
+    <link rel="stylesheet" type="text/css" href="/assets/css/style.css">
+  </head>
+  <body>
+    <aside id="sidebar">
+      <nav id="tags">
+        <a href="/index.html" id="avatar"></a>
+
+        <ul id="tags__ul">
+          <li id="js-label1" class="tags__li tags-btn active">全部</li>
+          <li id="js-label2" class="tags__li tags-btn">中文</li>
+          <li id="js-label3" class="tags__li tags-btn">English</li>
+          <li id="js-label4" class="tags__li tags-btn">Python</li>
+          <li id="js-label5" class="tags__li tags-btn">Ruby</li>
+          <li id="js-label6" class="tags__li tags-btn">其它</li>
+        </ul>
+
+        <div id="tags__bottom">
+          <a href="mailto:wing.of.war.1980th@gmail.com" id="icon-email" class="tags-btn fontello"></a>
+          <a href="/rss.xml" id="icon-feed" class="tags-btn fontello"></a>
+        </div>
+      </nav> <!-- end #tags -->
+
+      <div id="posts-list">
+        <!-- 搜索框，使用GoogleEngine失败 -->
+<!--         <form action="" id="search-form">
+          <a href="/index.html" id="mobile-avatar"></a>
+          NOTE: input field is disabled by default
+          <input id="search-input" type="text" placeholder="Search..." >
+        </form>
+ -->
+        <nav id="pl__container">
+        
+          <a class="cn pl__all" href="/cn/2014/12/21/SubClass-Of-%20NSObject.html">
+            <span class="pl__circle"></span>
+            <span class="pl__title">创建Objective-C数据模型的心得1</span>
+            <span class="pl__date">Dec 2014</span>
+          </a>
+        
+          <a class="cn pl__all" href="/cn/2014/12/12/iOS%20Push%20Authoarztion%20Rest-CN.html">
+            <span class="pl__circle"></span>
+            <span class="pl__title">重置iOS App请求推送授权请求</span>
+            <span class="pl__date">Dec 2014</span>
+          </a>
+        
+          <a class="cn pl__all" href="/cn/2014/12/12/Golden%20Path%20Cn.html">
+            <span class="pl__circle"></span>
+            <span class="pl__title">Golden Path</span>
+            <span class="pl__date">Dec 2014</span>
+          </a>
+        
+          <a class="cn pl__all" href="/cn/2014/11/10/Raywenderlich-Objective-C-style-guide-CN.html">
+            <span class="pl__circle"></span>
+            <span class="pl__title">raywenderlich.com Objective-C代码规范中文简易注释</span>
+            <span class="pl__date">Nov 2014</span>
+          </a>
+        
+          <a class="cn pl__all" href="/cn/2014/11/03/SwitchInternetSetting-CN.html">
+            <span class="pl__circle"></span>
+            <span class="pl__title">如何快速的切换Mac系统的网络配置</span>
+            <span class="pl__date">Nov 2014</span>
+          </a>
+        
+          <a class="ruby pl__all" href="/ruby/2014/10/25/Ruby_Study-EN.html">
+            <span class="pl__circle"></span>
+            <span class="pl__title">Ruby Study Memo</span>
+            <span class="pl__date">Oct 2014</span>
+          </a>
+        
+          <a class="python pl__all" href="/python/2014/09/13/ACGArt-EN.html">
+            <span class="pl__circle"></span>
+            <span class="pl__title">ACGArt DownLoader</span>
+            <span class="pl__date">Sep 2014</span>
+          </a>
+        
+          <a class="cn pl__all" href="/cn/2014/08/10/Cocoapods-Research-CN.html">
+            <span class="pl__circle"></span>
+            <span class="pl__title">Cocoapods进阶教程</span>
+            <span class="pl__date">Aug 2014</span>
+          </a>
+        
+          <a class="en pl__all" href="/en/2014/08/09/FirstPost-EN.html">
+            <span class="pl__circle"></span>
+            <span class="pl__title">My first blog in github</span>
+            <span class="pl__date">Aug 2014</span>
+          </a>
+        
+          <a class="cn pl__all" href="/cn/2014/08/09/FirstPost-CN.html">
+            <span class="pl__circle"></span>
+            <span class="pl__title">GitHub 上的第一贴</span>
+            <span class="pl__date">Aug 2014</span>
+          </a>
+        
+        </nav>
+      </div> <!-- end #posts-list -->
+    </aside> <!-- end #sidebar -->
+
+    <div id="post">
+      <!-- 加载文章 -->
+      <div id="pjax">
+        <article id="post__content">
+  <h1 id="post__title" data-identifier="20141103">如何快速的切换Mac系统的网络配置</h1>
+  <h1 id="mac">如何快速的切换Mac系统的网络配置</h1>
+
+<h2 id="section">问题</h2>
+
+<p>由于国内网络环境恶劣，在日常使用中，我经常会面临如下情况</p>
+
+<ul>
+  <li>
+    <p>访问Google, Youtube等境外网站需要使用<code>曲径</code>等自动代理配置</p>
+  </li>
+  <li>
+    <p>或者最近经常出现的DNS服务污染，比较严重的情况连taobao搜索都不可使用，或者在使用Appstore下载更新时，使用 114, 08 , openDNS等手动配置更为靠谱</p>
+  </li>
+  <li>
+    <p>时候却造成我访问国内网站（视频网站会比较明显）速度下降，所以需要切换回运营提供的DNS（此DNS一般能与114，08等DNS有几十到几百望毫秒的差距）</p>
+  </li>
+</ul>
+
+<!-- more -->
+
+<p>所以每当感觉上网不畅时，一般都需要点开<code>系统偏好设置</code>-&gt;<code>网络</code>-&gt;<code>高级</code>-&gt;<code>DNS</code> or <code>代理</code>等设置，还需要额外的从一些记录软件中提取相应的配置参数</p>
+
+<h2 id="section-1">解决办法：</h2>
+
+<p><code>系统偏好设置</code>-&gt;<code>网络</code> 此页面上有一个位置，选择<code>编辑位置</code>后点击下面的<code>+</code>，即设立一种新的网络环境。</p>
+
+<h2 id="section-2">使用：</h2>
+
+<p>OK，此种方法最赞的就是只用点击桌面左上角的小苹果<code></code>-&gt;<code>位置</code>进行切换即可。
+####缺点：网络会切断一会儿。</p>
+
+</article> <!-- end #post__content -->
+
+<div id="post__share">
+  <a id="icon-twitter" class="fontello" href="https://twitter.com/intent/tweet?url=http://wing-of-war.github.io//cn/2014/11/03/SwitchInternetSetting-CN.html&text=如何快速的切换Mac系统的网络配置" target="_blank"></a>
+  <a id="icon-cc" class="fontello" href="http://creativecommons.org/licenses/by-nc-sa/3.0" target="_blank"></a>
+  <a id="icon-weibo" class="fontello" href="http://v.t.sina.com.cn/share/share.php?url=http://wing-of-war.github.io//cn/2014/11/03/SwitchInternetSetting-CN.html&title=如何快速的切换Mac系统的网络配置" target="_blank"></a>
+</div> <!-- end #post__share -->
+
+<div id="disqus_thread">
+  <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  <a href="http://disqus.com" class="dsq-brlink" target="_blank">Loading Disqus comments...</a>
+</div> <!-- end #disqus_thread -->
+
+<p id="copyright">Powered by <a href="http://jekyllrb.com" target="_blank">Jekyll</a>&nbsp;&nbsp;|&nbsp;&nbsp;Theme <a href="https://github.com/P233/3-Jekyll" target="_blank">3-Jekyll</a></p>
+      </div> <!-- end #pjax -->
+
+      <!-- 右侧文章导航栏 -->
+      <div id="post__toc-trigger">
+        <div id="post__toc">
+          <span id="post__toc-title">Table of Contents</span>
+          <ul id="post__toc-ul"></ul>
+        </div>
+      </div>
+    </div> <!-- end #post -->
+
+<!-- 右侧导航按钮 -->
+    <button id="js-fullscreen"><span id="icon-arrow" class="fontello"></span></button>
+
+    <script src="/assets/js/jquery-2.0.3.min.js"></script>
+    <script src="/assets/js/jquery.pjax.js"></script>
+    <script src="/assets/js/nprogress.js"></script>
+    <script src="/assets/js/script.js"></script>
+  </body>
+</html>
