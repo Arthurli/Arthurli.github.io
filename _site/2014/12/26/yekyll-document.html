@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <!--[if lte IE 9]><meta http-equiv="refresh" content="0;url=/ie.html"><![endif]-->
+
+    <title>Jekyll的使用</title>
+    <meta name="description" content="">
+
+    <link rel="stylesheet" type="text/css" href="/assets/css/style.css">
+  </head>
+  <body>
+    <aside id="sidebar">
+      <nav id="tags">
+        <img src="/assets/img/avatar.png" id="avatar"></img>
+
+        <ul id="tags__ul">
+          <li id="js-label1" class="tags__li tags-btn active">全部</li>
+          <li id="js-label2" class="tags__li tags-btn">iOS</li>
+          <li id="js-label3" class="tags__li tags-btn">Node</li>
+          <li id="js-label4" class="tags__li tags-btn">前端</li>
+          <li id="js-label6" class="tags__li tags-btn">其它</li>
+        </ul>
+
+        <div id="tags__bottom">
+          <a href="mailto:arthurli1991@gmail.com" id="icon-email" class="tags-btn fontello"></a>
+          <a href="/rss.xml" id="icon-feed" class="tags-btn fontello"></a>
+        </div>
+      </nav> <!-- end #tags -->
+
+      <div id="posts-list">
+        <!-- 搜索框，使用GoogleEngine失败 -->
+<!--         <form action="" id="search-form">
+          <a href="/index.html" id="mobile-avatar"></a>
+          NOTE: input field is disabled by default
+          <input id="search-input" type="text" placeholder="Search..." >
+        </form>
+ -->
+        <nav id="pl__container">
+        
+          <a class=" pl__all" href="/2014/12/26/yekyll-document.html">
+            <span class="pl__circle"></span>
+            <span class="pl__title">Jekyll的使用</span>
+            <span class="pl__date">Dec 2014</span>
+          </a>
+        
+        </nav>
+      </div> <!-- end #posts-list -->
+    </aside> <!-- end #sidebar -->
+
+    <div id="post">
+      <!-- 加载文章 -->
+      <div id="pjax">
+        <article id="post__content">
+  <h1 id="post__title" data-identifier="20141226">Jekyll的使用</h1>
+  <h1 id="jekyll">Jekyll</h1>
+<hr />
+<p>jekyll 安装  </p>
+
+<pre><code>$ gem install jekyll
+</code></pre>
+
+<p>jekyll还有两个重要的命令</p>
+
+<pre><code>$ jekyll build  
+# =&gt; 根据当前目录里的内容生成静态网页，网页存放到目录 ./_site
+$ jekyll serve
+# =&gt; 启动服务端部署_site内的网站到 http://localhost:4000,你可以在浏览器里输入这个URL来预览你的博客网站的效果
+</code></pre>
+<p>之后再说说jeyll的文档结构 </p>
+
+<pre><code>.
+├── _config.yml  //jekyll的配置文件，jekyll的很多参数可以在输入命令行时直接输入，也可以写入配置文件，简化繁琐的命令输入过程。
+├── _drafts  //这个文件夹里面是用来存放草稿的，里面的文件不需要在文件名中加入固定格式的日期前缀。
+
+|   ├── begin-with-the-crazy-ideas.textile  
+|   └── on-simplicity-in-technology.markdown  
+├── _includes  //这里面可以放置一些可重用的模块来加速开发，你可以方便的将里面的内容在多个文件里复用。譬如你也可以在多个页面中加入一块固定的模块，这个模块存放在文件_includes/file.ext，只需要在文件中插入liquid标签： % include file.ext %] 。
+|   ├── footer.html
+|   └── header.html
+├── _layouts    //这个目录存放的是一些布局文件，我们的post文章里面可以使用YAML前缀格式来设置我们使用的布局。我们可以使用liquid标签  在我们的web页中插入内容。
+|   ├── default.html
+|   └── post.html
+├── _posts    //这里是用来放置你的文章的，里面的文件需要加入日期前缀，格式为： YEAR-MONTH-DAY-title.MARKUP 。前面的日期格式是固定的，jekyll可以自动提取出文件名中的日期前缀用来标识文件发布的日期，这个日期可以用来排序，分类，显示等。
+
+|   ├── 2007-10-29-why-every-programmer-should-play-nethack.textile
+|   └── 2009-04-26-barcamp-boston-4-roundup.textile
+├── _site    jekyll默认会将jekyll项目中的内容生成静态网页放到这个目录中，这个目录是可以自定义的，可以写到配置文件_config.yml中。默认这个目录会加入.gitignore文件中，里面的内容不会上传到github，github page会自动根据你上传的jekyll项目生成对应的网页，而不会直接展示你自己本地生成的网页。
+
+└── index.html   //默认的主页文件，可以在文件头部加入YAML区域，内容中也可以加入Markdown等格式的内容。这个文件也会被jekyll转换成对应网页，不会直接显示你定义的内容。文件后缀可以是：.html, .markdown, .md, .textile 等。
+</code></pre>
+<p>##发布</p>
+
+<p>那么在整个需要post的文档前面 我们一般都是添加 YAML front matter 来进行记录或者预处理一些东西，格式如下  </p>
+
+<pre><code>---
+layout: post
+title: Blogging Like a Hacker
+---
+</code></pre>
+<p>在这里我们可以自定义一些属性，如title，但是还是有一些全局的属性</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">变量</th>
+      <th style="text-align: left">描述</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">layout</td>
+      <td style="text-align: left">设置这个变量可以指定使用某个指定的布局文件。布局文件不需要加文件名后缀。布局文件需要放到_layouts文件夹中。</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">permalink</td>
+      <td style="text-align: left">发布的post的url默认会是/year/month/day/title.html的格式，用户可以设置这个变量来设置静态URL。</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">published</td>
+      <td style="text-align: left">post设置这个变量为false，那么这个post在产生网页时不会发布。</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">category，categories</td>
+      <td style="text-align: left">Instead of placing posts inside of folders, you can specify one or more categories that the post belongs to. When the site is generated the post will act as though it had been set with these categories normally. 类别(Categories)可以使用YAML列表的形式或者使用空格分隔的字符串形式。</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">tags</td>
+      <td style="text-align: left">与分类(categories)类似，可以定义一个或多个标签(tags)，同样的也可以用YAML列表形式或空格分隔的字符串形式</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>说完了post文件的头，那么我们就可以说说我们的博客本身了
+首先这类的文件可以分成两种，markdown 和 html， 命名如下</p>
+
+<pre><code>2011-12-31-new-years-eve-is-awesome.md
+2012-09-12-how-to-write-a-blog.textile
+</code></pre>
+<p>###内容格式<br />
+所有的博客文件必须以YAML front-matter开头。然后剩余部分用户就可以自己选择使用哪种格式了。Jekyll提供了两种流行的内容标记格式：Markdown和Textile。每种格式都有自己的标记内容的方法，你需要熟悉这两种格式并选择你自己需要的格式。</p>
+
+<h3 id="section">在文章中包含图片及其他资源</h3>
+<p>有时候用户需要在post中添加图片，下载文件或其他内容。因为语法的不同，Markdown和Textlie的链接的表达方式不同，因此存储图片，二进制文件等的位置也有所不同。</p>
+
+<p>由于Jekyll的灵活性，有很多不同的解决方案来解决这个问题。通用的解决方案是在根目录创建一个文件夹，例如assets或者downloads，图片，下载文件和其他资源就可以放到这个目录下。这样，post中就可以以根目录为起始路径来链接到这些资源文件。当然，这要依赖与你的网站的（子）域名和路径的配置。下面给出一些利用site.url变量来实现的链接(使用Markdown)。</p>
+
+<pre><code>… which is shown in the screenshot below:
+![My helpful screenshot](/assets/screenshot.jpg)
+… you can [get the PDF](/assets/mydoc.pdf) directly.
+</code></pre>
+<p>post还可以使用一些属性 url,title,excerpt</p>
+
+<h3 id="section-1">代码高亮</h3>
+
+<pre><code>
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;code class="language-ruby" data-lang="ruby"&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;show&lt;/span&gt;
+  &lt;span class="vi"&gt;@widget&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="no"&gt;Widget&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;params&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="ss"&gt;:id&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="n"&gt;respond_to&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt;&lt;span class="nb"&gt;format&lt;/span&gt;&lt;span class="o"&gt;|&lt;/span&gt;
+    &lt;span class="nb"&gt;format&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;html&lt;/span&gt; &lt;span class="c1"&gt;# show.html.erb&lt;/span&gt;
+    &lt;span class="nb"&gt;format&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;json&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="n"&gt;render&lt;/span&gt; &lt;span class="ss"&gt;json&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="vi"&gt;@widget&lt;/span&gt; &lt;span class="p"&gt;}&lt;/span&gt;
+  &lt;span class="k"&gt;end&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+</code></pre>
+<p>##网站的组织形式<br />
+很多网站默认启动服务会找HTML文件index.html作为网站的首页来展示。Jekyll也一样，除非你自己在web服务器上配置了其他文件，否则Jekyll也会默认将index.html文件作为首页。</p>
+
+<p>在首页中使用布局layouts
+Jekyll项目中的任何HTML文件都可以使用布局(layouts)和包含文件(includes)，包括首页。一些通用的元素，例如头部和尾部，可以抽取出来做到布局中，这样方便开发，网站的风格也能统一。</p>
+
+<h3 id="section-2">额外的页面放置在哪？</h3>
+
+<p>在哪里放置HTML页面文件取决与你想让你的页面如何工作。有两种主要的创建页面的方式：<br />
+放置HTML文件到网站根目录，每个页面单独命名。
+在网站根目录为每个页面创建一个单独命名的文件夹，每个文件夹里放置一个名为index.html的文件<br />
+这两种方式都能很好的工作，也可以混合使用，唯一的不同就是最终访问路径URL的不同。</p>
+
+<pre><code>.
+|-- _config.yml
+|-- _includes/
+|-- _layouts/
+|-- _posts/
+|-- _site/
+|-- about.html    # =&gt; http://yoursite.com/about.html
+|-- index.html    # =&gt; http://yoursite.com/
+└── contact.html  # =&gt; http://yoursite.com/contact.html
+
+.
+├── _config.yml
+├── _includes/
+├── _layouts/
+├── _posts/
+├── _site/
+├── about/
+|   └── index.html  # =&gt; http://yoursite.com/about/
+├── contact/
+|   └── index.html  # =&gt; http://yoursite.com/contact/
+└── index.html      # =&gt; http://yoursite.com/
+</code></pre>
+
+<h2 id="section-3">变量</h2>
+<p>全局变量</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">变量</th>
+      <th style="text-align: left">说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">site</td>
+      <td style="text-align: left">_config.yml文件中配置的全网站范围的信息和配置项。更详细的内容参考下面。</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">page</td>
+      <td style="text-align: left">page专用的信息以及YAML Front Matter。用户在YAML front matter中设置的自定义变量也可以在这里使用。更详细的内容参考下面。</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">content</td>
+      <td style="text-align: left">在布局文件中，post和page的内容会被封装起来。这个变量在post和page文件中没有定义。</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">paginator</td>
+      <td style="text-align: left">这个变量在变量paginate变量被设置后才产生作用。详细内容参考Pagination</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Site变量 </p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">变量</th>
+      <th style="text-align: left">说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">site.time</td>
+      <td style="text-align: left">当前时间(当你运行jekyll时)</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">site.pages</td>
+      <td style="text-align: left">所有pages的列表</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">site.posts</td>
+      <td style="text-align: left">所有posts的列表，按时间顺序倒序排列。</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">site.related_posts</td>
+      <td style="text-align: left">如果当前处理的页面是post，则这个变量包含了至多十个的相关的posts的列表。 By default, these are low quality but fast to compute. For high quality but slow to compute results, run the jekyll command with the –lsi (latent semantic indexing) option.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">site.categories.CATEGORY</td>
+      <td style="text-align: left">所有指定分类CATEGORY中的posts的列表。</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">site.tags.TAG</td>
+      <td style="text-align: left">所有包含标签TAG的posts的列表。</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">site.[CONFIGURATION_DATA]</td>
+      <td style="text-align: left">所有通过命令行以及通过_config.yml设置的变量都可以通过变量site来访问。例如，在配置文件中设置了url:http://mysite.com，那么在posts和pages中可以通过变量site.url来使用设置的变量值。在watch模式下，Jekyll并不会去解析_config.yml文件，只在Jeykll服务启动的时候才会解析，因此如果你改变了配置项的值，你需要重新启动Jekyll来使改变生效。</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Page变量</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">变量</th>
+      <th style="text-align: left">说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">page.content</td>
+      <td style="text-align: left">The un-rendered content of the Page.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">page.title</td>
+      <td style="text-align: left">page的标题</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">page.excerpt</td>
+      <td style="text-align: left">The un-rendered excerpt of the Page.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">page.url</td>
+      <td style="text-align: left">post的URL，不包含域名，以”/”开头。例如：/2008/12/14/my-post.html</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">page.date</td>
+      <td style="text-align: left">指定的日期。这个变量可以在post的front matter中指定一个新的日期/时间来覆盖已有的日期，格式为：YYYY-MM-DD HH:MM:SS(假定是UTC世界标准时间)，或者：YYYY-MM-DD HH:MM:SS +/-TTTT(使用一个相对UTC的偏移量来指定时区，例如：2008-12-14 10:30:00 +0900）。</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">page.id</td>
+      <td style="text-align: left">post的唯一标识ID(对RSS feeds有用)。例如：/2008/12/14/my-post。</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">page.categories</td>
+      <td style="text-align: left">post所属的类别的列表。类别(categories)派生于_posts之上的目录结构。例如，一个设置page.categories变量为[‘work, ‘code’]的post将位于/work/code/_posts/2008-12-24-closures.md。这些可以在YAML Front Matter中进行设置。</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">page.tags</td>
+      <td style="text-align: left">post所属的tags的列表。可以在YAML Front Matter中进行设置。</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">page.path</td>
+      <td style="text-align: left">原生post或者page文件的路径。用法实例：链接到github上的page或者post的源文件。可以在YAML Front Matter中覆盖这个变量。</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Paginator</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">变量</th>
+      <th style="text-align: left">说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">paginagor.per_page</td>
+      <td style="text-align: left">每个page页面包含的posts数目。</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">paginator.posts</td>
+      <td style="text-align: left">page页面可用的posts</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">paginator.total_posts</td>
+      <td style="text-align: left">posts的总数</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">paginator.total_pages</td>
+      <td style="text-align: left">pages的总数</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">paginator.page</td>
+      <td style="text-align: left">当前page页面的编号</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">paginator.previous_page</td>
+      <td style="text-align: left">前一个page页面的编号</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">paginator.previous_page_path</td>
+      <td style="text-align: left">前一个page页面的path路径</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">paginator.next_page</td>
+      <td style="text-align: left">后一个page页面的编号</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">paginator.next_page_path</td>
+      <td style="text-align: left">后一个page页面的path路径</td>
+    </tr>
+  </tbody>
+</table>
+
+</article> <!-- end #post__content -->
+
+<div id="post__share">
+  <a id="icon-twitter" class="fontello" href="https://twitter.com/intent/tweet?url=http://wing-of-war.github.io//2014/12/26/yekyll-document.html&text=Jekyll的使用" target="_blank"></a>
+  <a id="icon-cc" class="fontello" href="http://creativecommons.org/licenses/by-nc-sa/3.0" target="_blank"></a>
+  <a id="icon-weibo" class="fontello" href="http://v.t.sina.com.cn/share/share.php?url=http://wing-of-war.github.io//2014/12/26/yekyll-document.html&title=Jekyll的使用" target="_blank"></a>
+</div> <!-- end #post__share -->
+
+<div id="disqus_thread">
+  <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  <a href="http://disqus.com" class="dsq-brlink" target="_blank">Loading Disqus comments...</a>
+</div> <!-- end #disqus_thread -->
+
+<p id="copyright">Powered by <a href="http://jekyllrb.com" target="_blank">Jekyll</a>&nbsp;&nbsp;|&nbsp;&nbsp;Theme <a href="https://github.com/P233/3-Jekyll" target="_blank">3-Jekyll</a></p>
+      </div> <!-- end #pjax -->
+
+      <!-- 右侧文章导航栏 -->
+      <div id="post__toc-trigger">
+        <div id="post__toc">
+          <span id="post__toc-title">Table of Contents</span>
+          <ul id="post__toc-ul"></ul>
+        </div>
+      </div>
+    </div> <!-- end #post -->
+
+<!-- 右侧导航按钮 -->
+    <button id="js-fullscreen"><span id="icon-arrow" class="fontello"></span></button>
+
+    <script src="/assets/js/jquery-2.0.3.min.js"></script>
+    <script src="/assets/js/jquery.pjax.js"></script>
+    <script src="/assets/js/nprogress.js"></script>
+    <script src="/assets/js/script.js"></script>
+  </body>
+</html>
