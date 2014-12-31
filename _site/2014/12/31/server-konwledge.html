@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <!--[if lte IE 9]><meta http-equiv="refresh" content="0;url=/ie.html"><![endif]-->
+
+    <title>Server知识</title>
+    <meta name="description" content="">
+
+    <link rel="stylesheet" type="text/css" href="/assets/css/style.css">
+  </head>
+  <body>
+    <aside id="sidebar">
+      <nav id="tags">
+        <img src="/assets/img/avatar.png" id="avatar"></img>
+
+        <ul id="tags__ul">
+          <li id="js-label1" class="tags__li tags-btn active">全部</li>
+          <li id="js-label2" class="tags__li tags-btn">iOS</li>
+          <li id="js-label3" class="tags__li tags-btn">Node</li>
+          <li id="js-label4" class="tags__li tags-btn">前端</li>
+          <li id="js-label6" class="tags__li tags-btn">其它</li>
+        </ul>
+
+        <div id="tags__bottom">
+          <a href="mailto:arthurli1991@gmail.com" id="icon-email" class="tags-btn fontello"></a>
+          <a href="/rss.xml" id="icon-feed" class="tags-btn fontello"></a>
+        </div>
+      </nav> <!-- end #tags -->
+
+      <div id="posts-list">
+        <!-- 搜索框，使用GoogleEngine失败 -->
+<!--         <form action="" id="search-form">
+          <a href="/index.html" id="mobile-avatar"></a>
+          NOTE: input field is disabled by default
+          <input id="search-input" type="text" placeholder="Search..." >
+        </form>
+ -->
+        <nav id="pl__container">
+        
+          <a class=" pl__all" href="/2014/12/31/server-konwledge.html">
+            <span class="pl__circle"></span>
+            <span class="pl__title">Server知识</span>
+            <span class="pl__date">Dec 2014</span>
+          </a>
+        
+          <a class=" pl__all" href="/2014/12/26/yekyll-document.html">
+            <span class="pl__circle"></span>
+            <span class="pl__title">Jekyll的使用</span>
+            <span class="pl__date">Dec 2014</span>
+          </a>
+        
+        </nav>
+      </div> <!-- end #posts-list -->
+    </aside> <!-- end #sidebar -->
+
+    <div id="post">
+      <!-- 加载文章 -->
+      <div id="pjax">
+        <article id="post__content">
+  <h1 id="post__title" data-identifier="20141231">Server知识</h1>
+  <p>构建一个大型的网站面临着几个重要的问题需要去解决：大量的访问 访问的速度 监控 和 数据库存储</p>
+
+<h2 id="section">大量的访问</h2>
+<p>这里涉及到了两个概念 就是网络的 负载均衡 和 容余<br />
+说道负载均衡，其实就是说有一个东西去控制外部的访问到不同的服务器，使得所有的服务器都可以拥有相似的负载，不会造成某一个服务器拥有过多的负载，它的实现方法其实也很简单，就是通过某些物理线路，路由器，虚拟服务器，或者软件进行分流，这里还用到了一些地址重定向的技术<br />
+在这里，依次分派不同的任务到服务器叫做轮训<br />
+另一个知识点就是容余，他的概念就是说每台激活的服务器可能都拥有一个集群，所谓集群就是没几个服务器集成的群组，在同一时间内只有一个服务器处于激活状态，其他属于睡眠状态，而一旦激活的服务器宕机，那么睡眠的服务器就会被启动<br />
+通过这样的两个技术，就基本实现了资源的最大利用</p>
+
+<h2 id="section-1">数据库存储</h2>
+<p>现在分两种数据库，SQL和NoSQL,其中SQL的代表是MySQL，NoSQL的代表是Mongo<br />
+上面说到了负载均衡和容余，其实在数据库系统中也有类似的机制，其中MySQL拥有一种叫做主从服务器的机制，就是说，主服务器进行数据库增添改，然后会通过一种bin log的日志把数据同步到从属服务器中然后，所有的搜索命令会使用从属服务器去处理<br />
+还有一个重要的问题就是数据库搜索加速，一种做法就是索引，或者使用外部的索引系统，二就是实现分表分区，所谓分表就是把数据分在不同的表内，但是缺点就是需要修改SQL命令，而分区的做法就是逻辑不变，但是数据库系统自动帮你去在多个表内进行搜索</p>
+
+<h2 id="section-2">如何进行网络加速</h2>
+<p>利用代理缓存，代理服务器中可能拥有某些服务，这些服务器中就拥有了缓存池，能够缓存一些静态文件，当然另一种最基本的代理的加速就是代理服务器去帮助用户向主服务器获取数据<br />
+在上面的情况中，主服务器需要做的就是把一些动态文件静态化，便于代理缓存，具体的实现方法其实就是使用一些模板，或者框架，例如PHP的ThinkPHP<br />
+另一种加速方式就是把某些搜索或者IO变成内存级别的搜索，这里用到了一种meocache的技术，这种技术的优点就是数据都在内存中，缺点就是没有存储到本地，解决方案可以使用redies等NoSQL </p>
+
+<h2 id="section-3">最后是监控</h2>
+<p>说实话这里实在是没有什么经验，以后如果做了一些，再来补充吧</p>
+
+</article> <!-- end #post__content -->
+
+<div id="post__share">
+  <a id="icon-twitter" class="fontello" href="https://twitter.com/intent/tweet?url=http://wing-of-war.github.io//2014/12/31/server-konwledge.html&text=Server知识" target="_blank"></a>
+  <a id="icon-cc" class="fontello" href="http://creativecommons.org/licenses/by-nc-sa/3.0" target="_blank"></a>
+  <a id="icon-weibo" class="fontello" href="http://v.t.sina.com.cn/share/share.php?url=http://wing-of-war.github.io//2014/12/31/server-konwledge.html&title=Server知识" target="_blank"></a>
+</div> <!-- end #post__share -->
+
+<div id="disqus_thread">
+  <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  <a href="http://disqus.com" class="dsq-brlink" target="_blank">Loading Disqus comments...</a>
+</div> <!-- end #disqus_thread -->
+
+<p id="copyright">Powered by <a href="http://jekyllrb.com" target="_blank">Jekyll</a>&nbsp;&nbsp;|&nbsp;&nbsp;Theme <a href="https://github.com/P233/3-Jekyll" target="_blank">3-Jekyll</a></p>
+      </div> <!-- end #pjax -->
+
+      <!-- 右侧文章导航栏 -->
+      <div id="post__toc-trigger">
+        <div id="post__toc">
+          <span id="post__toc-title">Table of Contents</span>
+          <ul id="post__toc-ul"></ul>
+        </div>
+      </div>
+    </div> <!-- end #post -->
+
+<!-- 右侧导航按钮 -->
+    <button id="js-fullscreen"><span id="icon-arrow" class="fontello"></span></button>
+
+    <script src="/assets/js/jquery-2.0.3.min.js"></script>
+    <script src="/assets/js/jquery.pjax.js"></script>
+    <script src="/assets/js/nprogress.js"></script>
+    <script src="/assets/js/script.js"></script>
+  </body>
+</html>

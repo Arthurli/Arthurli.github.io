@@ -5,9 +5,40 @@
     <description></description>
     <link>/</link>
     <atom:link href="/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Fri, 26 Dec 2014 15:37:13 +0800</pubDate>
-    <lastBuildDate>Fri, 26 Dec 2014 15:37:13 +0800</lastBuildDate>
+    <pubDate>Wed, 31 Dec 2014 22:35:24 +0800</pubDate>
+    <lastBuildDate>Wed, 31 Dec 2014 22:35:24 +0800</lastBuildDate>
     <generator>Jekyll v2.5.3</generator>
+    
+      <item>
+        <title>Server知识</title>
+        <description>&lt;p&gt;构建一个大型的网站面临着几个重要的问题需要去解决：大量的访问 访问的速度 监控 和 数据库存储&lt;/p&gt;
+
+&lt;h2 id=&quot;section&quot;&gt;大量的访问&lt;/h2&gt;
+&lt;p&gt;这里涉及到了两个概念 就是网络的 负载均衡 和 容余&lt;br /&gt;
+说道负载均衡，其实就是说有一个东西去控制外部的访问到不同的服务器，使得所有的服务器都可以拥有相似的负载，不会造成某一个服务器拥有过多的负载，它的实现方法其实也很简单，就是通过某些物理线路，路由器，虚拟服务器，或者软件进行分流，这里还用到了一些地址重定向的技术&lt;br /&gt;
+在这里，依次分派不同的任务到服务器叫做轮训&lt;br /&gt;
+另一个知识点就是容余，他的概念就是说每台激活的服务器可能都拥有一个集群，所谓集群就是没几个服务器集成的群组，在同一时间内只有一个服务器处于激活状态，其他属于睡眠状态，而一旦激活的服务器宕机，那么睡眠的服务器就会被启动&lt;br /&gt;
+通过这样的两个技术，就基本实现了资源的最大利用&lt;/p&gt;
+
+&lt;h2 id=&quot;section-1&quot;&gt;数据库存储&lt;/h2&gt;
+&lt;p&gt;现在分两种数据库，SQL和NoSQL,其中SQL的代表是MySQL，NoSQL的代表是Mongo&lt;br /&gt;
+上面说到了负载均衡和容余，其实在数据库系统中也有类似的机制，其中MySQL拥有一种叫做主从服务器的机制，就是说，主服务器进行数据库增添改，然后会通过一种bin log的日志把数据同步到从属服务器中然后，所有的搜索命令会使用从属服务器去处理&lt;br /&gt;
+还有一个重要的问题就是数据库搜索加速，一种做法就是索引，或者使用外部的索引系统，二就是实现分表分区，所谓分表就是把数据分在不同的表内，但是缺点就是需要修改SQL命令，而分区的做法就是逻辑不变，但是数据库系统自动帮你去在多个表内进行搜索&lt;/p&gt;
+
+&lt;h2 id=&quot;section-2&quot;&gt;如何进行网络加速&lt;/h2&gt;
+&lt;p&gt;利用代理缓存，代理服务器中可能拥有某些服务，这些服务器中就拥有了缓存池，能够缓存一些静态文件，当然另一种最基本的代理的加速就是代理服务器去帮助用户向主服务器获取数据&lt;br /&gt;
+在上面的情况中，主服务器需要做的就是把一些动态文件静态化，便于代理缓存，具体的实现方法其实就是使用一些模板，或者框架，例如PHP的ThinkPHP&lt;br /&gt;
+另一种加速方式就是把某些搜索或者IO变成内存级别的搜索，这里用到了一种meocache的技术，这种技术的优点就是数据都在内存中，缺点就是没有存储到本地，解决方案可以使用redies等NoSQL &lt;/p&gt;
+
+&lt;h2 id=&quot;section-3&quot;&gt;最后是监控&lt;/h2&gt;
+&lt;p&gt;说实话这里实在是没有什么经验，以后如果做了一些，再来补充吧&lt;/p&gt;
+</description>
+        <pubDate>Wed, 31 Dec 2014 00:00:00 +0800</pubDate>
+        <link>/2014/12/31/server-konwledge.html</link>
+        <guid isPermaLink="true">/2014/12/31/server-konwledge.html</guid>
+        
+        
+      </item>
     
       <item>
         <title>Jekyll的使用</title>
