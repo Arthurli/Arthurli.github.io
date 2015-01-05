@@ -6,9 +6,190 @@
     <atom:link href="place_your_blog_url_here/rss.xml" rel="self" type="application/rss+xml" />
     <description>place_your_blog_description_here</description>
     <language>place_your_blog_language_here</language>
-    <pubDate>Wed, 31 Dec 2014 22:35:24 +0800</pubDate>
-    <lastBuildDate>Wed, 31 Dec 2014 22:35:24 +0800</lastBuildDate>
+    <pubDate>Mon, 05 Jan 2015 11:41:58 +0800</pubDate>
+    <lastBuildDate>Mon, 05 Jan 2015 11:41:58 +0800</lastBuildDate>
 
+    
+    <item>
+      <title>CSS选择器</title>
+      <link>place_your_blog_url_here/2015/01/05/css-selected.html</link>
+      <pubDate>05 Jan 2015</pubDate>
+      <author>place_your_name_here</author>
+      <guid>place_your_blog_url_here/2015/01/05/css-selected</guid>
+      <description>&lt;h1 id=&quot;css&quot;&gt;CSS选择器&lt;/h1&gt;
+&lt;p&gt;##先简单介绍几种追简单的选择器&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;//元素选择器
+html {
+	color:black;
+	}
+	
+//选择器分组
+h1 ,h2 {
+  font: 28px Verdana;
+  color: blue;
+  background: red;
+  }
+
+//派生选择器，也可以叫做上下文选择器，下面说的是列表中的strong
+li strong {
+    font-style: italic;
+    font-weight: normal;
+  }
+  
+//id选择器，各种选择器可以组合使用
+#red {
+	color:red;
+	}
+#sidebar p {
+	font-style: italic;
+	text-align: right;
+	margin-top: 0.5em;
+	}
+
+//类选择器
+.center {
+	text-align: center
+	}
+td.fancy {
+	color: #f60;
+	background: #666;
+	}
+  
+//通配符选择器
+* {
+  color:red;
+  }
+
+//属性选择器
+[lang|=en] 
+{ 
+  color:red; 
+}
+input[type=&quot;text&quot;]
+{
+  width:150px;
+  display:block;
+  margin-bottom:10px;
+  background-color:yellow;
+  font-family: Verdana, Arial;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;属性选择器的语法如下&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;选择器&lt;/th&gt;
+      &lt;th&gt;描述&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;[attribute]&lt;/td&gt;
+      &lt;td&gt;用于选取带有指定属性的元素。&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;[attribute=value]&lt;/td&gt;
+      &lt;td&gt;用于选取带有指定属性和值的元素。&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;[attribute~=value]&lt;/td&gt;
+      &lt;td&gt;用于选取属性值中包含指定词汇的元素。&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;[attribute|=value]&lt;/td&gt;
+      &lt;td&gt;用于选取带有以指定值开头的属性值的元素，该值必须是整个单词。&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;[attribute^=value]&lt;/td&gt;
+      &lt;td&gt;匹配属性值以指定值开头的每个元素。&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;[attribute$=value]&lt;/td&gt;
+      &lt;td&gt;匹配属性值以指定值结尾的每个元素。&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;[attribute*=value]&lt;/td&gt;
+      &lt;td&gt;匹配属性值中包含指定值的每个元素。&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h2 id=&quot;section&quot;&gt;高级语法&lt;/h2&gt;
+&lt;p&gt;属性选择器可以同时选择多个属性&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;a[href][title]
+{
+color:red;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;有一点需要注意的是，派生选择器无法确定几层的子类，也就是说所有包括的子类都将要被选择，所以这里还可以使用子类选择器&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;h1 &amp;gt; strong {
+	color:red;
+	}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;选了子类，那么我们想选择他的邻居怎么办，对使用相邻兄弟选择器（Adjacent sibling selector），可选择紧接在另一元素后的元素，且二者有相同父元素。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;h1 + p {
+	margin-top:50px;
+	}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;之后要说就是伪类的概念，CSS 伪类用于向某些选择器添加特殊的效果。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;伪类的语法：
+selector : pseudo-class {property: value}
+CSS 类也可与伪类搭配使用。
+selector.class : pseudo-class {property: value}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;属性|描述|CSS
+—-|—-|—-
+:active|	向被激活的元素添加样式。|	1
+:focus|	向拥有键盘输入焦点的元素添加样式。|	2
+:hover	|当鼠标悬浮在元素上方时，向元素添加样式。	|1
+:link|	向未被访问的链接添加样式。	|1
+:visited|	向已被访问的链接添加样式。|	1
+:first-child	|向元素的第一个子元素添加样式。|	2
+:lang|	向带有指定 lang 属性的元素添加样式。|	2&lt;/p&gt;
+
+&lt;p&gt;与伪类相似的还有伪元素，CSS 伪元素用于向某些选择器设置特殊效果。&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;属性&lt;/th&gt;
+      &lt;th&gt;描述&lt;/th&gt;
+      &lt;th&gt;CSS&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;:first-letter&lt;/td&gt;
+      &lt;td&gt;向文本的第一个字母添加特殊样式。&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;:first-line&lt;/td&gt;
+      &lt;td&gt;向文本的首行添加特殊样式。&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;:before&lt;/td&gt;
+      &lt;td&gt;在元素之前添加内容。&lt;/td&gt;
+      &lt;td&gt;2&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;:after&lt;/td&gt;
+      &lt;td&gt;在元素之后添加内容。&lt;/td&gt;
+      &lt;td&gt;2&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+</description>
+    </item>
     
     <item>
       <title>Server知识</title>

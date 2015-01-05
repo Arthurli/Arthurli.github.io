@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <!--[if lte IE 9]><meta http-equiv="refresh" content="0;url=/ie.html"><![endif]-->
+
+    <title>CSS选择器</title>
+    <meta name="description" content="">
+
+    <link rel="stylesheet" type="text/css" href="/assets/css/style.css">
+  </head>
+  <body>
+    <aside id="sidebar">
+      <nav id="tags">
+        <img src="/assets/img/avatar.png" id="avatar"></img>
+
+        <ul id="tags__ul">
+          <li id="js-label1" class="tags__li tags-btn active">全部</li>
+          <li id="js-label2" class="tags__li tags-btn">iOS</li>
+          <li id="js-label3" class="tags__li tags-btn">Node</li>
+          <li id="js-label4" class="tags__li tags-btn">前端</li>
+          <li id="js-label6" class="tags__li tags-btn">其它</li>
+        </ul>
+
+        <div id="tags__bottom">
+          <a href="mailto:arthurli1991@gmail.com" id="icon-email" class="tags-btn fontello"></a>
+          <a href="/rss.xml" id="icon-feed" class="tags-btn fontello"></a>
+        </div>
+      </nav> <!-- end #tags -->
+
+      <div id="posts-list">
+        <!-- 搜索框，使用GoogleEngine失败 -->
+<!--         <form action="" id="search-form">
+          <a href="/index.html" id="mobile-avatar"></a>
+          NOTE: input field is disabled by default
+          <input id="search-input" type="text" placeholder="Search..." >
+        </form>
+ -->
+        <nav id="pl__container">
+        
+          <a class=" pl__all" href="/2015/01/05/css-selected.html">
+            <span class="pl__circle"></span>
+            <span class="pl__title">CSS选择器</span>
+            <span class="pl__date">Jan 2015</span>
+          </a>
+        
+          <a class=" pl__all" href="/2014/12/31/server-konwledge.html">
+            <span class="pl__circle"></span>
+            <span class="pl__title">Server知识</span>
+            <span class="pl__date">Dec 2014</span>
+          </a>
+        
+          <a class=" pl__all" href="/2014/12/26/yekyll-document.html">
+            <span class="pl__circle"></span>
+            <span class="pl__title">Jekyll的使用</span>
+            <span class="pl__date">Dec 2014</span>
+          </a>
+        
+        </nav>
+      </div> <!-- end #posts-list -->
+    </aside> <!-- end #sidebar -->
+
+    <div id="post">
+      <!-- 加载文章 -->
+      <div id="pjax">
+        <article id="post__content">
+  <h1 id="post__title" data-identifier="20150105">CSS选择器</h1>
+  <h1 id="css">CSS选择器</h1>
+<p>##先简单介绍几种追简单的选择器</p>
+
+<pre><code>//元素选择器
+html {
+	color:black;
+	}
+	
+//选择器分组
+h1 ,h2 {
+  font: 28px Verdana;
+  color: blue;
+  background: red;
+  }
+
+//派生选择器，也可以叫做上下文选择器，下面说的是列表中的strong
+li strong {
+    font-style: italic;
+    font-weight: normal;
+  }
+  
+//id选择器，各种选择器可以组合使用
+#red {
+	color:red;
+	}
+#sidebar p {
+	font-style: italic;
+	text-align: right;
+	margin-top: 0.5em;
+	}
+
+//类选择器
+.center {
+	text-align: center
+	}
+td.fancy {
+	color: #f60;
+	background: #666;
+	}
+  
+//通配符选择器
+* {
+  color:red;
+  }
+
+//属性选择器
+[lang|=en] 
+{ 
+  color:red; 
+}
+input[type="text"]
+{
+  width:150px;
+  display:block;
+  margin-bottom:10px;
+  background-color:yellow;
+  font-family: Verdana, Arial;
+}
+</code></pre>
+
+<p>属性选择器的语法如下</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>选择器</th>
+      <th>描述</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>[attribute]</td>
+      <td>用于选取带有指定属性的元素。</td>
+    </tr>
+    <tr>
+      <td>[attribute=value]</td>
+      <td>用于选取带有指定属性和值的元素。</td>
+    </tr>
+    <tr>
+      <td>[attribute~=value]</td>
+      <td>用于选取属性值中包含指定词汇的元素。</td>
+    </tr>
+    <tr>
+      <td>[attribute|=value]</td>
+      <td>用于选取带有以指定值开头的属性值的元素，该值必须是整个单词。</td>
+    </tr>
+    <tr>
+      <td>[attribute^=value]</td>
+      <td>匹配属性值以指定值开头的每个元素。</td>
+    </tr>
+    <tr>
+      <td>[attribute$=value]</td>
+      <td>匹配属性值以指定值结尾的每个元素。</td>
+    </tr>
+    <tr>
+      <td>[attribute*=value]</td>
+      <td>匹配属性值中包含指定值的每个元素。</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="section">高级语法</h2>
+<p>属性选择器可以同时选择多个属性</p>
+
+<pre><code>a[href][title]
+{
+color:red;
+}
+</code></pre>
+<p>有一点需要注意的是，派生选择器无法确定几层的子类，也就是说所有包括的子类都将要被选择，所以这里还可以使用子类选择器</p>
+
+<pre><code>h1 &gt; strong {
+	color:red;
+	}
+</code></pre>
+<p>选了子类，那么我们想选择他的邻居怎么办，对使用相邻兄弟选择器（Adjacent sibling selector），可选择紧接在另一元素后的元素，且二者有相同父元素。</p>
+
+<pre><code>h1 + p {
+	margin-top:50px;
+	}
+</code></pre>
+<p>之后要说就是伪类的概念，CSS 伪类用于向某些选择器添加特殊的效果。</p>
+
+<pre><code>伪类的语法：
+selector : pseudo-class {property: value}
+CSS 类也可与伪类搭配使用。
+selector.class : pseudo-class {property: value}
+</code></pre>
+<p>属性|描述|CSS
+—-|—-|—-
+:active|	向被激活的元素添加样式。|	1
+:focus|	向拥有键盘输入焦点的元素添加样式。|	2
+:hover	|当鼠标悬浮在元素上方时，向元素添加样式。	|1
+:link|	向未被访问的链接添加样式。	|1
+:visited|	向已被访问的链接添加样式。|	1
+:first-child	|向元素的第一个子元素添加样式。|	2
+:lang|	向带有指定 lang 属性的元素添加样式。|	2</p>
+
+<p>与伪类相似的还有伪元素，CSS 伪元素用于向某些选择器设置特殊效果。</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>描述</th>
+      <th>CSS</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>:first-letter</td>
+      <td>向文本的第一个字母添加特殊样式。</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>:first-line</td>
+      <td>向文本的首行添加特殊样式。</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>:before</td>
+      <td>在元素之前添加内容。</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <td>:after</td>
+      <td>在元素之后添加内容。</td>
+      <td>2</td>
+    </tr>
+  </tbody>
+</table>
+
+
+</article> <!-- end #post__content -->
+
+<div id="post__share">
+  <a id="icon-twitter" class="fontello" href="https://twitter.com/intent/tweet?url=http://wing-of-war.github.io//2015/01/05/css-selected.html&text=CSS选择器" target="_blank"></a>
+  <a id="icon-cc" class="fontello" href="http://creativecommons.org/licenses/by-nc-sa/3.0" target="_blank"></a>
+  <a id="icon-weibo" class="fontello" href="http://v.t.sina.com.cn/share/share.php?url=http://wing-of-war.github.io//2015/01/05/css-selected.html&title=CSS选择器" target="_blank"></a>
+</div> <!-- end #post__share -->
+
+<div id="disqus_thread">
+  <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  <a href="http://disqus.com" class="dsq-brlink" target="_blank">Loading Disqus comments...</a>
+</div> <!-- end #disqus_thread -->
+
+<p id="copyright">Powered by <a href="http://jekyllrb.com" target="_blank">Jekyll</a>&nbsp;&nbsp;|&nbsp;&nbsp;Theme <a href="https://github.com/P233/3-Jekyll" target="_blank">3-Jekyll</a></p>
+      </div> <!-- end #pjax -->
+
+      <!-- 右侧文章导航栏 -->
+      <div id="post__toc-trigger">
+        <div id="post__toc">
+          <span id="post__toc-title">Table of Contents</span>
+          <ul id="post__toc-ul"></ul>
+        </div>
+      </div>
+    </div> <!-- end #post -->
+
+<!-- 右侧导航按钮 -->
+    <button id="js-fullscreen"><span id="icon-arrow" class="fontello"></span></button>
+
+    <script src="/assets/js/jquery-2.0.3.min.js"></script>
+    <script src="/assets/js/jquery.pjax.js"></script>
+    <script src="/assets/js/nprogress.js"></script>
+    <script src="/assets/js/script.js"></script>
+  </body>
+</html>
