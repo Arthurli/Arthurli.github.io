@@ -6,8 +6,8 @@
     <atom:link href="place_your_blog_url_here/rss.xml" rel="self" type="application/rss+xml" />
     <description>place_your_blog_description_here</description>
     <language>place_your_blog_language_here</language>
-    <pubDate>Mon, 05 Jan 2015 11:41:58 +0800</pubDate>
-    <lastBuildDate>Mon, 05 Jan 2015 11:41:58 +0800</lastBuildDate>
+    <pubDate>Tue, 06 Jan 2015 22:50:08 +0800</pubDate>
+    <lastBuildDate>Tue, 06 Jan 2015 22:50:08 +0800</lastBuildDate>
 
     
     <item>
@@ -144,15 +144,53 @@ selector : pseudo-class {property: value}
 CSS 类也可与伪类搭配使用。
 selector.class : pseudo-class {property: value}
 &lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;属性|描述|CSS
-—-|—-|—-
-:active|	向被激活的元素添加样式。|	1
-:focus|	向拥有键盘输入焦点的元素添加样式。|	2
-:hover	|当鼠标悬浮在元素上方时，向元素添加样式。	|1
-:link|	向未被访问的链接添加样式。	|1
-:visited|	向已被访问的链接添加样式。|	1
-:first-child	|向元素的第一个子元素添加样式。|	2
-:lang|	向带有指定 lang 属性的元素添加样式。|	2&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;属性&lt;/th&gt;
+      &lt;th&gt;描述&lt;/th&gt;
+      &lt;th&gt;CSS&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;:active&lt;/td&gt;
+      &lt;td&gt;向被激活的元素添加样式。&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;:focus&lt;/td&gt;
+      &lt;td&gt;向拥有键盘输入焦点的元素添加样式。&lt;/td&gt;
+      &lt;td&gt;2&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;:hover&lt;/td&gt;
+      &lt;td&gt;当鼠标悬浮在元素上方时，向元素添加样式。&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;:link&lt;/td&gt;
+      &lt;td&gt;向未被访问的链接添加样式。&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;:visited&lt;/td&gt;
+      &lt;td&gt;向已被访问的链接添加样式。&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;:first-child&lt;/td&gt;
+      &lt;td&gt;向元素的第一个子元素添加样式。&lt;/td&gt;
+      &lt;td&gt;2&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;:lang&lt;/td&gt;
+      &lt;td&gt;向带有指定 lang 属性的元素添加样式。&lt;/td&gt;
+      &lt;td&gt;2&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
 
 &lt;p&gt;与伪类相似的还有伪元素，CSS 伪元素用于向某些选择器设置特殊效果。&lt;/p&gt;
 

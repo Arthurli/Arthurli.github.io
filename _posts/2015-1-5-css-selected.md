@@ -106,15 +106,16 @@ selector : pseudo-class {property: value}
 CSS 类也可与伪类搭配使用。
 selector.class : pseudo-class {property: value}
 ~~~
-属性|描述|CSS
+
+属性 | 描述 |CSS
 ----|----|----
-:active|	向被激活的元素添加样式。|	1
-:focus|	向拥有键盘输入焦点的元素添加样式。|	2
-:hover	|当鼠标悬浮在元素上方时，向元素添加样式。	|1
-:link|	向未被访问的链接添加样式。	|1
-:visited|	向已被访问的链接添加样式。|	1
-:first-child	|向元素的第一个子元素添加样式。|	2
-:lang|	向带有指定 lang 属性的元素添加样式。|	2
+:active|向被激活的元素添加样式。|1
+:focus|向拥有键盘输入焦点的元素添加样式。|2
+:hover|当鼠标悬浮在元素上方时，向元素添加样式。|1
+:link|向未被访问的链接添加样式。	|1
+:visited|向已被访问的链接添加样式。|	1
+:first-child|向元素的第一个子元素添加样式。|2
+:lang|向带有指定 lang 属性的元素添加样式。|2
 
 与伪类相似的还有伪元素，CSS 伪元素用于向某些选择器设置特殊效果。
 
