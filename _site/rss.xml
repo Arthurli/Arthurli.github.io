@@ -6,9 +6,312 @@
     <atom:link href="place_your_blog_url_here/rss.xml" rel="self" type="application/rss+xml" />
     <description>place_your_blog_description_here</description>
     <language>place_your_blog_language_here</language>
-    <pubDate>Tue, 06 Jan 2015 22:50:08 +0800</pubDate>
-    <lastBuildDate>Tue, 06 Jan 2015 22:50:08 +0800</lastBuildDate>
+    <pubDate>Thu, 08 Jan 2015 12:45:57 +0800</pubDate>
+    <lastBuildDate>Thu, 08 Jan 2015 12:45:57 +0800</lastBuildDate>
 
+    
+    <item>
+      <title>JQuery 学习笔记</title>
+      <link>place_your_blog_url_here/2015/01/06/jquery.html</link>
+      <pubDate>06 Jan 2015</pubDate>
+      <author>place_your_name_here</author>
+      <guid>place_your_blog_url_here/2015/01/06/jquery</guid>
+      <description>&lt;h1 id=&quot;jquery-&quot;&gt;JQuery 学习笔记&lt;/h1&gt;
+
+&lt;h2 id=&quot;section&quot;&gt;选择器&lt;/h2&gt;
+&lt;p&gt;使用$()选择JQuery对象，他的选择器与CSS的选择器十分的类似&lt;br /&gt;
+当然JQuery拥有一些自定义的选择符号&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;:eq(1)      //第几个元素
+:odd    	//偶数的元素
+:even       //基数的元素
+:nth-child()    //这个选择符相对于元素的父元素而非当前选择的所有元素来计算位置，它可以接受数值、odd或even作为参数
+:contains()     //这个区分大小
+之后还有一系列基于表单的选择符
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;在选择后，其实选择的是一个数组，那么其实可以通过下面的方法获取&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;var myTag = $(&#39;#myTag&#39;)[0].tagName
+var myTags = $(&#39;#myTag&#39;).get(0).tagName
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&quot;section-1&quot;&gt;事件&lt;/h2&gt;
+&lt;pre&gt;&lt;code&gt;$(document).ready()    //页面加载后调用
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;绑定事件使用bind()&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$(document).ready(function() {
+  $(&#39;#switcher-large&#39;).bind(&#39;click&#39;, function() {
+    $(&#39;body&#39;).addClass(&#39;large&#39;);
+  });
+}); 
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;使用$(this)在function中 代表这个对象&lt;br /&gt;
+下面是一些事件&lt;br /&gt;
+&lt;img src=&quot;../_postsImages/jquery1.png&quot; alt=&quot;&quot; /&gt;&lt;br /&gt;
+下面再说一些事件流程&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;// 事件目标
+// 未完成的代码
+$(document).ready(function() {
+  $(&#39;#switcher&#39;).click(function(event) {
+    if (event.target == this) {
+      $(&#39;#switcher button&#39;).toggleClass(&#39;hidden&#39;);
+    }
+  });
+}); 
+
+// 停止事件传播
+$(document).ready(function() {
+  $(&#39;#switcher&#39;).click(function(event) {
+    $(&#39;#switcher button&#39;).toggleClass(&#39;hidden&#39;);
+  });
+});
+
+$(document).ready(function() {
+  $(&#39;#switcher-default&#39;).addClass(&#39;selected&#39;);
+
+  $(&#39;#switcher button&#39;).click(function(event) {
+    var bodyClass = this.id.split(&#39;-&#39;)[1];
+
+    $(&#39;body&#39;).removeClass().addClass(bodyClass);
+
+    $(&#39;#switcher button&#39;).removeClass(&#39;selected&#39;);
+    $(this).addClass(&#39;selected&#39;);
+    event.stopPropagation();
+  });
+}); 
+
+// 判断this属性
+$(document).ready(function() {
+  $(&#39;#switcher&#39;).click(function(event) {
+    if ($(event.target).is(&#39;button&#39;)) {  //使用 is 判断
+      var bodyClass = event.target.id.split(&#39;-&#39;)[1];
+
+      $(&#39;body&#39;).removeClass().addClass(bodyClass);
+
+      $(&#39;#switcher button&#39;).removeClass(&#39;selected&#39;);
+      $(event.target).addClass(&#39;selected&#39;);
+      event.stopPropagation();
+    }
+  });
+}); 
+
+// 事件委托 ，有很多种方法 比如live,die等等
+$(&#39;#switcher button&#39;).live(&#39;click&#39;, function() {
+  var bodyClass = event.target.id.split(&#39;-&#39;)[1];
+
+  $(&#39;body&#39;).removeClass().addClass(bodyClass);
+
+  $(&#39;#switcher button&#39;).removeClass(&#39;selected&#39;);
+  $(this).addClass(&#39;selected&#39;);
+}); 
+
+// 模仿用户
+$(document).ready(function() {
+  $(&#39;#switcher&#39;).trigger(&#39;click&#39;);
+}); 
+
+//从键盘输入
+$(document).ready(function() {
+  var triggers = {
+    D: &#39;default&#39;,
+    N: &#39;narrow&#39;,
+    L: &#39;large&#39;
+  };
+
+  $(document).keyup(function(event) {
+    var key = String.fromCharCode(event.keyCode);
+    if (key in triggers) {
+      $(&#39;#switcher-&#39; + triggers[key]).click();
+    }
+  });
+}); 
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&quot;section-2&quot;&gt;样式与动画&lt;/h2&gt;
+&lt;p&gt;首先 .css() 这个方法 继承了getter和setter&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;// 单个属性及其值
+.css(&#39;property&#39;, &#39;value&#39;)
+// 属性-值对构成
+.css({
+  property1: &#39;value1&#39;,
+  &#39;property-2&#39;: &#39;value2&#39;
+}) 
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;使用hide和show现实和隐藏元素，其中还可以使用’slow’、’normal’和’fast’来当做速度的参数&lt;br /&gt;
+我们使用fadeIn和fadeOut实现淡出和淡入 &lt;br /&gt;
+使用和slideDown和slideUp实现划上和滑下&lt;br /&gt;
+jquery还可以使用。animate()自定义动画，这里面有可以设置该标的元素，速度，回调等，是一个并发的方法，&lt;br /&gt;
+如果我们需要一个队列效果执行的动画呢，可以连缀多个animate()动画&lt;br /&gt;
+如果在速度选项中添加 queue:false，则不是使用队列触发&lt;/p&gt;
+
+&lt;h2 id=&quot;dom&quot;&gt;DOM操作&lt;/h2&gt;
+&lt;p&gt;我们可以使用addClass()和removeClass()来添加Class，对于其他的一些属性，我们则可以通过attr()和removeAttr()来添加和删除。&lt;br /&gt;
+使用attr赋值的时候其实可以不传值，传递一个function这样每次都会调用这个方法&lt;br /&gt;
+在jQuery可以使用.prop获取属性   &lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;// 取得 &quot;checked&quot; 属性的当前值
+var currentlyChecked = $(&#39;.my-checkbox&#39;).prop(&#39;checked&#39;);
+
+// 设置 &quot;checked&quot; 属性的值
+$(&#39;.my-checkbox&#39;).prop(&#39;checked&#39;, false); 
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;###添加，移动元素
+(1) .insertBefore()在现有元素外部、之前添加内容；&lt;br /&gt;
+(2) .prependTo()在现有元素内部、之前添加内容；&lt;br /&gt;
+(3) .appendTo()在现有元素内部、之后添加内容；&lt;br /&gt;
+(4) .insertAfter()在现有元素外部、之后添加内容。&lt;br /&gt;
+与之对应的还有反向插入方法&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$(document).ready(function() {
+  $(&#39;&amp;lt;a href=&quot;#top&quot;&amp;gt;back to top&amp;lt;/a&amp;gt;&#39;).insertAfter(&#39;div.chapterp&#39;);
+  $(&#39;&amp;lt;a id=&quot;top&quot;&amp;gt;&amp;lt;/a&amp;gt;&#39;).prependTo(&#39;body&#39;);
+}); 
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;移动元素和插入元素相似，只不过是选择已经存在的元素  &lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;//包装元素
+$(document).ready(function() {
+  $(&#39;span.footnote&#39;)
+    .insertBefore(&#39;#footer&#39;)
+    .wrapAll(&#39;&amp;lt;ol id=&quot;notes&quot;&amp;gt;&amp;lt;/ol&amp;gt;&#39;) //我们使用.wrapAll()把所有脚注都包含在一个&amp;lt;ol&amp;gt;中
+    .wrap(&#39;&amp;lt;li&amp;gt;&amp;lt;/li&amp;gt;&#39;); //使用.wrap()将每一个脚注分别包装在自己的&amp;lt;li&amp;gt;中
+});
+
+//复制
+$(&#39;123&#39;).clone()
+$(&#39;123&#39;).clone(true) //同时复制事件
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;###简单总结
+对于jQuery提供的大量DOM操作方法，应该根据要完成的任务和元素的位置作出不同的选择。本章只介绍了一部分DOM操作方法，但其他方法的使用与这些方法类似；第12章还将更全面地讨论DOM操作方法。下面，我们简单地归纳出一些方法，这些方法几乎能够在任何情况下，完成任何任务。&lt;br /&gt;
+(1) 要在HTML中创建新元素，使用$()函数。&lt;br /&gt;
+(2) 要在每个匹配的元素中插入新元素，使用：&lt;br /&gt;
+append()&lt;br /&gt;
+appendTo()&lt;br /&gt;
+prepend()
+prependTo()&lt;br /&gt;
+(3) 要在每个匹配的元素相邻的位置上插入新元素，使用：&lt;br /&gt;
+after()&lt;br /&gt;
+insertAfter()&lt;br /&gt;
+before()&lt;br /&gt;
+insertBefore()&lt;br /&gt;
+(4) 要在每个匹配的元素外部插入新元素，使用： 
+wrap()&lt;br /&gt;
+wrapAll()&lt;br /&gt;
+wrapInner()&lt;br /&gt;
+(5) 要用新元素或文本替换每个匹配的元素，使用：&lt;br /&gt;
+html()&lt;br /&gt;
+text()&lt;br /&gt;
+replaceAll()&lt;br /&gt;
+replaceWith()&lt;br /&gt;
+(6) 要移除每个匹配的元素中的元素，使用：&lt;br /&gt;
+empty()&lt;br /&gt;
+(7) 要从文档中移除每个匹配的元素及其后代元素，但不实际删除它们，使用：&lt;br /&gt;
+remove()&lt;br /&gt;
+detach()  &lt;/p&gt;
+
+&lt;h2 id=&quot;ajax&quot;&gt;AJAX的使用&lt;/h2&gt;
+&lt;p&gt;在下面的事件中返回false,防止跳转&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;//简单加载html
+$(document).ready(function() {
+  $(&#39;#letter-a a&#39;).click(function() {
+    $(&#39;#dictionary&#39;).load(&#39;a.html&#39;);
+    return false;
+  });
+}); 
+
+//加载JSON
+$(document).ready(function() {
+  $(&#39;#letter-b a&#39;).click(function() {
+    $.getJSON(&#39;b.json&#39;, function(data) {
+      var html = &#39;&#39;;
+      $.each(data, function(entryIndex, entry) {
+        html += &#39;&amp;lt;div class=&quot;entry&quot;&amp;gt;&#39;;
+        html += &#39;&amp;lt;h3 class=&quot;term&quot;&amp;gt;&#39; + entry.term + &#39;&amp;lt;/h3&amp;gt;&#39;;
+        html += &#39;&amp;lt;div class=&quot;part&quot;&amp;gt;&#39; + entry.part + &#39;&amp;lt;/div&amp;gt;&#39;;
+        html += &#39;&amp;lt;div class=&quot;definition&quot;&amp;gt;&#39;;
+        html += entry.definition;
+        html += &#39;&amp;lt;/div&amp;gt;&#39;;
+        html += &#39;&amp;lt;/div&amp;gt;&#39;;
+      });
+      $(&#39;#dictionary&#39;).html(html);
+    });
+    return false;
+  });
+}); 
+
+//加载JS
+$(document).ready(function() {
+  $(&#39;#letter-c a&#39;).click(function() {
+    $.getScript(&#39;c.js&#39;);
+    return false;
+  });
+}); 
+
+//加载XML
+$(document).ready(function() {
+  $(&#39;#letter-d a&#39;).click(function() {
+    $.get(&#39;d.xml&#39;, function(data) {
+      $(&#39;#dictionary&#39;).empty();
+      $(data).find(&#39;entry&#39;).each(function() {
+        var $entry = $(this);
+        var html = &#39;&amp;lt;div class=&quot;entry&quot;&amp;gt;&#39;;
+        html += &#39;&amp;lt;h3 class=&quot;term&quot;&amp;gt;&#39; + $entry.attr(&#39;term&#39;);
+          html += &#39;&amp;lt;/h3&amp;gt;&#39;;
+        html += &#39;&amp;lt;div class=&quot;part&quot;&amp;gt;&#39; + $entry.attr(&#39;part&#39;);
+          html += &#39;&amp;lt;/div&amp;gt;&#39;;
+        html += &#39;&amp;lt;div class=&quot;definition&quot;&amp;gt;&#39;;
+        html += $entry.find(&#39;definition&#39;).text();
+        var $quote = $entry.find(&#39;quote&#39;);
+        if ($quote.length) {
+          html += &#39;&amp;lt;div class=&quot;quote&quot;&amp;gt;&#39;;
+          $quote.find(&#39;line&#39;).each(function() {
+            html += &#39;&amp;lt;div class=&quot;quote-line&quot;&amp;gt;&#39;;
+              html += $(this).text() + &#39;&amp;lt;/div&amp;gt;&#39;;
+          });
+          if ($quote.attr(&#39;author&#39;)) {
+            html += &#39;&amp;lt;div class=&quot;quote-author&quot;&amp;gt;&#39;;
+              html += $quote.attr(&#39;author&#39;) + &#39;&amp;lt;/div&amp;gt;&#39;;
+          }
+          html += &#39;&amp;lt;/div&amp;gt;&#39;;
+        }
+        html += &#39;&amp;lt;/div&amp;gt;&#39;;
+        html += &#39;&amp;lt;/div&amp;gt;&#39;;
+        $(&#39;#dictionary&#39;).append($(html));
+      });
+    });
+    return false;
+  });
+}); 
+
+//使用get请求PHP
+$(document).ready(function() {
+  $(&#39;#letter-e a&#39;).click(function() {
+    var requestData = {term: $(this).text()};
+    $.get(&#39;e.php&#39;, requestData, function(data) {
+      $(&#39;#dictionary&#39;).html(data);
+    });
+    return false;
+  });
+});
+
+//使用POST请求
+$(document).ready(function() {
+  $(&#39;#letter-e a&#39;).click(function() {
+    var requestData = {term: $(this).text()};
+    $.post(&#39;e.php&#39;, requestData, function(data) {
+      $(&#39;#dictionary&#39;).html(data);
+    });
+    return false;
+  });
+}); 
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
     
     <item>
       <title>CSS选择器</title>

@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <!--[if lte IE 9]><meta http-equiv="refresh" content="0;url=/ie.html"><![endif]-->
+
+    <title>JQuery 学习笔记</title>
+    <meta name="description" content="">
+
+    <link rel="stylesheet" type="text/css" href="/assets/css/style.css">
+  </head>
+  <body>
+    <aside id="sidebar">
+      <nav id="tags">
+        <img src="/assets/img/avatar.png" id="avatar"></img>
+
+        <ul id="tags__ul">
+          <li id="js-label1" class="tags__li tags-btn active">全部</li>
+          <li id="js-label2" class="tags__li tags-btn">iOS</li>
+          <li id="js-label3" class="tags__li tags-btn">Node</li>
+          <li id="js-label4" class="tags__li tags-btn">前端</li>
+          <li id="js-label6" class="tags__li tags-btn">其它</li>
+        </ul>
+
+        <div id="tags__bottom">
+          <a href="mailto:arthurli1991@gmail.com" id="icon-email" class="tags-btn fontello"></a>
+          <a href="/rss.xml" id="icon-feed" class="tags-btn fontello"></a>
+        </div>
+      </nav> <!-- end #tags -->
+
+      <div id="posts-list">
+        <!-- 搜索框，使用GoogleEngine失败 -->
+<!--         <form action="" id="search-form">
+          <a href="/index.html" id="mobile-avatar"></a>
+          NOTE: input field is disabled by default
+          <input id="search-input" type="text" placeholder="Search..." >
+        </form>
+ -->
+        <nav id="pl__container">
+        
+          <a class=" pl__all" href="/2015/01/06/jquery.html">
+            <span class="pl__circle"></span>
+            <span class="pl__title">JQuery 学习笔记</span>
+            <span class="pl__date">Jan 2015</span>
+          </a>
+        
+          <a class=" pl__all" href="/2015/01/05/css-selected.html">
+            <span class="pl__circle"></span>
+            <span class="pl__title">CSS选择器</span>
+            <span class="pl__date">Jan 2015</span>
+          </a>
+        
+          <a class=" pl__all" href="/2014/12/31/server-konwledge.html">
+            <span class="pl__circle"></span>
+            <span class="pl__title">Server知识</span>
+            <span class="pl__date">Dec 2014</span>
+          </a>
+        
+          <a class=" pl__all" href="/2014/12/26/yekyll-document.html">
+            <span class="pl__circle"></span>
+            <span class="pl__title">Jekyll的使用</span>
+            <span class="pl__date">Dec 2014</span>
+          </a>
+        
+        </nav>
+      </div> <!-- end #posts-list -->
+    </aside> <!-- end #sidebar -->
+
+    <div id="post">
+      <!-- 加载文章 -->
+      <div id="pjax">
+        <article id="post__content">
+  <h1 id="post__title" data-identifier="20150106">JQuery 学习笔记</h1>
+  <h1 id="jquery-">JQuery 学习笔记</h1>
+
+<h2 id="section">选择器</h2>
+<p>使用$()选择JQuery对象，他的选择器与CSS的选择器十分的类似<br />
+当然JQuery拥有一些自定义的选择符号</p>
+
+<pre><code>:eq(1)      //第几个元素
+:odd    	//偶数的元素
+:even       //基数的元素
+:nth-child()    //这个选择符相对于元素的父元素而非当前选择的所有元素来计算位置，它可以接受数值、odd或even作为参数
+:contains()     //这个区分大小
+之后还有一系列基于表单的选择符
+
+</code></pre>
+<p>在选择后，其实选择的是一个数组，那么其实可以通过下面的方法获取</p>
+
+<pre><code>var myTag = $('#myTag')[0].tagName
+var myTags = $('#myTag').get(0).tagName
+</code></pre>
+
+<h2 id="section-1">事件</h2>
+<pre><code>$(document).ready()    //页面加载后调用
+</code></pre>
+<p>绑定事件使用bind()</p>
+
+<pre><code>$(document).ready(function() {
+  $('#switcher-large').bind('click', function() {
+    $('body').addClass('large');
+  });
+}); 
+</code></pre>
+<p>使用$(this)在function中 代表这个对象<br />
+下面是一些事件<br />
+<img src="../_postsImages/jquery1.png" alt="" /><br />
+下面再说一些事件流程</p>
+
+<pre><code>// 事件目标
+// 未完成的代码
+$(document).ready(function() {
+  $('#switcher').click(function(event) {
+    if (event.target == this) {
+      $('#switcher button').toggleClass('hidden');
+    }
+  });
+}); 
+
+// 停止事件传播
+$(document).ready(function() {
+  $('#switcher').click(function(event) {
+    $('#switcher button').toggleClass('hidden');
+  });
+});
+
+$(document).ready(function() {
+  $('#switcher-default').addClass('selected');
+
+  $('#switcher button').click(function(event) {
+    var bodyClass = this.id.split('-')[1];
+
+    $('body').removeClass().addClass(bodyClass);
+
+    $('#switcher button').removeClass('selected');
+    $(this).addClass('selected');
+    event.stopPropagation();
+  });
+}); 
+
+// 判断this属性
+$(document).ready(function() {
+  $('#switcher').click(function(event) {
+    if ($(event.target).is('button')) {  //使用 is 判断
+      var bodyClass = event.target.id.split('-')[1];
+
+      $('body').removeClass().addClass(bodyClass);
+
+      $('#switcher button').removeClass('selected');
+      $(event.target).addClass('selected');
+      event.stopPropagation();
+    }
+  });
+}); 
+
+// 事件委托 ，有很多种方法 比如live,die等等
+$('#switcher button').live('click', function() {
+  var bodyClass = event.target.id.split('-')[1];
+
+  $('body').removeClass().addClass(bodyClass);
+
+  $('#switcher button').removeClass('selected');
+  $(this).addClass('selected');
+}); 
+
+// 模仿用户
+$(document).ready(function() {
+  $('#switcher').trigger('click');
+}); 
+
+//从键盘输入
+$(document).ready(function() {
+  var triggers = {
+    D: 'default',
+    N: 'narrow',
+    L: 'large'
+  };
+
+  $(document).keyup(function(event) {
+    var key = String.fromCharCode(event.keyCode);
+    if (key in triggers) {
+      $('#switcher-' + triggers[key]).click();
+    }
+  });
+}); 
+</code></pre>
+
+<h2 id="section-2">样式与动画</h2>
+<p>首先 .css() 这个方法 继承了getter和setter</p>
+
+<pre><code>// 单个属性及其值
+.css('property', 'value')
+// 属性-值对构成
+.css({
+  property1: 'value1',
+  'property-2': 'value2'
+}) 
+</code></pre>
+<p>使用hide和show现实和隐藏元素，其中还可以使用’slow’、’normal’和’fast’来当做速度的参数<br />
+我们使用fadeIn和fadeOut实现淡出和淡入 <br />
+使用和slideDown和slideUp实现划上和滑下<br />
+jquery还可以使用。animate()自定义动画，这里面有可以设置该标的元素，速度，回调等，是一个并发的方法，<br />
+如果我们需要一个队列效果执行的动画呢，可以连缀多个animate()动画<br />
+如果在速度选项中添加 queue:false，则不是使用队列触发</p>
+
+<h2 id="dom">DOM操作</h2>
+<p>我们可以使用addClass()和removeClass()来添加Class，对于其他的一些属性，我们则可以通过attr()和removeAttr()来添加和删除。<br />
+使用attr赋值的时候其实可以不传值，传递一个function这样每次都会调用这个方法<br />
+在jQuery可以使用.prop获取属性   </p>
+
+<pre><code>// 取得 "checked" 属性的当前值
+var currentlyChecked = $('.my-checkbox').prop('checked');
+
+// 设置 "checked" 属性的值
+$('.my-checkbox').prop('checked', false); 
+</code></pre>
+<p>###添加，移动元素
+(1) .insertBefore()在现有元素外部、之前添加内容；<br />
+(2) .prependTo()在现有元素内部、之前添加内容；<br />
+(3) .appendTo()在现有元素内部、之后添加内容；<br />
+(4) .insertAfter()在现有元素外部、之后添加内容。<br />
+与之对应的还有反向插入方法</p>
+
+<pre><code>$(document).ready(function() {
+  $('&lt;a href="#top"&gt;back to top&lt;/a&gt;').insertAfter('div.chapterp');
+  $('&lt;a id="top"&gt;&lt;/a&gt;').prependTo('body');
+}); 
+</code></pre>
+<p>移动元素和插入元素相似，只不过是选择已经存在的元素  </p>
+
+<pre><code>//包装元素
+$(document).ready(function() {
+  $('span.footnote')
+    .insertBefore('#footer')
+    .wrapAll('&lt;ol id="notes"&gt;&lt;/ol&gt;') //我们使用.wrapAll()把所有脚注都包含在一个&lt;ol&gt;中
+    .wrap('&lt;li&gt;&lt;/li&gt;'); //使用.wrap()将每一个脚注分别包装在自己的&lt;li&gt;中
+});
+
+//复制
+$('123').clone()
+$('123').clone(true) //同时复制事件
+</code></pre>
+<p>###简单总结
+对于jQuery提供的大量DOM操作方法，应该根据要完成的任务和元素的位置作出不同的选择。本章只介绍了一部分DOM操作方法，但其他方法的使用与这些方法类似；第12章还将更全面地讨论DOM操作方法。下面，我们简单地归纳出一些方法，这些方法几乎能够在任何情况下，完成任何任务。<br />
+(1) 要在HTML中创建新元素，使用$()函数。<br />
+(2) 要在每个匹配的元素中插入新元素，使用：<br />
+append()<br />
+appendTo()<br />
+prepend()
+prependTo()<br />
+(3) 要在每个匹配的元素相邻的位置上插入新元素，使用：<br />
+after()<br />
+insertAfter()<br />
+before()<br />
+insertBefore()<br />
+(4) 要在每个匹配的元素外部插入新元素，使用： 
+wrap()<br />
+wrapAll()<br />
+wrapInner()<br />
+(5) 要用新元素或文本替换每个匹配的元素，使用：<br />
+html()<br />
+text()<br />
+replaceAll()<br />
+replaceWith()<br />
+(6) 要移除每个匹配的元素中的元素，使用：<br />
+empty()<br />
+(7) 要从文档中移除每个匹配的元素及其后代元素，但不实际删除它们，使用：<br />
+remove()<br />
+detach()  </p>
+
+<h2 id="ajax">AJAX的使用</h2>
+<p>在下面的事件中返回false,防止跳转</p>
+
+<pre><code>//简单加载html
+$(document).ready(function() {
+  $('#letter-a a').click(function() {
+    $('#dictionary').load('a.html');
+    return false;
+  });
+}); 
+
+//加载JSON
+$(document).ready(function() {
+  $('#letter-b a').click(function() {
+    $.getJSON('b.json', function(data) {
+      var html = '';
+      $.each(data, function(entryIndex, entry) {
+        html += '&lt;div class="entry"&gt;';
+        html += '&lt;h3 class="term"&gt;' + entry.term + '&lt;/h3&gt;';
+        html += '&lt;div class="part"&gt;' + entry.part + '&lt;/div&gt;';
+        html += '&lt;div class="definition"&gt;';
+        html += entry.definition;
+        html += '&lt;/div&gt;';
+        html += '&lt;/div&gt;';
+      });
+      $('#dictionary').html(html);
+    });
+    return false;
+  });
+}); 
+
+//加载JS
+$(document).ready(function() {
+  $('#letter-c a').click(function() {
+    $.getScript('c.js');
+    return false;
+  });
+}); 
+
+//加载XML
+$(document).ready(function() {
+  $('#letter-d a').click(function() {
+    $.get('d.xml', function(data) {
+      $('#dictionary').empty();
+      $(data).find('entry').each(function() {
+        var $entry = $(this);
+        var html = '&lt;div class="entry"&gt;';
+        html += '&lt;h3 class="term"&gt;' + $entry.attr('term');
+          html += '&lt;/h3&gt;';
+        html += '&lt;div class="part"&gt;' + $entry.attr('part');
+          html += '&lt;/div&gt;';
+        html += '&lt;div class="definition"&gt;';
+        html += $entry.find('definition').text();
+        var $quote = $entry.find('quote');
+        if ($quote.length) {
+          html += '&lt;div class="quote"&gt;';
+          $quote.find('line').each(function() {
+            html += '&lt;div class="quote-line"&gt;';
+              html += $(this).text() + '&lt;/div&gt;';
+          });
+          if ($quote.attr('author')) {
+            html += '&lt;div class="quote-author"&gt;';
+              html += $quote.attr('author') + '&lt;/div&gt;';
+          }
+          html += '&lt;/div&gt;';
+        }
+        html += '&lt;/div&gt;';
+        html += '&lt;/div&gt;';
+        $('#dictionary').append($(html));
+      });
+    });
+    return false;
+  });
+}); 
+
+//使用get请求PHP
+$(document).ready(function() {
+  $('#letter-e a').click(function() {
+    var requestData = {term: $(this).text()};
+    $.get('e.php', requestData, function(data) {
+      $('#dictionary').html(data);
+    });
+    return false;
+  });
+});
+
+//使用POST请求
+$(document).ready(function() {
+  $('#letter-e a').click(function() {
+    var requestData = {term: $(this).text()};
+    $.post('e.php', requestData, function(data) {
+      $('#dictionary').html(data);
+    });
+    return false;
+  });
+}); 
+</code></pre>
+
+</article> <!-- end #post__content -->
+
+<div id="post__share">
+  <a id="icon-twitter" class="fontello" href="https://twitter.com/intent/tweet?url=http://wing-of-war.github.io//2015/01/06/jquery.html&text=JQuery 学习笔记" target="_blank"></a>
+  <a id="icon-cc" class="fontello" href="http://creativecommons.org/licenses/by-nc-sa/3.0" target="_blank"></a>
+  <a id="icon-weibo" class="fontello" href="http://v.t.sina.com.cn/share/share.php?url=http://wing-of-war.github.io//2015/01/06/jquery.html&title=JQuery 学习笔记" target="_blank"></a>
+</div> <!-- end #post__share -->
+
+<div id="disqus_thread">
+  <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  <a href="http://disqus.com" class="dsq-brlink" target="_blank">Loading Disqus comments...</a>
+</div> <!-- end #disqus_thread -->
+
+<p id="copyright">Powered by <a href="http://jekyllrb.com" target="_blank">Jekyll</a>&nbsp;&nbsp;|&nbsp;&nbsp;Theme <a href="https://github.com/P233/3-Jekyll" target="_blank">3-Jekyll</a></p>
+      </div> <!-- end #pjax -->
+
+      <!-- 右侧文章导航栏 -->
+      <div id="post__toc-trigger">
+        <div id="post__toc">
+          <span id="post__toc-title">Table of Contents</span>
+          <ul id="post__toc-ul"></ul>
+        </div>
+      </div>
+    </div> <!-- end #post -->
+
+<!-- 右侧导航按钮 -->
+    <button id="js-fullscreen"><span id="icon-arrow" class="fontello"></span></button>
+
+    <script src="/assets/js/jquery-2.0.3.min.js"></script>
+    <script src="/assets/js/jquery.pjax.js"></script>
+    <script src="/assets/js/nprogress.js"></script>
+    <script src="/assets/js/script.js"></script>
+  </body>
+</html>
