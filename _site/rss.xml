@@ -6,9 +6,190 @@
     <atom:link href="place_your_blog_url_here/rss.xml" rel="self" type="application/rss+xml" />
     <description>place_your_blog_description_here</description>
     <language>place_your_blog_language_here</language>
-    <pubDate>Thu, 08 Jan 2015 12:45:57 +0800</pubDate>
-    <lastBuildDate>Thu, 08 Jan 2015 12:45:57 +0800</lastBuildDate>
+    <pubDate>Mon, 12 Jan 2015 22:07:51 +0800</pubDate>
+    <lastBuildDate>Mon, 12 Jan 2015 22:07:51 +0800</lastBuildDate>
 
+    
+    <item>
+      <title>SQL细节补全</title>
+      <link>place_your_blog_url_here/2015/01/12/sql.html</link>
+      <pubDate>12 Jan 2015</pubDate>
+      <author>place_your_name_here</author>
+      <guid>place_your_blog_url_here/2015/01/12/sql</guid>
+      <description>&lt;h1 id=&quot;sql&quot;&gt;SQL细节补全&lt;/h1&gt;
+&lt;p&gt;-
+The SELECT DISTINCT statement is used to return only distinct (different) values.  &lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;SELECT DISTINCT column_name,column_name
+FROM table_name;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The ORDER BY keyword is used to sort the result-set.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;SELECT column_name,column_name
+FROM table_name
+ORDER BY column_name,column_name ASC|DESC;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The INSERT INTO statement is used to insert new records in a table.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;INSERT INTO table_name (column1,column2,column3,...)
+VALUES (value1,value2,value3,...);
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The UPDATE statement is used to update records in a table.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;UPDATE table_name
+SET column1=value1,column2=value2,...
+WHERE some_column=some_value;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The SELECT TOP clause is used to specify the number of records to return.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;SELECT column_name(s)
+FROM table_name
+LIMIT number;
+
+SELECT TOP number|percent column_name(s)
+FROM table_name;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;SQL Wildcard Characters&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;Wildcard&lt;/th&gt;
+      &lt;th&gt;Description&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;%&lt;/td&gt;
+      &lt;td&gt;A substitute for zero or more characters&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;_&lt;/td&gt;
+      &lt;td&gt;A substitute for a single character&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;[charlist]&lt;/td&gt;
+      &lt;td&gt;Sets and ranges of characters to match&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;[^charlist] or [!charlist]&lt;/td&gt;
+      &lt;td&gt;Matches only a character NOT specified within the brackets&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;SQL aliases are used to temporarily rename a table or a column heading.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;SELECT column_name AS alias_name
+FROM table_name;
+
+SELECT column_name(s)
+FROM table_name AS alias_name;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The SQL UNION operator combines the result of two or more SELECT statements.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;SELECT column_name(s) FROM table1
+UNION
+SELECT column_name(s) FROM table2;
+
+//Note: The UNION operator selects only distinct values by default. To allow duplicate values, use the ALL keyword with UNION.
+
+SELECT column_name(s) FROM table1
+UNION ALL
+SELECT column_name(s) FROM table2;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;With SQL, you can copy information from one table into another.&lt;/p&gt;
+
+&lt;p&gt;The SELECT INTO statement copies data from one table and inserts it into a new table.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;SELECT *
+INTO newtable [IN externaldb]
+FROM table1;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;With SQL, you can copy information from one table into another.&lt;/p&gt;
+
+&lt;p&gt;The INSERT INTO SELECT statement copies data from one table and inserts it into an existing table.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;INSERT INTO table2
+(column_name(s))
+SELECT column_name(s)
+FROM table1;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Create Table&lt;/p&gt;
+
+&lt;p&gt;In SQL, we have the following constraints:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;NOT NULL - Indicates that a column cannot store NULL value&lt;/li&gt;
+  &lt;li&gt;UNIQUE - Ensures that each row for a column must have a unique value&lt;/li&gt;
+  &lt;li&gt;PRIMARY KEY - A combination of a NOT NULL and UNIQUE. Ensures that a column (or combination of two or more columns) have an unique identity which helps to find a particular record in a table more easily and quickly&lt;/li&gt;
+  &lt;li&gt;FOREIGN KEY - Ensure the referential integrity of the data in one table to match values in another table&lt;/li&gt;
+  &lt;li&gt;CHECK - Ensures that the value in a column meets a specific condition&lt;/li&gt;
+  &lt;li&gt;DEFAULT - Specifies a default value when specified none for this column&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code&gt;CREATE TABLE Persons
+(
+PersonID int,
+LastName varchar(255),
+FirstName varchar(255),
+Address varchar(255),
+City varchar(255)
+);
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The CREATE INDEX statement is used to create indexes in tables.&lt;/p&gt;
+
+&lt;p&gt;Indexes allow the database application to find data fast; without reading the whole table.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;CREATE INDEX index_name
+ON table_name (column_name)
+
+CREATE UNIQUE INDEX index_name
+ON table_name (column_name)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The ALTER TABLE statement is used to add, delete, or modify columns in an existing table.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;ALTER TABLE table_name
+ADD column_name datatype
+
+ALTER TABLE table_name
+DROP COLUMN column_name
+
+//SQL Server / MS Access:
+
+ALTER TABLE table_name
+ALTER COLUMN column_name datatype
+
+//My SQL / Oracle:
+
+ALTER TABLE table_name
+MODIFY COLUMN column_name datatype
+
+//Oracle 10G and later:
+
+ALTER TABLE table_name
+MODIFY column_name datatype
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Auto-increment allows a unique number to be generated when a new record is inserted into a table.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;CREATE TABLE Persons
+(
+ID int NOT NULL AUTO_INCREMENT,
+LastName varchar(255) NOT NULL,
+FirstName varchar(255),
+Address varchar(255),
+City varchar(255),
+PRIMARY KEY (ID)
+)
+
+ALTER TABLE Persons AUTO_INCREMENT=100
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
     
     <item>
       <title>JQuery 学习笔记</title>
