@@ -5,9 +5,98 @@
     <description></description>
     <link>/</link>
     <atom:link href="/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Mon, 12 Jan 2015 22:07:51 +0800</pubDate>
-    <lastBuildDate>Mon, 12 Jan 2015 22:07:51 +0800</lastBuildDate>
+    <pubDate>Fri, 16 Jan 2015 14:35:38 +0800</pubDate>
+    <lastBuildDate>Fri, 16 Jan 2015 14:35:38 +0800</lastBuildDate>
     <generator>Jekyll v2.5.3</generator>
+    
+      <item>
+        <title>各种缓存机制和实现方式</title>
+        <description>&lt;h1 id=&quot;section&quot;&gt;各种缓存机制和实现方式&lt;/h1&gt;
+&lt;p&gt;今天我们要看的就是缓存机制，在我们的计算机世界里面，内存和速度是怎么都会觉得不够的，当然这只是我自己的感觉而已。那么今天我们就来看看一般的缓存都是如何做的吧&lt;/p&gt;
+
+&lt;h2 id=&quot;section-1&quot;&gt;为什么使用缓存呢&lt;/h2&gt;
+&lt;ol&gt;
+  &lt;li&gt;我感觉第一点就是加快访问速度，不适用内存级别的缓存的话，就只能使用数据库，那么频繁的数据库IO自然会使得速度变慢，从而造成用户的流失。  &lt;/li&gt;
+  &lt;li&gt;大量的数据库访问自然会增大出现问题的几率，增大请求次数，从而增加不必要的成本&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;section-2&quot;&gt;那么我们来聊聊缓存吧&lt;/h2&gt;
+
+&lt;p&gt;缓存说白了就是一堆内存中或者数据库中的数据，需要被用户使用，所以放到一个叫做缓存池的地方，大家通过一个唯一标示ID来表明身份，如果缓存数大于上线，那么会根据缓存算法清除掉一些缓存&lt;br /&gt;
+还有关于缓存拥有一大堆高大上的术语，想知道的点&lt;a href=&quot;http://unicorn.blog.51cto.com/2273096/444605&quot;&gt;这里&lt;/a&gt;  &lt;/p&gt;
+
+&lt;h2 id=&quot;lfu&quot;&gt;LFU缓存算法&lt;/h2&gt;
+&lt;p&gt;LFU 的英文就是 least frequently used, 核心思想就是按照使用频域来排序， 记录缓存的使用频率，然后使用它排序，之后每进来一个新的 就替换掉使用频率最低的换粗  &lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/img/LFU.png&quot; alt=&quot;&quot; /&gt;  &lt;/p&gt;
+
+&lt;p&gt;实现起来是这样的(这是我自己想的一种算法实现，不一定是最优解)，缓存池维护一个字典和一个数组，字典存储Key和一个下标数字或者对象（是用于定位用的），而数组则是用来排序的，每次有新的缓存的话，重新排序，然后把最新的数据删除&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://blog.csdn.net/yunhua_lee/article/details/7648549&quot;&gt;这里是别处的详细说明&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&quot;https://github.com/Arthurli/LFUCacheKit&quot;&gt;这里有我用Swift写的一个小实现&lt;/a&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;section-3&quot;&gt;几种变体&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;LFU* : 只删除引用计数为一的缓存数据，如果没有为一的，那么不存储缓存&lt;/li&gt;
+  &lt;li&gt;LFU-Aging : 在引用计数的维度上增加一个增加时间，但是这个时间并不是真正的时间，而是根据一个平均引用计数，当平均引用计数达到一定值的时候，所有引用计数减少，可以直接减半，或者减去一个固定的值，然后从新排序&lt;/li&gt;
+  &lt;li&gt;LFU*-Aging : 结合以上两种算法&lt;/li&gt;
+  &lt;li&gt;Window-LFU : LRU的改进版，只维护一定时间内的引用计数，我的实现方法就是增加一个栈维护请求，此请求数组达到上限，推出最早的请求，引用计数减一，然后从新排序&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;lru&quot;&gt;LRU&lt;/h2&gt;
+&lt;p&gt;LRU的英文是Least Recently Used,简单来说就是把最久不使用的缓存删除，每次有新的缓存都会把他放到栈顶，然后从栈的底部推出最久不使用的缓存&lt;br /&gt;
+简单的原理图就像下面画的&lt;br /&gt;
+&lt;img src=&quot;/assets/img/LRU.png&quot; alt=&quot;&quot; /&gt;  &lt;br /&gt;
+还是不太清楚？那么我们来看这个&lt;br /&gt;
+&lt;img src=&quot;/assets/img/LRU-1.png&quot; alt=&quot;&quot; /&gt; &lt;br /&gt;
+永远都是把最近访问的缓存放到顶部，然后把底部的缓存删除&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://blog.csdn.net/yunhua_lee/article/details/7599671&quot;&gt;这里是别处的详细说明&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&quot;https://github.com/Arthurli/LRUCacheKit&quot;&gt;这里有我用Swift写的一个小实现&lt;/a&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;section-4&quot;&gt;几种变体&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;LRU2 : 按我的理解就是维护一个LFU队列和一个LRU队列，当LFU队列的访问数达到某个值，则从LFU队列中移动到LRU队列，两个队列如果超出，都是用各自的方式删除缓存&lt;/li&gt;
+  &lt;li&gt;2Q : 和LRU2相类似，不过换成了维护一个FIFO队列和LRU队列&lt;/li&gt;
+  &lt;li&gt;MRU (Most Recently Used): 最近最常使用缓存算法，与LRU完全相反，首先删除最新的缓存，多应用于文件顺序执行的场景&lt;/li&gt;
+  &lt;li&gt;MQ : 维护多个拥有优先级设定的LRU队列，然后根据访问次数，和被访问时间升降优先级&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/img/LRU-MQ.png&quot; alt=&quot;&quot; /&gt;   &lt;/p&gt;
+
+&lt;h2 id=&quot;fifo&quot;&gt;FIFO&lt;/h2&gt;
+&lt;p&gt;原始版的FIFO就是先进先出，除了快也就没什么优点了，咱们主要说说几种变化&lt;br /&gt;
+###Second Chance 
+核心思想就是数据被淘汰前被访问过两次则再给他个机会，什么叫给机会呢，如果访问数大于2，则把重置访问数，然后把这个缓存从队头移动到队尾
+###Clock
+Clock是Second Chance的改进版，通过一个环形队列，避免将数据在FIFO队列中移动。&lt;br /&gt;
+它只需要移动指针就好了，优于Second Chance&lt;/p&gt;
+
+&lt;h2 id=&quot;adaptive-replacement-cachearc&quot;&gt;Adaptive Replacement Cache（ARC）&lt;/h2&gt;
+&lt;p&gt;学过oc的都激动了，我懂，我说，你懂个毛线，不一样好吗，说的不是一个东西好吗&lt;br /&gt;
+那么什么叫做ARC呢，其实也就是维护了两个LRU队列，然后…然后…&lt;/p&gt;
+
+&lt;p&gt;我就简单说说，说的不好。维护两个LRU队列，每个队列还有一个垃圾箱，我们分别取名T1,L1,T2,L2  &lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;新数据进入L1&lt;/li&gt;
+  &lt;li&gt;多次被访问进入L2&lt;/li&gt;
+  &lt;li&gt;L1被移除进入T1，L2被移除进入T2&lt;/li&gt;
+  &lt;li&gt;T2满了，进入L1，T1满了被真正移出&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://en.wikipedia.org/wiki/Adaptive_replacement_cache#Deployment&quot;&gt;这里是详细&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;section-5&quot;&gt;后记&lt;/h2&gt;
+&lt;p&gt;其实缓存算法还有很多很多，我们现在说的只是最常使用的几个缓存算法，我们需要根据不同的使用场景选择适合我们的算法&lt;/p&gt;
+
+</description>
+        <pubDate>Wed, 14 Jan 2015 00:00:00 +0800</pubDate>
+        <link>/2015/01/14/cache.html</link>
+        <guid isPermaLink="true">/2015/01/14/cache.html</guid>
+        
+        
+      </item>
     
       <item>
         <title>SQL细节补全</title>
@@ -226,7 +315,7 @@ var myTags = $(&#39;#myTag&#39;).get(0).tagName
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;使用$(this)在function中 代表这个对象&lt;br /&gt;
 下面是一些事件&lt;br /&gt;
-&lt;img src=&quot;../_postsImages/jquery1.png&quot; alt=&quot;&quot; /&gt;&lt;br /&gt;
+&lt;img src=&quot;/assets/img/jquery1.png&quot; alt=&quot;&quot; /&gt;&lt;br /&gt;
 下面再说一些事件流程&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;// 事件目标

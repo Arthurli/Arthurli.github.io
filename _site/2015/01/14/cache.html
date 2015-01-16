@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <!--[if lte IE 9]><meta http-equiv="refresh" content="0;url=/ie.html"><![endif]-->
+
+    <title>各种缓存机制和实现方式</title>
+    <meta name="description" content="">
+
+    <link rel="stylesheet" type="text/css" href="/assets/css/style.css">
+  </head>
+  <body>
+    <aside id="sidebar">
+      <nav id="tags">
+        <img src="/assets/img/avatar.png" id="avatar"></img>
+
+        <ul id="tags__ul">
+          <li id="js-label1" class="tags__li tags-btn active">全部</li>
+          <li id="js-label2" class="tags__li tags-btn">iOS</li>
+          <li id="js-label3" class="tags__li tags-btn">Node</li>
+          <li id="js-label4" class="tags__li tags-btn">前端</li>
+          <li id="js-label6" class="tags__li tags-btn">其它</li>
+        </ul>
+
+        <div id="tags__bottom">
+          <a href="mailto:arthurli1991@gmail.com" id="icon-email" class="tags-btn fontello"></a>
+          <a href="/rss.xml" id="icon-feed" class="tags-btn fontello"></a>
+        </div>
+      </nav> <!-- end #tags -->
+
+      <div id="posts-list">
+        <!-- 搜索框，使用GoogleEngine失败 -->
+<!--         <form action="" id="search-form">
+          <a href="/index.html" id="mobile-avatar"></a>
+          NOTE: input field is disabled by default
+          <input id="search-input" type="text" placeholder="Search..." >
+        </form>
+ -->
+        <nav id="pl__container">
+        
+          <a class=" pl__all" href="/2015/01/14/cache.html">
+            <span class="pl__circle"></span>
+            <span class="pl__title">各种缓存机制和实现方式</span>
+            <span class="pl__date">Jan 2015</span>
+          </a>
+        
+          <a class=" pl__all" href="/2015/01/12/sql.html">
+            <span class="pl__circle"></span>
+            <span class="pl__title">SQL细节补全</span>
+            <span class="pl__date">Jan 2015</span>
+          </a>
+        
+          <a class=" pl__all" href="/2015/01/06/jquery.html">
+            <span class="pl__circle"></span>
+            <span class="pl__title">JQuery 学习笔记</span>
+            <span class="pl__date">Jan 2015</span>
+          </a>
+        
+          <a class=" pl__all" href="/2015/01/05/css-selected.html">
+            <span class="pl__circle"></span>
+            <span class="pl__title">CSS选择器</span>
+            <span class="pl__date">Jan 2015</span>
+          </a>
+        
+          <a class=" pl__all" href="/2014/12/31/server-konwledge.html">
+            <span class="pl__circle"></span>
+            <span class="pl__title">Server知识</span>
+            <span class="pl__date">Dec 2014</span>
+          </a>
+        
+          <a class=" pl__all" href="/2014/12/26/yekyll-document.html">
+            <span class="pl__circle"></span>
+            <span class="pl__title">Jekyll的使用</span>
+            <span class="pl__date">Dec 2014</span>
+          </a>
+        
+        </nav>
+      </div> <!-- end #posts-list -->
+    </aside> <!-- end #sidebar -->
+
+    <div id="post">
+      <!-- 加载文章 -->
+      <div id="pjax">
+        <article id="post__content">
+  <h1 id="post__title" data-identifier="20150114">各种缓存机制和实现方式</h1>
+  <h1 id="section">各种缓存机制和实现方式</h1>
+<p>今天我们要看的就是缓存机制，在我们的计算机世界里面，内存和速度是怎么都会觉得不够的，当然这只是我自己的感觉而已。那么今天我们就来看看一般的缓存都是如何做的吧</p>
+
+<h2 id="section-1">为什么使用缓存呢</h2>
+<ol>
+  <li>我感觉第一点就是加快访问速度，不适用内存级别的缓存的话，就只能使用数据库，那么频繁的数据库IO自然会使得速度变慢，从而造成用户的流失。  </li>
+  <li>大量的数据库访问自然会增大出现问题的几率，增大请求次数，从而增加不必要的成本</li>
+</ol>
+
+<h2 id="section-2">那么我们来聊聊缓存吧</h2>
+
+<p>缓存说白了就是一堆内存中或者数据库中的数据，需要被用户使用，所以放到一个叫做缓存池的地方，大家通过一个唯一标示ID来表明身份，如果缓存数大于上线，那么会根据缓存算法清除掉一些缓存<br />
+还有关于缓存拥有一大堆高大上的术语，想知道的点<a href="http://unicorn.blog.51cto.com/2273096/444605">这里</a>  </p>
+
+<h2 id="lfu">LFU缓存算法</h2>
+<p>LFU 的英文就是 least frequently used, 核心思想就是按照使用频域来排序， 记录缓存的使用频率，然后使用它排序，之后每进来一个新的 就替换掉使用频率最低的换粗  </p>
+
+<p><img src="/assets/img/LFU.png" alt="" />  </p>
+
+<p>实现起来是这样的(这是我自己想的一种算法实现，不一定是最优解)，缓存池维护一个字典和一个数组，字典存储Key和一个下标数字或者对象（是用于定位用的），而数组则是用来排序的，每次有新的缓存的话，重新排序，然后把最新的数据删除</p>
+
+<p><a href="http://blog.csdn.net/yunhua_lee/article/details/7648549">这里是别处的详细说明</a><br />
+<a href="https://github.com/Arthurli/LFUCacheKit">这里有我用Swift写的一个小实现</a></p>
+
+<h3 id="section-3">几种变体</h3>
+<ul>
+  <li>LFU* : 只删除引用计数为一的缓存数据，如果没有为一的，那么不存储缓存</li>
+  <li>LFU-Aging : 在引用计数的维度上增加一个增加时间，但是这个时间并不是真正的时间，而是根据一个平均引用计数，当平均引用计数达到一定值的时候，所有引用计数减少，可以直接减半，或者减去一个固定的值，然后从新排序</li>
+  <li>LFU*-Aging : 结合以上两种算法</li>
+  <li>Window-LFU : LRU的改进版，只维护一定时间内的引用计数，我的实现方法就是增加一个栈维护请求，此请求数组达到上限，推出最早的请求，引用计数减一，然后从新排序</li>
+</ul>
+
+<h2 id="lru">LRU</h2>
+<p>LRU的英文是Least Recently Used,简单来说就是把最久不使用的缓存删除，每次有新的缓存都会把他放到栈顶，然后从栈的底部推出最久不使用的缓存<br />
+简单的原理图就像下面画的<br />
+<img src="/assets/img/LRU.png" alt="" />  <br />
+还是不太清楚？那么我们来看这个<br />
+<img src="/assets/img/LRU-1.png" alt="" /> <br />
+永远都是把最近访问的缓存放到顶部，然后把底部的缓存删除</p>
+
+<p><a href="http://blog.csdn.net/yunhua_lee/article/details/7599671">这里是别处的详细说明</a><br />
+<a href="https://github.com/Arthurli/LRUCacheKit">这里有我用Swift写的一个小实现</a></p>
+
+<h3 id="section-4">几种变体</h3>
+<ul>
+  <li>LRU2 : 按我的理解就是维护一个LFU队列和一个LRU队列，当LFU队列的访问数达到某个值，则从LFU队列中移动到LRU队列，两个队列如果超出，都是用各自的方式删除缓存</li>
+  <li>2Q : 和LRU2相类似，不过换成了维护一个FIFO队列和LRU队列</li>
+  <li>MRU (Most Recently Used): 最近最常使用缓存算法，与LRU完全相反，首先删除最新的缓存，多应用于文件顺序执行的场景</li>
+  <li>MQ : 维护多个拥有优先级设定的LRU队列，然后根据访问次数，和被访问时间升降优先级</li>
+</ul>
+
+<p><img src="/assets/img/LRU-MQ.png" alt="" />   </p>
+
+<h2 id="fifo">FIFO</h2>
+<p>原始版的FIFO就是先进先出，除了快也就没什么优点了，咱们主要说说几种变化<br />
+###Second Chance 
+核心思想就是数据被淘汰前被访问过两次则再给他个机会，什么叫给机会呢，如果访问数大于2，则把重置访问数，然后把这个缓存从队头移动到队尾
+###Clock
+Clock是Second Chance的改进版，通过一个环形队列，避免将数据在FIFO队列中移动。<br />
+它只需要移动指针就好了，优于Second Chance</p>
+
+<h2 id="adaptive-replacement-cachearc">Adaptive Replacement Cache（ARC）</h2>
+<p>学过oc的都激动了，我懂，我说，你懂个毛线，不一样好吗，说的不是一个东西好吗<br />
+那么什么叫做ARC呢，其实也就是维护了两个LRU队列，然后…然后…</p>
+
+<p>我就简单说说，说的不好。维护两个LRU队列，每个队列还有一个垃圾箱，我们分别取名T1,L1,T2,L2  </p>
+
+<ul>
+  <li>新数据进入L1</li>
+  <li>多次被访问进入L2</li>
+  <li>L1被移除进入T1，L2被移除进入T2</li>
+  <li>T2满了，进入L1，T1满了被真正移出</li>
+</ul>
+
+<p><a href="http://en.wikipedia.org/wiki/Adaptive_replacement_cache#Deployment">这里是详细</a></p>
+
+<h2 id="section-5">后记</h2>
+<p>其实缓存算法还有很多很多，我们现在说的只是最常使用的几个缓存算法，我们需要根据不同的使用场景选择适合我们的算法</p>
+
+
+</article> <!-- end #post__content -->
+
+<div id="post__share">
+  <a id="icon-twitter" class="fontello" href="https://twitter.com/intent/tweet?url=http://wing-of-war.github.io//2015/01/14/cache.html&text=各种缓存机制和实现方式" target="_blank"></a>
+  <a id="icon-cc" class="fontello" href="http://creativecommons.org/licenses/by-nc-sa/3.0" target="_blank"></a>
+  <a id="icon-weibo" class="fontello" href="http://v.t.sina.com.cn/share/share.php?url=http://wing-of-war.github.io//2015/01/14/cache.html&title=各种缓存机制和实现方式" target="_blank"></a>
+</div> <!-- end #post__share -->
+
+<div id="disqus_thread">
+  <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  <a href="http://disqus.com" class="dsq-brlink" target="_blank">Loading Disqus comments...</a>
+</div> <!-- end #disqus_thread -->
+
+<p id="copyright">Powered by <a href="http://jekyllrb.com" target="_blank">Jekyll</a>&nbsp;&nbsp;|&nbsp;&nbsp;Theme <a href="https://github.com/P233/3-Jekyll" target="_blank">3-Jekyll</a></p>
+      </div> <!-- end #pjax -->
+
+      <!-- 右侧文章导航栏 -->
+      <div id="post__toc-trigger">
+        <div id="post__toc">
+          <span id="post__toc-title">Table of Contents</span>
+          <ul id="post__toc-ul"></ul>
+        </div>
+      </div>
+    </div> <!-- end #post -->
+
+<!-- 右侧导航按钮 -->
+    <button id="js-fullscreen"><span id="icon-arrow" class="fontello"></span></button>
+
+    <script src="/assets/js/jquery-2.0.3.min.js"></script>
+    <script src="/assets/js/jquery.pjax.js"></script>
+    <script src="/assets/js/nprogress.js"></script>
+    <script src="/assets/js/script.js"></script>
+  </body>
+</html>
