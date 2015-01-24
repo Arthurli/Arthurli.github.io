@@ -6,9 +6,49 @@
     <atom:link href="place_your_blog_url_here/rss.xml" rel="self" type="application/rss+xml" />
     <description>place_your_blog_description_here</description>
     <language>place_your_blog_language_here</language>
-    <pubDate>Fri, 16 Jan 2015 14:35:38 +0800</pubDate>
-    <lastBuildDate>Fri, 16 Jan 2015 14:35:38 +0800</lastBuildDate>
+    <pubDate>Sat, 24 Jan 2015 14:01:52 +0800</pubDate>
+    <lastBuildDate>Sat, 24 Jan 2015 14:01:52 +0800</lastBuildDate>
 
+    
+    <item>
+      <title>iOS开发进阶 读书笔记</title>
+      <link>place_your_blog_url_here/2015/01/23/iOS-tq.html</link>
+      <pubDate>23 Jan 2015</pubDate>
+      <author>place_your_name_here</author>
+      <guid>place_your_blog_url_here/2015/01/23/iOS-tq</guid>
+      <description>&lt;h1 id=&quot;ios-&quot;&gt;iOS开发进阶 读书笔记&lt;/h1&gt;
+
+&lt;p&gt;失望 失望 失望 没别的了&lt;/p&gt;
+
+&lt;h2 id=&quot;ios&quot;&gt;第二部分iOS开发实践&lt;/h2&gt;
+
+&lt;h3 id=&quot;section&quot;&gt;第十章 内存管理&lt;/h3&gt;
+&lt;p&gt;关闭ARC &lt;code&gt;-fno-objc-arc&lt;/code&gt;,iOS的引用计数与Linux的硬链接相似&lt;br /&gt;
+使用弱引用解决循环引用的问题  &lt;/p&gt;
+
+&lt;h3 id=&quot;gcd&quot;&gt;第十一章 GCD&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code&gt;BLOCK定义
+
+(void)(^ loggerBlock)(void);
+loggerBlock = ^{
+  NSLog(@&quot;123&quot;);
+}
+loggerBlock();
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;block使用外部的属性 需要加上 __block 的标示
+###第十二章 UIWindow
+常被用作广告页，介绍页，解锁页等等
+###第十五章 UIWebView
+web模板 两个开源库 MGTemplateEngine GRMustache&lt;br /&gt;
+cordova 方案传递参数&lt;br /&gt;
+###第十八章 实战
+持久化 NSJSONSerialization比NSKeyedArchiver好&lt;/p&gt;
+
+</description>
+    </item>
     
     <item>
       <title>各种缓存机制和实现方式</title>
