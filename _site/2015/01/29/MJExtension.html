@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
     <!--[if lte IE 9]><meta http-equiv="refresh" content="0;url=/ie.html"><![endif]-->
 
-    <title>iOS开发进阶 读书笔记</title>
+    <title>MJExtension 解析</title>
     <meta name="description" content="">
 
     <link rel="stylesheet" type="text/css" href="/assets/css/style.css">
@@ -95,45 +95,53 @@
       <!-- 加载文章 -->
       <div id="pjax">
         <article id="post__content">
-  <h1 id="post__title" data-identifier="20150123">iOS开发进阶 读书笔记</h1>
-  <h1 id="ios-">iOS开发进阶 读书笔记</h1>
+  <h1 id="post__title" data-identifier="20150129">MJExtension 解析</h1>
+  <h1 id="mjextension-">MJExtension 介绍</h1>
+<p>这是一个把字典转换成为对象的库，按照作者的意思，它的效率是其他解决方案的数倍，那么，今天让我们来学习一下他是怎么来实现的</p>
 
-<p>失望 失望 失望 没别的了</p>
+<h2 id="section">类的解析</h2>
+<p>###MJFoundation<br />
+这个类来判断传入类型是否可以被解析，也就是说是否来自 NSFoundation</p>
 
-<h2 id="ios">第二部分iOS开发实践</h2>
+<h3 id="mjtype">MJType</h3>
+<p>是一种类型封装,每种Type都是唯一的存在，保存在字典中</p>
 
-<h3 id="section">第十章 内存管理</h3>
-<p>关闭ARC <code>-fno-objc-arc</code>,iOS的引用计数与Linux的硬链接相似<br />
-使用弱引用解决循环引用的问题  </p>
+<h3 id="mjivar">MJIvar</h3>
+<p>是一个属性的封装,利用Ivar进行初始化，然后通过下面的方法存取和调用</p>
 
-<h3 id="gcd">第十一章 GCD</h3>
+<pre><code>MJIvar *ivarObject = objc_getAssociatedObject(self, ivar);
+    if (ivarObject == nil) {
+        ivarObject = [[self alloc] initWithIvar:ivar];
+        objc_setAssociatedObject(self, ivar, ivarObject, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    }
+</code></pre>
+<p>这个类的功能就是通过Ivar获取一些信息</p>
 
-<pre><code>BLOCK定义
-
-(void)(^ loggerBlock)(void);
-loggerBlock = ^{
-  NSLog(@"123");
-}
-loggerBlock();
-
+<pre><code>NSString *name = @(ivar_getName(ivar));
+NSString *code = @(ivar_getTypeEncoding(ivar));
 </code></pre>
 
-<p>block使用外部的属性 需要加上 __block 的标示
-###第十二章 UIWindow
-常被用作广告页，介绍页，解锁页等等
-###第十五章 UIWebView
-web模板 两个开源库 MGTemplateEngine GRMustache<br />
-cordova 方案传递参数<br />
-###第十八章 实战
-持久化 NSJSONSerialization比NSKeyedArchiver好</p>
+<p>经过初试化之后，MJIvar就拥有了自己的属性名，这样就可以给把它作为KEY，再把传进来的字典进行设置或者提取属性  </p>
 
+<h3 id="nsobjectmjivar">NSObject+MJIvar</h3>
+<p>这里面的方法是遍历当前类的属性，或者直接遍历父类的属性，然后通过block回调</p>
+
+<h3 id="nsobjectmjcoding">NSObject+MJCoding</h3>
+<p>这里面实现了遍历的编码和解码，使用NSObject+MJIvar中的方法会把所有属性都回调回来，我们就可以通过MJLvar来直接编码或者解码</p>
+
+<h3 id="nsobjectmjkeyvalue">NSObject+MJKeyValue</h3>
+<p>首先这个类中定义了一些列协议，用作字典与对象的key不相同时候的转化，还有完成转换之后调用的代理<br />
+然后就是一些转化方法，具体的转化方法就是先讲一切转化成字典，然后遍历类中的所有属性，然后再依次从字典中取出值，然后赋值</p>
+
+<h2 id="section-1">总结</h2>
+<p>这个类库究竟帮我们做了什么呢，其实就是把我们平时需要手动的一个一个取得值，赋的值，通过运行时获取到这个类中的所有属性，然后帮我们依次去赋值</p>
 
 </article> <!-- end #post__content -->
 
 <div id="post__share">
-  <a id="icon-twitter" class="fontello" href="https://twitter.com/intent/tweet?url=http://wing-of-war.github.io//2015/01/23/iOS-tq.html&text=iOS开发进阶 读书笔记" target="_blank"></a>
+  <a id="icon-twitter" class="fontello" href="https://twitter.com/intent/tweet?url=http://wing-of-war.github.io//2015/01/29/MJExtension.html&text=MJExtension 解析" target="_blank"></a>
   <a id="icon-cc" class="fontello" href="http://creativecommons.org/licenses/by-nc-sa/3.0" target="_blank"></a>
-  <a id="icon-weibo" class="fontello" href="http://v.t.sina.com.cn/share/share.php?url=http://wing-of-war.github.io//2015/01/23/iOS-tq.html&title=iOS开发进阶 读书笔记" target="_blank"></a>
+  <a id="icon-weibo" class="fontello" href="http://v.t.sina.com.cn/share/share.php?url=http://wing-of-war.github.io//2015/01/29/MJExtension.html&title=MJExtension 解析" target="_blank"></a>
 </div> <!-- end #post__share -->
 
 <div id="disqus_thread">
