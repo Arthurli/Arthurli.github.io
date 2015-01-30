@@ -6,8 +6,8 @@
     <atom:link href="place_your_blog_url_here/rss.xml" rel="self" type="application/rss+xml" />
     <description>place_your_blog_description_here</description>
     <language>place_your_blog_language_here</language>
-    <pubDate>Thu, 29 Jan 2015 23:28:03 +0800</pubDate>
-    <lastBuildDate>Thu, 29 Jan 2015 23:28:03 +0800</lastBuildDate>
+    <pubDate>Fri, 30 Jan 2015 14:00:48 +0800</pubDate>
+    <lastBuildDate>Fri, 30 Jan 2015 14:00:48 +0800</lastBuildDate>
 
     
     <item>
@@ -20,8 +20,9 @@
 &lt;p&gt;这是一个把字典转换成为对象的库，按照作者的意思，它的效率是其他解决方案的数倍，那么，今天让我们来学习一下他是怎么来实现的&lt;/p&gt;
 
 &lt;h2 id=&quot;section&quot;&gt;类的解析&lt;/h2&gt;
-&lt;p&gt;###MJFoundation&lt;br /&gt;
-这个类来判断传入类型是否可以被解析，也就是说是否来自 NSFoundation&lt;/p&gt;
+
+&lt;h3 id=&quot;mjfoundation&quot;&gt;MJFoundation&lt;/h3&gt;
+&lt;p&gt;这个类来判断传入类型是否可以被解析，也就是说是否来自 NSFoundation&lt;/p&gt;
 
 &lt;h3 id=&quot;mjtype&quot;&gt;MJType&lt;/h3&gt;
 &lt;p&gt;是一种类型封装,每种Type都是唯一的存在，保存在字典中&lt;/p&gt;
