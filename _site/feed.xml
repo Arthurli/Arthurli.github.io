@@ -5,9 +5,194 @@
     <description></description>
     <link>/</link>
     <atom:link href="/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Fri, 30 Jan 2015 14:00:48 +0800</pubDate>
-    <lastBuildDate>Fri, 30 Jan 2015 14:00:48 +0800</lastBuildDate>
+    <pubDate>Tue, 03 Feb 2015 22:12:57 +0800</pubDate>
+    <lastBuildDate>Tue, 03 Feb 2015 22:12:57 +0800</lastBuildDate>
     <generator>Jekyll v2.5.3</generator>
+    
+      <item>
+        <title>Objective-C-RegEx-Categories 正则表达式</title>
+        <description>&lt;h1 id=&quot;nsregularexpression&quot;&gt;NSRegularExpression&lt;/h1&gt;
+&lt;p&gt;这是一个使用正则表达式解析字符串的类，下面是他的一些options&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;struct NSRegularExpressionOptions : RawOptionSetType {
+    init(_ rawValue: UInt)
+    init(rawValue: UInt)
+    
+    static var CaseInsensitive: NSRegularExpressionOptions { get } 
+    /* Match letters in the pattern independent of case. */
+    static var AllowCommentsAndWhitespace: NSRegularExpressionOptions { get } 
+    /* Ignore whitespace and #-prefixed comments in the pattern. */
+    static var IgnoreMetacharacters: NSRegularExpressionOptions { get } 
+    /* Treat the entire pattern as a literal string. */
+    static var DotMatchesLineSeparators: NSRegularExpressionOptions { get }
+     /* Allow . to match any character, including line separators. */
+    static var AnchorsMatchLines: NSRegularExpressionOptions { get } 
+    /* Allow ^ and $ to match the start and end of lines. */
+    static var UseUnixLineSeparators: NSRegularExpressionOptions { get } 
+    /* Treat only \n as a line separator (otherwise, all standard line separators are used). */
+    static var UseUnicodeWordBoundaries: NSRegularExpressionOptions { get }
+     /* Use Unicode TR#29 to specify word boundaries (otherwise, traditional regular expression word boundaries are used). */
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;下面是每次扫描的options&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;struct NSMatchingOptions : RawOptionSetType {
+    init(_ rawValue: UInt)
+    init(rawValue: UInt)
+    
+    static var ReportProgress: NSMatchingOptions { get } 
+    /* Call the block periodically during long-running match operations. */
+    static var ReportCompletion: NSMatchingOptions { get } 
+    /* Call the block once after the completion of any matching. */
+    static var Anchored: NSMatchingOptions { get }
+     /* Limit matches to those at the start of the search range. */
+    static var WithTransparentBounds: NSMatchingOptions { get } 
+    /* Allow matching to look beyond the bounds of the search range. */
+    static var WithoutAnchoringBounds: NSMatchingOptions { get }
+     /* Prevent ^ and $ from automatically matching the beginning and end of the search range. */
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&quot;nstextcheckingresult&quot;&gt;NSTextCheckingResult&lt;/h3&gt;
+&lt;p&gt;这是一个搜索返回的结果类&lt;/p&gt;
+
+&lt;h1 id=&quot;objective-c-regex-categories&quot;&gt;Objective-C-RegEx-Categories&lt;/h1&gt;
+&lt;p&gt;这个库就是NSRegularExpression的拓展类别&lt;br /&gt;
+它定义了两个用来设置搜索参数和返回搜索结果，主要是对NSTextCheckingResult的封装&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;@interface RxMatch : NSObject
+@property (nonatomic, copy)     NSString* value;    /* The substring that matched the expression. */
+@property (nonatomic, assign)   NSRange   range;    /* The range of the original string that was matched. */
+@property (nonatomic, copy)     NSArray*  groups;   /* Each object is an RxMatchGroup. */
+@property (nonatomic, copy)     NSString* original; /* The full original string that was matched against.  */
+@end
+
+
+@interface RxMatchGroup : NSObject
+@property (nonatomic, copy)   NSString* value;
+@property (nonatomic, assign) NSRange range;
+@end
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;当让，这个库里面还有一个NSString的类别，几乎是与NSRegularExpression类别一一对应的&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;//直接匹配字符
+- (BOOL) isMatch:(NSString*)matchee
+//直接返回匹配位置
+- (int) indexOf:(NSString*)matchee
+//简单替换
+- (NSString*) replace:(NSString*)string with:(NSString*)replacement
+//返回第一个匹配字符串
+- (NSString*) firstMatch:(NSString*)str
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h1 id=&quot;section&quot;&gt;正则表达式&lt;/h1&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://deerchao.net/tutorials/regex/regex.htm&quot;&gt;半小时正则&lt;/a&gt;&lt;/p&gt;
+
+</description>
+        <pubDate>Tue, 03 Feb 2015 00:00:00 +0800</pubDate>
+        <link>/2015/02/03/regular.html</link>
+        <guid isPermaLink="true">/2015/02/03/regular.html</guid>
+        
+        
+      </item>
+    
+      <item>
+        <title>OCMockito学习</title>
+        <description>&lt;h1 id=&quot;mock&quot;&gt;Mock是什么&lt;/h1&gt;
+&lt;p&gt;mock测试就是在测试过程中，对于某些不容易构造或者 不容易获取的对象，用一个虚拟的对象来创建以便测试的测试方法。&lt;br /&gt;
+下面是百度百科对于Mock关键词的一些描述&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;mock对象
+这个虚拟的对象就是mock对象。mock对象就是真实对象在调试期间的代替品。
+
+mock对象使用范畴
+真实对象具有不可确定的行为，产生不可预测的效果，（如：股票行情，天气预报） 真实对象很难被创建的 真实对象的某些行为很难被触发 真实对象实际上还不存在的（和其他开发小组或者和新的硬件打交道）等等.
+
+使用mock对象测试的关键步骤
+使用一个接口来描述这个对象 在产品代码中实现这个接口 在测试代码中实现这个接口 在被测试代码中只是通过接口来引用对象，所以它不知道这个引用的对象是真实对象还是mock对象。
+
+MockObject
+使用Mock Object进行测试，主要是用来模拟那些在应用中不容易构造（如HttpServletRequest必须在Servlet容器中才能构造出来）或者比较复杂的对象（如JDBC中的ResultSet对象）从而使测试顺利进行的工具。
+目前，在Java阵营中主要的Mock测试工具有JMock，MockCreator，Mockrunner，EasyMock，MockMaker等，在微软的.Net阵营中主要是Nmock，.NetMock等。
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h1 id=&quot;mockito&quot;&gt;Mockito&lt;/h1&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://mockito.org/&quot;&gt;Mockito&lt;/a&gt;官网&lt;/p&gt;
+
+&lt;p&gt;我们做测试的时候最纠结的就是可能测试数据涉及到了很多类，我们又不能有对他们一一依赖，所以我们采用一种Mock的模型对象来作为测试使用的某些替代品。 
+verify是Mockito的一种十分重要的方法，能检验是否Mock对象的某些方法被调用过,但是没有前后顺序的排列&lt;br /&gt;
+verify还可以加一些限制条件&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;// mock creation
+NSMutableArray *mockArray = mock([NSMutableArray class]);
+
+// using mock object
+[mockArray addObject:@&quot;one&quot;];
+[mockArray removeAllObjects];
+
+// verification
+[verify(mockArray) addObject:@&quot;one&quot;];
+[verify(mockArray) removeAllObjects];
+
+//加上限制条件
+[verifyCount(mockObject, times(5)) someMethod:@&quot;was called five times&quot;];
+[verifyCount(mockObject, never()) someMethod:@&quot;was never called&quot;];
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;还有一种方法，让我们可以设置相关对mock对象引用的返回值
+在iOSZ中是下面这样实现的&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;// mock creation
+NSArray *mockArray = mock([NSArray class]);
+
+// stubbing
+[given([mockArray objectAtIndex:0]) willReturn:@&quot;first&quot;];
+[given([mockArray objectAtIndex:1]) willThrow:[NSException exceptionWithName:@&quot;name&quot;
+                                                                      reason:@&quot;reason&quot;
+                                                                    userInfo:nil]];
+
+// following prints &quot;first&quot;
+NSLog(@&quot;%@&quot;, [mockArray objectAtIndex:0]);
+
+// follows throws exception
+NSLog(@&quot;%@&quot;, [mockArray objectAtIndex:1]);
+
+// following prints &quot;(null)&quot; because objectAtIndex:999 was not stubbed
+NSLog(@&quot;%@&quot;, [mockArray objectAtIndex:999]);
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Argument Matcher（参数匹配器）,针对参数对象，也可以进行某些模拟（在iOS中，使用OCHamcrest实现）例如下面的 startsWith(@”This is”)&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;// mock creation
+NSMutableArray *mockArray = mock([NSMutableArray class]);
+
+// using mock object
+[mockArray removeObject:@&quot;This is a test&quot;];
+
+// verification
+[verify(mockArray) removeObject:startsWith(@&quot;This is&quot;)];
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h1 id=&quot;ocmockito&quot;&gt;OCMockito&lt;/h1&gt;
+
+&lt;p&gt;安装，我是用的是COCOAPOD安装，安装的时候遇到很大的问题困扰我，就是targrt我刚开始写成了非测试的项目，然后就是各种运行不了，所以大家要万分注意&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;//Podfile
+target :MyTests, :exclusive =&amp;gt; true do
+  pod &#39;OCMockito&#39;, &#39;~&amp;gt; 1.0&#39;
+end
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+        <pubDate>Tue, 03 Feb 2015 00:00:00 +0800</pubDate>
+        <link>/2015/02/03/Mock.html</link>
+        <guid isPermaLink="true">/2015/02/03/Mock.html</guid>
+        
+        
+      </item>
     
       <item>
         <title>MJExtension 解析</title>

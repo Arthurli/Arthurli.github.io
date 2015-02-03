@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
     <!--[if lte IE 9]><meta http-equiv="refresh" content="0;url=/ie.html"><![endif]-->
 
-    <title>MJExtension 解析</title>
+    <title>Objective-C-RegEx-Categories 正则表达式</title>
     <meta name="description" content="">
 
     <link rel="stylesheet" type="text/css" href="/assets/css/style.css">
@@ -107,54 +107,94 @@
       <!-- 加载文章 -->
       <div id="pjax">
         <article id="post__content">
-  <h1 id="post__title" data-identifier="20150129">MJExtension 解析</h1>
-  <h1 id="mjextension-">MJExtension 介绍</h1>
-<p>这是一个把字典转换成为对象的库，按照作者的意思，它的效率是其他解决方案的数倍，那么，今天让我们来学习一下他是怎么来实现的</p>
+  <h1 id="post__title" data-identifier="20150203">Objective-C-RegEx-Categories 正则表达式</h1>
+  <h1 id="nsregularexpression">NSRegularExpression</h1>
+<p>这是一个使用正则表达式解析字符串的类，下面是他的一些options</p>
 
-<h2 id="section">类的解析</h2>
-
-<h3 id="mjfoundation">MJFoundation</h3>
-<p>这个类来判断传入类型是否可以被解析，也就是说是否来自 NSFoundation</p>
-
-<h3 id="mjtype">MJType</h3>
-<p>是一种类型封装,每种Type都是唯一的存在，保存在字典中</p>
-
-<h3 id="mjivar">MJIvar</h3>
-<p>是一个属性的封装,利用Ivar进行初始化，然后通过下面的方法存取和调用</p>
-
-<pre><code>MJIvar *ivarObject = objc_getAssociatedObject(self, ivar);
-    if (ivarObject == nil) {
-        ivarObject = [[self alloc] initWithIvar:ivar];
-        objc_setAssociatedObject(self, ivar, ivarObject, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-    }
-</code></pre>
-<p>这个类的功能就是通过Ivar获取一些信息</p>
-
-<pre><code>NSString *name = @(ivar_getName(ivar));
-NSString *code = @(ivar_getTypeEncoding(ivar));
+<pre><code>struct NSRegularExpressionOptions : RawOptionSetType {
+    init(_ rawValue: UInt)
+    init(rawValue: UInt)
+    
+    static var CaseInsensitive: NSRegularExpressionOptions { get } 
+    /* Match letters in the pattern independent of case. */
+    static var AllowCommentsAndWhitespace: NSRegularExpressionOptions { get } 
+    /* Ignore whitespace and #-prefixed comments in the pattern. */
+    static var IgnoreMetacharacters: NSRegularExpressionOptions { get } 
+    /* Treat the entire pattern as a literal string. */
+    static var DotMatchesLineSeparators: NSRegularExpressionOptions { get }
+     /* Allow . to match any character, including line separators. */
+    static var AnchorsMatchLines: NSRegularExpressionOptions { get } 
+    /* Allow ^ and $ to match the start and end of lines. */
+    static var UseUnixLineSeparators: NSRegularExpressionOptions { get } 
+    /* Treat only \n as a line separator (otherwise, all standard line separators are used). */
+    static var UseUnicodeWordBoundaries: NSRegularExpressionOptions { get }
+     /* Use Unicode TR#29 to specify word boundaries (otherwise, traditional regular expression word boundaries are used). */
+}
 </code></pre>
 
-<p>经过初试化之后，MJIvar就拥有了自己的属性名，这样就可以给把它作为KEY，再把传进来的字典进行设置或者提取属性  </p>
+<p>下面是每次扫描的options</p>
 
-<h3 id="nsobjectmjivar">NSObject+MJIvar</h3>
-<p>这里面的方法是遍历当前类的属性，或者直接遍历父类的属性，然后通过block回调</p>
+<pre><code>struct NSMatchingOptions : RawOptionSetType {
+    init(_ rawValue: UInt)
+    init(rawValue: UInt)
+    
+    static var ReportProgress: NSMatchingOptions { get } 
+    /* Call the block periodically during long-running match operations. */
+    static var ReportCompletion: NSMatchingOptions { get } 
+    /* Call the block once after the completion of any matching. */
+    static var Anchored: NSMatchingOptions { get }
+     /* Limit matches to those at the start of the search range. */
+    static var WithTransparentBounds: NSMatchingOptions { get } 
+    /* Allow matching to look beyond the bounds of the search range. */
+    static var WithoutAnchoringBounds: NSMatchingOptions { get }
+     /* Prevent ^ and $ from automatically matching the beginning and end of the search range. */
+}
 
-<h3 id="nsobjectmjcoding">NSObject+MJCoding</h3>
-<p>这里面实现了遍历的编码和解码，使用NSObject+MJIvar中的方法会把所有属性都回调回来，我们就可以通过MJLvar来直接编码或者解码</p>
+</code></pre>
 
-<h3 id="nsobjectmjkeyvalue">NSObject+MJKeyValue</h3>
-<p>首先这个类中定义了一些列协议，用作字典与对象的key不相同时候的转化，还有完成转换之后调用的代理<br />
-然后就是一些转化方法，具体的转化方法就是先讲一切转化成字典，然后遍历类中的所有属性，然后再依次从字典中取出值，然后赋值</p>
+<h3 id="nstextcheckingresult">NSTextCheckingResult</h3>
+<p>这是一个搜索返回的结果类</p>
 
-<h2 id="section-1">总结</h2>
-<p>这个类库究竟帮我们做了什么呢，其实就是把我们平时需要手动的一个一个取得值，赋的值，通过运行时获取到这个类中的所有属性，然后帮我们依次去赋值</p>
+<h1 id="objective-c-regex-categories">Objective-C-RegEx-Categories</h1>
+<p>这个库就是NSRegularExpression的拓展类别<br />
+它定义了两个用来设置搜索参数和返回搜索结果，主要是对NSTextCheckingResult的封装</p>
+
+<pre><code>@interface RxMatch : NSObject
+@property (nonatomic, copy)     NSString* value;    /* The substring that matched the expression. */
+@property (nonatomic, assign)   NSRange   range;    /* The range of the original string that was matched. */
+@property (nonatomic, copy)     NSArray*  groups;   /* Each object is an RxMatchGroup. */
+@property (nonatomic, copy)     NSString* original; /* The full original string that was matched against.  */
+@end
+
+
+@interface RxMatchGroup : NSObject
+@property (nonatomic, copy)   NSString* value;
+@property (nonatomic, assign) NSRange range;
+@end
+</code></pre>
+<p>当让，这个库里面还有一个NSString的类别，几乎是与NSRegularExpression类别一一对应的</p>
+
+<pre><code>//直接匹配字符
+- (BOOL) isMatch:(NSString*)matchee
+//直接返回匹配位置
+- (int) indexOf:(NSString*)matchee
+//简单替换
+- (NSString*) replace:(NSString*)string with:(NSString*)replacement
+//返回第一个匹配字符串
+- (NSString*) firstMatch:(NSString*)str
+</code></pre>
+
+<h1 id="section">正则表达式</h1>
+
+<p><a href="http://deerchao.net/tutorials/regex/regex.htm">半小时正则</a></p>
+
 
 </article> <!-- end #post__content -->
 
 <div id="post__share">
-  <a id="icon-twitter" class="fontello" href="https://twitter.com/intent/tweet?url=http://wing-of-war.github.io//2015/01/29/MJExtension.html&text=MJExtension 解析" target="_blank"></a>
+  <a id="icon-twitter" class="fontello" href="https://twitter.com/intent/tweet?url=http://wing-of-war.github.io//2015/02/03/regular.html&text=Objective-C-RegEx-Categories 正则表达式" target="_blank"></a>
   <a id="icon-cc" class="fontello" href="http://creativecommons.org/licenses/by-nc-sa/3.0" target="_blank"></a>
-  <a id="icon-weibo" class="fontello" href="http://v.t.sina.com.cn/share/share.php?url=http://wing-of-war.github.io//2015/01/29/MJExtension.html&title=MJExtension 解析" target="_blank"></a>
+  <a id="icon-weibo" class="fontello" href="http://v.t.sina.com.cn/share/share.php?url=http://wing-of-war.github.io//2015/02/03/regular.html&title=Objective-C-RegEx-Categories 正则表达式" target="_blank"></a>
 </div> <!-- end #post__share -->
 
 <div id="disqus_thread">
