@@ -5,9 +5,355 @@
     <description></description>
     <link>/</link>
     <atom:link href="/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Tue, 03 Feb 2015 22:12:57 +0800</pubDate>
-    <lastBuildDate>Tue, 03 Feb 2015 22:12:57 +0800</lastBuildDate>
+    <pubDate>Thu, 05 Feb 2015 17:57:47 +0800</pubDate>
+    <lastBuildDate>Thu, 05 Feb 2015 17:57:47 +0800</lastBuildDate>
     <generator>Jekyll v2.5.3</generator>
+    
+      <item>
+        <title>AJAX</title>
+        <description>&lt;h1 id=&quot;ajax&quot;&gt;AJAX&lt;/h1&gt;
+&lt;p&gt;AJAX = 异步 JavaScript 和 XML。简单地说就是加载完页面之后还可以通过它去获取和修改数据，然后处理返回的JSON和XML，从而更改页面。 &lt;br /&gt;
+AJAX生成了一个XMLHttpRequest对象进行网络连接，一个简单的AJAX例子如下 &lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;!DOCTYPE html&amp;gt;
+&amp;lt;html&amp;gt;
+&amp;lt;head&amp;gt;
+&amp;lt;script&amp;gt;
+function loadXMLDoc()
+{
+var xmlhttp;
+if (window.XMLHttpRequest)
+  {// code for IE7+, Firefox, Chrome, Opera, Safari
+  xmlhttp=new XMLHttpRequest();
+  }
+else
+  {// code for IE6, IE5
+  xmlhttp=new ActiveXObject(&quot;Microsoft.XMLHTTP&quot;);
+  }
+xmlhttp.onreadystatechange=function()
+  {
+  if (xmlhttp.readyState==4 &amp;amp;&amp;amp; xmlhttp.status==200)
+    {
+    document.getElementById(&quot;myDiv&quot;).innerHTML=xmlhttp.responseText;
+    }
+  }
+xmlhttp.open(&quot;GET&quot;,&quot;/try/ajax/ajax_info.txt&quot;,true);
+xmlhttp.send();
+}
+&amp;lt;/script&amp;gt;
+&amp;lt;/head&amp;gt;
+&amp;lt;body&amp;gt;
+
+&amp;lt;div id=&quot;myDiv&quot;&amp;gt;&amp;lt;h2&amp;gt;使用 AJAX 修改该文本内容&amp;lt;/h2&amp;gt;&amp;lt;/div&amp;gt;
+&amp;lt;button type=&quot;button&quot; onclick=&quot;loadXMLDoc()&quot;&amp;gt;修改内容&amp;lt;/button&amp;gt;
+
+&amp;lt;/body&amp;gt;
+&amp;lt;/html&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h1 id=&quot;ajax-1&quot;&gt;AJAX方法&lt;/h1&gt;
+
+&lt;table&gt;
+	&lt;thead&gt;
+		&lt;td&gt;方法&lt;/td&gt;
+		&lt;td&gt; 描述 &lt;/td&gt;
+	&lt;/thead&gt;
+	&lt;tr&gt;
+		&lt;td&gt;open(method,url,async)	&lt;/td&gt;
+		&lt;td&gt;
+			规定请求的类型、URL 以及是否异步处理请求。
+			&lt;ul&gt;
+				&lt;li&gt;method：请求的类型；GET 或 POST&lt;/li&gt;
+				&lt;li&gt;url：文件在服务器上的位置&lt;/li&gt;
+				&lt;li&gt;async：true（异步）或 false（同步)&lt;/li&gt;
+			&lt;/ul&gt;
+		&lt;/td&gt;
+	&lt;/tr&gt;
+	&lt;tr&gt;
+		&lt;td&gt;send(string)&lt;/td&gt;
+		&lt;td&gt;
+			将请求发送到服务器。
+			&lt;ul&gt;
+				&lt;li&gt;string：仅用于 POST 请求&lt;/li&gt;
+			&lt;/ul&gt;
+		&lt;/td&gt;
+	&lt;/tr&gt;
+	&lt;tr&gt;
+		&lt;td&gt; setRequestHeader(header,value)&lt;/td&gt;
+		&lt;td&gt;
+			向请求添加 HTTP 头。
+			&lt;ul&gt;
+				&lt;li&gt; header: 规定头的名称 &lt;/li&gt;
+				&lt;li&gt; value: 规定头的值 &lt;/li&gt;
+			&lt;/ul&gt;
+		&lt;/td&gt;
+	&lt;/tr&gt;
+&lt;/table&gt;
+
+&lt;h1 id=&quot;ajax-2&quot;&gt;AJAX响应&lt;/h1&gt;
+&lt;p&gt;两种响应 responseText 和 responseXML&lt;br /&gt;
+解析XML&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;xmlDoc=xmlhttp.responseXML;
+txt=&quot;&quot;;
+x=xmlDoc.getElementsByTagName(&quot;ARTIST&quot;);
+for (i=0;i&amp;lt;x.length;i++)
+  {
+  txt=txt + x[i].childNodes[0].nodeValue + &quot;&amp;lt;br&amp;gt;&quot;;
+  }
+document.getElementById(&quot;myDiv&quot;).innerHTML=txt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h1 id=&quot;onreadystatechange-&quot;&gt;onreadystatechange 事件&lt;/h1&gt;
+
+&lt;p&gt;onreadystatechange 事件被触发 5 次（0 - 4），对应着 readyState 的每个变化。  &lt;/p&gt;
+
+&lt;table&gt;
+	&lt;thead&gt;
+		&lt;td&gt;方法&lt;/td&gt;
+		&lt;td&gt; 描述 &lt;/td&gt;
+	&lt;/thead&gt;
+	&lt;tr&gt;
+		&lt;td&gt; onreadystatechange	&lt;/td&gt;
+		&lt;td&gt;
+			存储函数（或函数名），每当 readyState 属性改变时，就会调用该函数。
+		&lt;/td&gt;
+	&lt;/tr&gt;
+	&lt;tr&gt;
+		&lt;td&gt;send(string)&lt;/td&gt;
+		&lt;td&gt;
+			存有 XMLHttpRequest 的状态。从 0 到 4 发生变化。
+			&lt;ul&gt;
+				&lt;li&gt;0: 请求未初始化&lt;/li&gt;
+				&lt;li&gt;1: 服务器连接已建立&lt;/li&gt;
+				&lt;li&gt;2: 请求已接收&lt;/li&gt;
+				&lt;li&gt;3: 请求处理中&lt;/li&gt;
+				&lt;li&gt;4: 请求已完成，且响应已就绪&lt;/li&gt;
+			&lt;/ul&gt;
+		&lt;/td&gt;
+		
+	&lt;/tr&gt;
+	&lt;tr&gt;
+		&lt;td&gt; status &lt;/td&gt;
+		&lt;td&gt;
+			&lt;ul&gt;
+				&lt;li&gt; 200: &quot;OK&quot; &lt;/li&gt;
+				&lt;li&gt; 404: 未找到页面 &lt;/li&gt;
+			&lt;/ul&gt;
+		&lt;/td&gt;
+	&lt;/tr&gt;
+&lt;/table&gt;
+
+&lt;pre&gt;&lt;code&gt;例子
+xmlhttp.onreadystatechange=function()
+  {
+  if (xmlhttp.readyState==4 &amp;amp;&amp;amp; xmlhttp.status==200)
+    {
+    document.getElementById(&quot;myDiv&quot;).innerHTML=xmlhttp.responseText;
+    }
+  }
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+        <pubDate>Thu, 05 Feb 2015 00:00:00 +0800</pubDate>
+        <link>/2015/02/05/AJAX.html</link>
+        <guid isPermaLink="true">/2015/02/05/AJAX.html</guid>
+        
+        
+      </item>
+    
+      <item>
+        <title>解析字符串</title>
+        <description>&lt;h1 id=&quot;nspredicate&quot;&gt;NSPredicate&lt;/h1&gt;
+&lt;p&gt;Cocoa 提供了NSPredicate 用于指定过滤条件，谓词是指在计算机中表示计算真假值的函数，
+它使用起来有点儿像SQL 的查询条件，主要用于从集合中分拣出符合条件的对象，也可以
+用于字符串的正则匹配。&lt;/p&gt;
+
+&lt;p&gt;在iOS中是创造一个NSPredicate，然后使用NSArray,NSSet,NSOrderedSet…等基础类使用 filter 开始的 Method 和参数 NSPredicate 过滤字符串&lt;/p&gt;
+
+&lt;p&gt;//判断是否匹配对象&lt;br /&gt;
+-(BOOL)evaluateWithObject:(id)object;    // evaluate a predicate against a single object&lt;/p&gt;
+
+&lt;h3 id=&quot;section&quot;&gt;1 比较和逻辑运算符&lt;/h3&gt;
+&lt;p&gt;==和=、&amp;gt;、&amp;gt;=和=&amp;gt;、&amp;lt;、&amp;lt;=和=&amp;lt;、!=和&amp;lt;&amp;gt;&lt;br /&gt;
+此外，谓词字符串语法还支持括号表达式和AND、OR、NOT逻辑运算符或者C样式的等效表达式&amp;amp;&amp;amp;、||和!&lt;br /&gt;
+示例：&lt;br /&gt;
+predicate=[NSPredicate predicateWithFormat:@”(engine.horsepower&amp;gt;50) AND (engine.horsepower&amp;lt;200)”];&lt;/p&gt;
+
+&lt;h3 id=&quot;section-1&quot;&gt;2 数组运算符&lt;/h3&gt;
+&lt;p&gt;predicate=[NSPredicate predicateWithFormat:@”engine.horsepower BETWEEN {50,200}”];&lt;br /&gt;
+花括号表示数组，BETWEEN将数组中的第一个元素看成是数组的下界，第二个元素看成是数组的上界。&lt;br /&gt;
+可以使用%@格式说明符插入你自己的NSArray对象：&lt;br /&gt;
+NSArray *betweens=[NSArray arrayWithObjects:&lt;br /&gt;
+                    [NSNumber numberWithInt:50],&lt;br /&gt;
+                    [NSNumber numberWithInt:200],nil];&lt;br /&gt;
+predicate=[NSPredicate predicateWithFormat:@”engine.horsepower BETWEEN %@”,betweens];  &lt;/p&gt;
+
+&lt;p&gt;也可以使用变量：&lt;br /&gt;
+predicateTemplate=[NSPredicate predicateWithFormat:@”engine.horsepower BETWEEN $POWERS”];&lt;br /&gt;
+varDict=[NSDictionary dictionaryWithObjectsAndKeys:betweens,@”POWERS”,nil];&lt;br /&gt;
+predicate=[predicateTemplate predicateWithSubstitutionVariables:varDict];&lt;br /&gt;
+数组并不仅仅用来指定某个区间的端点值，你可以使用IN运算符查找数组中是否含有某个特定值，具有SQL编程经验的编程人员应该对以下代码非常熟悉：&lt;br /&gt;
+predicate=[NSPredicate predicateWithFormat:@”name IN {‘Herbie’,’Snugs’,’Badger’,’Flap’}”];  &lt;/p&gt;
+
+&lt;p&gt;ANY，SOME：指定下列表达式中的任意元素。比如，ANY children.age &amp;lt; 18。&lt;br /&gt;
+ALL：指定下列表达式中的所有元素。比如，ALL children.age &amp;lt; 18。&lt;br /&gt;
+NONE：指定下列表达式中没有的元素。比如，NONE children.age &amp;lt; 18。它在逻辑上等于NOT (ANY …)。  &lt;/p&gt;
+
+&lt;h3 id=&quot;section-2&quot;&gt;3 字符串运算符&lt;/h3&gt;
+&lt;p&gt;前面介绍字符串时，我们介绍过关系运算符。此外，还有一些针对字符串的关系运算符：&lt;br /&gt;
+BEGINSWITH&lt;br /&gt;
+ENDSWITH&lt;br /&gt;
+CONTAINS&lt;br /&gt;
+MATCHES：左边的表达式根据ICU v3 的regex风格比较，等于右边的表达式。&lt;/p&gt;
+
+&lt;p&gt;例如：&lt;br /&gt;
+“name BEGINSWITH ‘Bad’” 匹配 “Badger” ，使用”name ENDSWITH ‘vis’” 匹配 “Elvis”，以及 “name CONTAINS ‘udg’”  
+这些匹配是区分大小写的，也区分重音符。为了减少名称匹配规则，可以为这些运算符添加[c]、[d]或[cd]修饰符。其中，c表示“不区分大小写”，d表示“不区分发音符号”，[cd]表示都不区分。例如 “name BEGINSWITH[cd] ‘HERB’”  
+###4  LIKE运算符
+通配符： ? 匹配单个字符 * 匹配任意个字符&lt;br /&gt;
+“name LIKE ‘*er’” 匹配任何包含er的名称，等效于CONTAINS&lt;br /&gt;
+“name LIKE ‘???er*’” &lt;br /&gt;
+另外，LIKE也接受[cd]修饰符&lt;br /&gt;
+如果你热衷于正则表达式，可以使用MATCHES运算符。赋给该运算符一个正则表达式，谓词将会计算出他的值。&lt;/p&gt;
+
+&lt;h3 id=&quot;self&quot;&gt;5  SELF&lt;/h3&gt;
+&lt;p&gt;NSArray *names1=[NSArray arrayWithObjects:@”Herbie”,@”Badger”,@”Judge”,@”Elvis”,nil];&lt;br /&gt;
+NSArray *names2=[NSArray arrayWithObjects:@”Judge”,@”Paper Car”,@”Badger”,@”Finto”,nil];  &lt;/p&gt;
+
+&lt;p&gt;predicate=[NSPredicate predicateWithFormat:@”SELF IN %@”,names1];&lt;br /&gt;
+results=[names2 filteredArrayUsingPredicate:predicate];&lt;br /&gt;
+NSLog(@”%@”,results);  &lt;/p&gt;
+
+&lt;p&gt;输出：
+{
+ Judge,
+ Badger
+}&lt;/p&gt;
+
+&lt;h3 id=&quot;section-3&quot;&gt;6&lt;/h3&gt;
+&lt;p&gt;数组操作&lt;/p&gt;
+
+&lt;p&gt;array[index]：指定数组中特定索引处的元素。&lt;br /&gt;
+array[FIRST]：指定数组中的第一个元素。&lt;br /&gt;
+array[LAST]：指定数组中的最后一个元素。&lt;br /&gt;
+array[SIZE]：指定数组的大小。&lt;br /&gt;
+布尔值谓词  &lt;/p&gt;
+
+&lt;p&gt;TRUEPREDICATE：结果始终为真的谓词。&lt;br /&gt;
+FALSEPREDICATE：结果始终为假的谓词。  &lt;/p&gt;
+
+&lt;h1 id=&quot;nsscanner&quot;&gt;NSScanner&lt;/h1&gt;
+&lt;p&gt;这是一个扫描器类 我们用它解析字符串  &lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;NSScanner *scanner = [NSScanner scannerWithString:string];
+//设置被忽略的字符
+scanner.charactersToBeSkipped = [NSCharacterSet whitespaceCharacterSet];
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;我们先写一个没有错误检查的版本。扫描器的工作原理是这样的：它接收一个字符串，并将光标设置在字符串的开始处。然后调用扫描方法，像这样：[sanner scanString:@”=” intoString:NULL]。如果扫描成功，该方法会返回 YES，光标会自动后移。scanCharactersFromSet:intoString: 方法的工作原理和之前的相似，只不过它扫描的是字符集，并将扫描的结果放入第二个参数的字符串指针所指向的地址中。我们使用 &amp;amp;&amp;amp; 对不同的扫描方法进行 “与” 操作。这种方式的好处是只有与 &amp;amp;&amp;amp; 操作符左边的扫描成功时，&amp;amp;&amp;amp; 右边的扫描方法才会被调用。&lt;/p&gt;
+
+&lt;p&gt;简单来说就是逐字逐句的去解析字符串 然后把解析出来的内容可以存储到字典或者进行其他任何操作，需要注意的就是我们如何去处理没有解析成功的内容，这是一个值得处理的饿问题  &lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;NSMutableDictionary *result = [NSMutableDictionary dictionary];
+while (!scanner.isAtEnd) {
+    NSString *key = nil;
+    NSString *value = nil;
+    NSCharacterSet *letters = [NSCharacterSet letterCharacterSet];
+    BOOL didScan = [scanner scanCharactersFromSet:letters intoString:&amp;amp;key] &amp;amp;&amp;amp;
+                   [scanner scanString:@&quot;=&quot; intoString:NULL] &amp;amp;&amp;amp;
+                   [scanner scanString:@&quot;#&quot; intoString:NULL] &amp;amp;&amp;amp;
+                   [scanner scanCharactersFromSet:hexadecimalCharacterSet intoString:&amp;amp;value] &amp;amp;&amp;amp;
+                   value.length == 6;
+    result[key] = value;
+    [scanner scanCharactersFromSet:[NSCharacterSet newlineCharacterSet] 
+                        intoString:NULL]; // 继续扫描下一行
+}
+return result;
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code&gt;错误的处理
+if (!didScan) {
+        NSString *message = [NSString stringWithFormat:@&quot;Couldn&#39;t parse: %u&quot;, scanner.scanLocation];
+        NSDictionary *errorDetail = @{NSLocalizedDescriptionKey: message};
+        *error = [NSError errorWithDomain:MyErrorDomain code:FormatError userInfo:errorDetail];
+        return nil;
+    }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h1 id=&quot;nsexpression&quot;&gt;NSExpression&lt;/h1&gt;
+
+&lt;p&gt;用于计算的类
+有点说不清楚 直接上代码吧&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;NSExpression *expression = [NSExpression expressionWithFormat:@&quot;4 + 5 - 2**3&quot;];
+id value = [expression expressionValueWithObject:nil context:nil]; // =&amp;gt; 1
+
+NSArray *numbers = @[@1, @2, @3, @4, @4, @5, @9, @11];
+NSExpression *expression = [NSExpression expressionForFunction:@&quot;stddev:&quot; arguments:@[[NSExpression expressionForConstantValue:numbers]]];
+id value = [expression expressionValueWithObject:nil context:nil]; // =&amp;gt; 3.21859...
+
+NSExpression *expression = [NSExpression expressionWithFormat:@&quot;FUNCTION(4.2, &#39;factorial&#39;)&quot;];
+id value = [expression expressionValueWithObject:nil context:nil]; // 32.578...
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h1 id=&quot;nscache&quot;&gt;NSCache&lt;/h1&gt;
+&lt;p&gt;NSCache 基本上就是一个会自动移除对象来释放内存的 NSMutableDictionary
+#NSCharacter​Set
+获取一个字符集，用于过滤&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;NSString *string = @&quot;Lorem    ipsum dolar   sit  amet.&quot;;
+string = [string stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+
+NSArray *components = [string componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+components = [components filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@&quot;self &amp;lt;&amp;gt; &#39;&#39;&quot;]];
+
+string = [components componentsJoinedByString:@&quot; &quot;];
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;首先，删除字符串首尾的空格；然后用 NSString -componentsSeparatedByCharactersInSet: 在空格处将字符串分割成一个 NSArray；再用一个 NSPredicate 去除空串；最后，用 NSArray -componentsJoinedByString: 用单个空格符将数组重新拼成字符串。注意：这种方法仅适用于英语这种用空格分割的语言。
+#NSSort​Descriptor
+用于排序，设置一个排序键值，然后设置升序降序，之后就完成了排序，很优雅&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;NSArray *firstNames = @[ @&quot;Alice&quot;, @&quot;Bob&quot;, @&quot;Charlie&quot;, @&quot;Quentin&quot; ];
+NSArray *lastNames = @[ @&quot;Smith&quot;, @&quot;Jones&quot;, @&quot;Smith&quot;, @&quot;Alberts&quot; ];
+NSArray *ages = @[ @24, @27, @33, @31 ];
+
+NSMutableArray *people = [NSMutableArray array];
+[firstNames enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+    Person *person = [[Person alloc] init];
+    person.firstName = [firstNames objectAtIndex:idx];
+    person.lastName = [lastNames objectAtIndex:idx];
+    person.age = [ages objectAtIndex:idx];
+    [people addObject:person];
+}];
+
+NSSortDescriptor *firstNameSortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@&quot;firstName&quot;
+  ascending:YES
+  selector:@selector(localizedStandardCompare:)];
+NSSortDescriptor *lastNameSortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@&quot;lastName&quot;
+  ascending:YES
+  selector:@selector(localizedStandardCompare:)];
+NSSortDescriptor *ageSortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@&quot;age&quot;
+  ascending:NO];
+
+NSLog(@&quot;By age: %@&quot;, [people sortedArrayUsingDescriptors:@[ageSortDescriptor]]);
+// &quot;Charlie Smith&quot;, &quot;Quentin Alberts&quot;, &quot;Bob Jones&quot;, &quot;Alice Smith&quot;
+
+
+NSLog(@&quot;By first name: %@&quot;, [people sortedArrayUsingDescriptors:@[firstNameSortDescriptor]]);
+// &quot;Alice Smith&quot;, &quot;Bob Jones&quot;, &quot;Charlie Smith&quot;, &quot;Quentin Alberts&quot;
+
+
+NSLog(@&quot;By last name, first name: %@&quot;, [people sortedArrayUsingDescriptors:@[lastNameSortDescriptor, firstNameSortDescriptor]]);
+// &quot;Quentin Alberts&quot;, &quot;Bob Jones&quot;, &quot;Alice Smith&quot;, &quot;Charlie Smith&quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+</description>
+        <pubDate>Wed, 04 Feb 2015 00:00:00 +0800</pubDate>
+        <link>/2015/02/04/string.html</link>
+        <guid isPermaLink="true">/2015/02/04/string.html</guid>
+        
+        
+      </item>
     
       <item>
         <title>Objective-C-RegEx-Categories 正则表达式</title>
@@ -1076,361 +1422,6 @@ selector.class : pseudo-class {property: value}
         <pubDate>Mon, 05 Jan 2015 00:00:00 +0800</pubDate>
         <link>/2015/01/05/css-selected.html</link>
         <guid isPermaLink="true">/2015/01/05/css-selected.html</guid>
-        
-        
-      </item>
-    
-      <item>
-        <title>Server知识</title>
-        <description>&lt;p&gt;构建一个大型的网站面临着几个重要的问题需要去解决：大量的访问 访问的速度 监控 和 数据库存储&lt;/p&gt;
-
-&lt;h2 id=&quot;section&quot;&gt;大量的访问&lt;/h2&gt;
-&lt;p&gt;这里涉及到了两个概念 就是网络的 负载均衡 和 容余&lt;br /&gt;
-说道负载均衡，其实就是说有一个东西去控制外部的访问到不同的服务器，使得所有的服务器都可以拥有相似的负载，不会造成某一个服务器拥有过多的负载，它的实现方法其实也很简单，就是通过某些物理线路，路由器，虚拟服务器，或者软件进行分流，这里还用到了一些地址重定向的技术&lt;br /&gt;
-在这里，依次分派不同的任务到服务器叫做轮训&lt;br /&gt;
-另一个知识点就是容余，他的概念就是说每台激活的服务器可能都拥有一个集群，所谓集群就是没几个服务器集成的群组，在同一时间内只有一个服务器处于激活状态，其他属于睡眠状态，而一旦激活的服务器宕机，那么睡眠的服务器就会被启动&lt;br /&gt;
-通过这样的两个技术，就基本实现了资源的最大利用&lt;/p&gt;
-
-&lt;h2 id=&quot;section-1&quot;&gt;数据库存储&lt;/h2&gt;
-&lt;p&gt;现在分两种数据库，SQL和NoSQL,其中SQL的代表是MySQL，NoSQL的代表是Mongo&lt;br /&gt;
-上面说到了负载均衡和容余，其实在数据库系统中也有类似的机制，其中MySQL拥有一种叫做主从服务器的机制，就是说，主服务器进行数据库增添改，然后会通过一种bin log的日志把数据同步到从属服务器中然后，所有的搜索命令会使用从属服务器去处理&lt;br /&gt;
-还有一个重要的问题就是数据库搜索加速，一种做法就是索引，或者使用外部的索引系统，二就是实现分表分区，所谓分表就是把数据分在不同的表内，但是缺点就是需要修改SQL命令，而分区的做法就是逻辑不变，但是数据库系统自动帮你去在多个表内进行搜索&lt;/p&gt;
-
-&lt;h2 id=&quot;section-2&quot;&gt;如何进行网络加速&lt;/h2&gt;
-&lt;p&gt;利用代理缓存，代理服务器中可能拥有某些服务，这些服务器中就拥有了缓存池，能够缓存一些静态文件，当然另一种最基本的代理的加速就是代理服务器去帮助用户向主服务器获取数据&lt;br /&gt;
-在上面的情况中，主服务器需要做的就是把一些动态文件静态化，便于代理缓存，具体的实现方法其实就是使用一些模板，或者框架，例如PHP的ThinkPHP&lt;br /&gt;
-另一种加速方式就是把某些搜索或者IO变成内存级别的搜索，这里用到了一种meocache的技术，这种技术的优点就是数据都在内存中，缺点就是没有存储到本地，解决方案可以使用redies等NoSQL &lt;/p&gt;
-
-&lt;h2 id=&quot;section-3&quot;&gt;最后是监控&lt;/h2&gt;
-&lt;p&gt;说实话这里实在是没有什么经验，以后如果做了一些，再来补充吧&lt;/p&gt;
-</description>
-        <pubDate>Wed, 31 Dec 2014 00:00:00 +0800</pubDate>
-        <link>/2014/12/31/server-konwledge.html</link>
-        <guid isPermaLink="true">/2014/12/31/server-konwledge.html</guid>
-        
-        
-      </item>
-    
-      <item>
-        <title>Jekyll的使用</title>
-        <description>&lt;h1 id=&quot;jekyll&quot;&gt;Jekyll&lt;/h1&gt;
-&lt;hr /&gt;
-&lt;p&gt;jekyll 安装  &lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;$ gem install jekyll
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;jekyll还有两个重要的命令&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;$ jekyll build  
-# =&amp;gt; 根据当前目录里的内容生成静态网页，网页存放到目录 ./_site
-$ jekyll serve
-# =&amp;gt; 启动服务端部署_site内的网站到 http://localhost:4000,你可以在浏览器里输入这个URL来预览你的博客网站的效果
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;之后再说说jeyll的文档结构 &lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;.
-├── _config.yml  //jekyll的配置文件，jekyll的很多参数可以在输入命令行时直接输入，也可以写入配置文件，简化繁琐的命令输入过程。
-├── _drafts  //这个文件夹里面是用来存放草稿的，里面的文件不需要在文件名中加入固定格式的日期前缀。
-
-|   ├── begin-with-the-crazy-ideas.textile  
-|   └── on-simplicity-in-technology.markdown  
-├── _includes  //这里面可以放置一些可重用的模块来加速开发，你可以方便的将里面的内容在多个文件里复用。譬如你也可以在多个页面中加入一块固定的模块，这个模块存放在文件_includes/file.ext，只需要在文件中插入liquid标签： % include file.ext %] 。
-|   ├── footer.html
-|   └── header.html
-├── _layouts    //这个目录存放的是一些布局文件，我们的post文章里面可以使用YAML前缀格式来设置我们使用的布局。我们可以使用liquid标签  在我们的web页中插入内容。
-|   ├── default.html
-|   └── post.html
-├── _posts    //这里是用来放置你的文章的，里面的文件需要加入日期前缀，格式为： YEAR-MONTH-DAY-title.MARKUP 。前面的日期格式是固定的，jekyll可以自动提取出文件名中的日期前缀用来标识文件发布的日期，这个日期可以用来排序，分类，显示等。
-
-|   ├── 2007-10-29-why-every-programmer-should-play-nethack.textile
-|   └── 2009-04-26-barcamp-boston-4-roundup.textile
-├── _site    jekyll默认会将jekyll项目中的内容生成静态网页放到这个目录中，这个目录是可以自定义的，可以写到配置文件_config.yml中。默认这个目录会加入.gitignore文件中，里面的内容不会上传到github，github page会自动根据你上传的jekyll项目生成对应的网页，而不会直接展示你自己本地生成的网页。
-
-└── index.html   //默认的主页文件，可以在文件头部加入YAML区域，内容中也可以加入Markdown等格式的内容。这个文件也会被jekyll转换成对应网页，不会直接显示你定义的内容。文件后缀可以是：.html, .markdown, .md, .textile 等。
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;##发布&lt;/p&gt;
-
-&lt;p&gt;那么在整个需要post的文档前面 我们一般都是添加 YAML front matter 来进行记录或者预处理一些东西，格式如下  &lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;---
-layout: post
-title: Blogging Like a Hacker
----
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;在这里我们可以自定义一些属性，如title，但是还是有一些全局的属性&lt;/p&gt;
-
-&lt;table&gt;
-  &lt;thead&gt;
-    &lt;tr&gt;
-      &lt;th style=&quot;text-align: left&quot;&gt;变量&lt;/th&gt;
-      &lt;th style=&quot;text-align: left&quot;&gt;描述&lt;/th&gt;
-    &lt;/tr&gt;
-  &lt;/thead&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;layout&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;设置这个变量可以指定使用某个指定的布局文件。布局文件不需要加文件名后缀。布局文件需要放到_layouts文件夹中。&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;permalink&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;发布的post的url默认会是/year/month/day/title.html的格式，用户可以设置这个变量来设置静态URL。&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;published&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;post设置这个变量为false，那么这个post在产生网页时不会发布。&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;category，categories&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;Instead of placing posts inside of folders, you can specify one or more categories that the post belongs to. When the site is generated the post will act as though it had been set with these categories normally. 类别(Categories)可以使用YAML列表的形式或者使用空格分隔的字符串形式。&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;tags&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;与分类(categories)类似，可以定义一个或多个标签(tags)，同样的也可以用YAML列表形式或空格分隔的字符串形式&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;p&gt;说完了post文件的头，那么我们就可以说说我们的博客本身了
-首先这类的文件可以分成两种，markdown 和 html， 命名如下&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;2011-12-31-new-years-eve-is-awesome.md
-2012-09-12-how-to-write-a-blog.textile
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;###内容格式&lt;br /&gt;
-所有的博客文件必须以YAML front-matter开头。然后剩余部分用户就可以自己选择使用哪种格式了。Jekyll提供了两种流行的内容标记格式：Markdown和Textile。每种格式都有自己的标记内容的方法，你需要熟悉这两种格式并选择你自己需要的格式。&lt;/p&gt;
-
-&lt;h3 id=&quot;section&quot;&gt;在文章中包含图片及其他资源&lt;/h3&gt;
-&lt;p&gt;有时候用户需要在post中添加图片，下载文件或其他内容。因为语法的不同，Markdown和Textlie的链接的表达方式不同，因此存储图片，二进制文件等的位置也有所不同。&lt;/p&gt;
-
-&lt;p&gt;由于Jekyll的灵活性，有很多不同的解决方案来解决这个问题。通用的解决方案是在根目录创建一个文件夹，例如assets或者downloads，图片，下载文件和其他资源就可以放到这个目录下。这样，post中就可以以根目录为起始路径来链接到这些资源文件。当然，这要依赖与你的网站的（子）域名和路径的配置。下面给出一些利用site.url变量来实现的链接(使用Markdown)。&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;… which is shown in the screenshot below:
-![My helpful screenshot](/assets/screenshot.jpg)
-… you can [get the PDF](/assets/mydoc.pdf) directly.
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;post还可以使用一些属性 url,title,excerpt&lt;/p&gt;
-
-&lt;h3 id=&quot;section-1&quot;&gt;代码高亮&lt;/h3&gt;
-
-&lt;pre&gt;&lt;code&gt;
-&amp;lt;div class=&quot;highlight&quot;&amp;gt;&amp;lt;pre&amp;gt;&amp;lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&amp;gt;&amp;lt;span class=&quot;k&quot;&amp;gt;def&amp;lt;/span&amp;gt; &amp;lt;span class=&quot;nf&quot;&amp;gt;show&amp;lt;/span&amp;gt;
-  &amp;lt;span class=&quot;vi&quot;&amp;gt;@widget&amp;lt;/span&amp;gt; &amp;lt;span class=&quot;o&quot;&amp;gt;=&amp;lt;/span&amp;gt; &amp;lt;span class=&quot;no&quot;&amp;gt;Widget&amp;lt;/span&amp;gt;&amp;lt;span class=&quot;p&quot;&amp;gt;(&amp;lt;/span&amp;gt;&amp;lt;span class=&quot;n&quot;&amp;gt;params&amp;lt;/span&amp;gt;&amp;lt;span class=&quot;o&quot;&amp;gt;[&amp;lt;/span&amp;gt;&amp;lt;span class=&quot;ss&quot;&amp;gt;:id&amp;lt;/span&amp;gt;&amp;lt;span class=&quot;o&quot;&amp;gt;]&amp;lt;/span&amp;gt;&amp;lt;span class=&quot;p&quot;&amp;gt;)&amp;lt;/span&amp;gt;
-  &amp;lt;span class=&quot;n&quot;&amp;gt;respond_to&amp;lt;/span&amp;gt; &amp;lt;span class=&quot;k&quot;&amp;gt;do&amp;lt;/span&amp;gt; &amp;lt;span class=&quot;o&quot;&amp;gt;|&amp;lt;/span&amp;gt;&amp;lt;span class=&quot;nb&quot;&amp;gt;format&amp;lt;/span&amp;gt;&amp;lt;span class=&quot;o&quot;&amp;gt;|&amp;lt;/span&amp;gt;
-    &amp;lt;span class=&quot;nb&quot;&amp;gt;format&amp;lt;/span&amp;gt;&amp;lt;span class=&quot;o&quot;&amp;gt;.&amp;lt;/span&amp;gt;&amp;lt;span class=&quot;n&quot;&amp;gt;html&amp;lt;/span&amp;gt; &amp;lt;span class=&quot;c1&quot;&amp;gt;# show.html.erb&amp;lt;/span&amp;gt;
-    &amp;lt;span class=&quot;nb&quot;&amp;gt;format&amp;lt;/span&amp;gt;&amp;lt;span class=&quot;o&quot;&amp;gt;.&amp;lt;/span&amp;gt;&amp;lt;span class=&quot;n&quot;&amp;gt;json&amp;lt;/span&amp;gt; &amp;lt;span class=&quot;p&quot;&amp;gt;{&amp;lt;/span&amp;gt; &amp;lt;span class=&quot;n&quot;&amp;gt;render&amp;lt;/span&amp;gt; &amp;lt;span class=&quot;ss&quot;&amp;gt;json&amp;lt;/span&amp;gt;&amp;lt;span class=&quot;p&quot;&amp;gt;:&amp;lt;/span&amp;gt; &amp;lt;span class=&quot;vi&quot;&amp;gt;@widget&amp;lt;/span&amp;gt; &amp;lt;span class=&quot;p&quot;&amp;gt;}&amp;lt;/span&amp;gt;
-  &amp;lt;span class=&quot;k&quot;&amp;gt;end&amp;lt;/span&amp;gt;
-&amp;lt;span class=&quot;k&quot;&amp;gt;end&amp;lt;/span&amp;gt;&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;&amp;lt;/div&amp;gt;
-
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;##网站的组织形式&lt;br /&gt;
-很多网站默认启动服务会找HTML文件index.html作为网站的首页来展示。Jekyll也一样，除非你自己在web服务器上配置了其他文件，否则Jekyll也会默认将index.html文件作为首页。&lt;/p&gt;
-
-&lt;p&gt;在首页中使用布局layouts
-Jekyll项目中的任何HTML文件都可以使用布局(layouts)和包含文件(includes)，包括首页。一些通用的元素，例如头部和尾部，可以抽取出来做到布局中，这样方便开发，网站的风格也能统一。&lt;/p&gt;
-
-&lt;h3 id=&quot;section-2&quot;&gt;额外的页面放置在哪？&lt;/h3&gt;
-
-&lt;p&gt;在哪里放置HTML页面文件取决与你想让你的页面如何工作。有两种主要的创建页面的方式：&lt;br /&gt;
-放置HTML文件到网站根目录，每个页面单独命名。
-在网站根目录为每个页面创建一个单独命名的文件夹，每个文件夹里放置一个名为index.html的文件&lt;br /&gt;
-这两种方式都能很好的工作，也可以混合使用，唯一的不同就是最终访问路径URL的不同。&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;.
-|-- _config.yml
-|-- _includes/
-|-- _layouts/
-|-- _posts/
-|-- _site/
-|-- about.html    # =&amp;gt; http://yoursite.com/about.html
-|-- index.html    # =&amp;gt; http://yoursite.com/
-└── contact.html  # =&amp;gt; http://yoursite.com/contact.html
-
-.
-├── _config.yml
-├── _includes/
-├── _layouts/
-├── _posts/
-├── _site/
-├── about/
-|   └── index.html  # =&amp;gt; http://yoursite.com/about/
-├── contact/
-|   └── index.html  # =&amp;gt; http://yoursite.com/contact/
-└── index.html      # =&amp;gt; http://yoursite.com/
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&quot;section-3&quot;&gt;变量&lt;/h2&gt;
-&lt;p&gt;全局变量&lt;/p&gt;
-
-&lt;table&gt;
-  &lt;thead&gt;
-    &lt;tr&gt;
-      &lt;th style=&quot;text-align: left&quot;&gt;变量&lt;/th&gt;
-      &lt;th style=&quot;text-align: left&quot;&gt;说明&lt;/th&gt;
-    &lt;/tr&gt;
-  &lt;/thead&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;site&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;_config.yml文件中配置的全网站范围的信息和配置项。更详细的内容参考下面。&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;page&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;page专用的信息以及YAML Front Matter。用户在YAML front matter中设置的自定义变量也可以在这里使用。更详细的内容参考下面。&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;content&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;在布局文件中，post和page的内容会被封装起来。这个变量在post和page文件中没有定义。&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;paginator&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;这个变量在变量paginate变量被设置后才产生作用。详细内容参考Pagination&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;p&gt;Site变量 &lt;/p&gt;
-
-&lt;table&gt;
-  &lt;thead&gt;
-    &lt;tr&gt;
-      &lt;th style=&quot;text-align: left&quot;&gt;变量&lt;/th&gt;
-      &lt;th style=&quot;text-align: left&quot;&gt;说明&lt;/th&gt;
-    &lt;/tr&gt;
-  &lt;/thead&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;site.time&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;当前时间(当你运行jekyll时)&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;site.pages&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;所有pages的列表&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;site.posts&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;所有posts的列表，按时间顺序倒序排列。&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;site.related_posts&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;如果当前处理的页面是post，则这个变量包含了至多十个的相关的posts的列表。 By default, these are low quality but fast to compute. For high quality but slow to compute results, run the jekyll command with the –lsi (latent semantic indexing) option.&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;site.categories.CATEGORY&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;所有指定分类CATEGORY中的posts的列表。&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;site.tags.TAG&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;所有包含标签TAG的posts的列表。&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;site.[CONFIGURATION_DATA]&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;所有通过命令行以及通过_config.yml设置的变量都可以通过变量site来访问。例如，在配置文件中设置了url:http://mysite.com，那么在posts和pages中可以通过变量site.url来使用设置的变量值。在watch模式下，Jekyll并不会去解析_config.yml文件，只在Jeykll服务启动的时候才会解析，因此如果你改变了配置项的值，你需要重新启动Jekyll来使改变生效。&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;p&gt;Page变量&lt;/p&gt;
-
-&lt;table&gt;
-  &lt;thead&gt;
-    &lt;tr&gt;
-      &lt;th style=&quot;text-align: left&quot;&gt;变量&lt;/th&gt;
-      &lt;th style=&quot;text-align: left&quot;&gt;说明&lt;/th&gt;
-    &lt;/tr&gt;
-  &lt;/thead&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;page.content&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;The un-rendered content of the Page.&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;page.title&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;page的标题&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;page.excerpt&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;The un-rendered excerpt of the Page.&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;page.url&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;post的URL，不包含域名，以”/”开头。例如：/2008/12/14/my-post.html&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;page.date&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;指定的日期。这个变量可以在post的front matter中指定一个新的日期/时间来覆盖已有的日期，格式为：YYYY-MM-DD HH:MM:SS(假定是UTC世界标准时间)，或者：YYYY-MM-DD HH:MM:SS +/-TTTT(使用一个相对UTC的偏移量来指定时区，例如：2008-12-14 10:30:00 +0900）。&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;page.id&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;post的唯一标识ID(对RSS feeds有用)。例如：/2008/12/14/my-post。&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;page.categories&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;post所属的类别的列表。类别(categories)派生于_posts之上的目录结构。例如，一个设置page.categories变量为[‘work, ‘code’]的post将位于/work/code/_posts/2008-12-24-closures.md。这些可以在YAML Front Matter中进行设置。&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;page.tags&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;post所属的tags的列表。可以在YAML Front Matter中进行设置。&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;page.path&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;原生post或者page文件的路径。用法实例：链接到github上的page或者post的源文件。可以在YAML Front Matter中覆盖这个变量。&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;p&gt;Paginator&lt;/p&gt;
-
-&lt;table&gt;
-  &lt;thead&gt;
-    &lt;tr&gt;
-      &lt;th style=&quot;text-align: left&quot;&gt;变量&lt;/th&gt;
-      &lt;th style=&quot;text-align: left&quot;&gt;说明&lt;/th&gt;
-    &lt;/tr&gt;
-  &lt;/thead&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;paginagor.per_page&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;每个page页面包含的posts数目。&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;paginator.posts&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;page页面可用的posts&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;paginator.total_posts&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;posts的总数&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;paginator.total_pages&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;pages的总数&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;paginator.page&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;当前page页面的编号&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;paginator.previous_page&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;前一个page页面的编号&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;paginator.previous_page_path&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;前一个page页面的path路径&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;paginator.next_page&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;后一个page页面的编号&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;paginator.next_page_path&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;后一个page页面的path路径&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
-</description>
-        <pubDate>Fri, 26 Dec 2014 00:00:00 +0800</pubDate>
-        <link>/2014/12/26/yekyll-document.html</link>
-        <guid isPermaLink="true">/2014/12/26/yekyll-document.html</guid>
         
         
       </item>

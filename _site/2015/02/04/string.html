@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <!--[if lte IE 9]><meta http-equiv="refresh" content="0;url=/ie.html"><![endif]-->
+
+    <title>解析字符串</title>
+    <meta name="description" content="">
+
+    <link rel="stylesheet" type="text/css" href="/assets/css/style.css">
+  </head>
+  <body>
+    <aside id="sidebar">
+      <nav id="tags">
+        <img src="/assets/img/avatar.png" id="avatar"></img>
+
+        <ul id="tags__ul">
+          <li id="js-label1" class="tags__li tags-btn active">全部</li>
+          <li id="js-label2" class="tags__li tags-btn">iOS</li>
+          <li id="js-label3" class="tags__li tags-btn">Node</li>
+          <li id="js-label4" class="tags__li tags-btn">前端</li>
+          <li id="js-label6" class="tags__li tags-btn">其它</li>
+        </ul>
+
+        <div id="tags__bottom">
+          <a href="mailto:arthurli1991@gmail.com" id="icon-email" class="tags-btn fontello"></a>
+          <a href="/rss.xml" id="icon-feed" class="tags-btn fontello"></a>
+        </div>
+      </nav> <!-- end #tags -->
+
+      <div id="posts-list">
+        <!-- 搜索框，使用GoogleEngine失败 -->
+<!--         <form action="" id="search-form">
+          <a href="/index.html" id="mobile-avatar"></a>
+          NOTE: input field is disabled by default
+          <input id="search-input" type="text" placeholder="Search..." >
+        </form>
+ -->
+        <nav id="pl__container">
+        
+          <a class=" pl__all" href="/2015/02/05/AJAX.html">
+            <span class="pl__circle"></span>
+            <span class="pl__title">AJAX</span>
+            <span class="pl__date">Feb 2015</span>
+          </a>
+        
+          <a class=" pl__all" href="/2015/02/04/string.html">
+            <span class="pl__circle"></span>
+            <span class="pl__title">解析字符串</span>
+            <span class="pl__date">Feb 2015</span>
+          </a>
+        
+          <a class=" pl__all" href="/2015/02/03/regular.html">
+            <span class="pl__circle"></span>
+            <span class="pl__title">Objective-C-RegEx-Categories 正则表达式</span>
+            <span class="pl__date">Feb 2015</span>
+          </a>
+        
+          <a class=" pl__all" href="/2015/02/03/Mock.html">
+            <span class="pl__circle"></span>
+            <span class="pl__title">OCMockito学习</span>
+            <span class="pl__date">Feb 2015</span>
+          </a>
+        
+          <a class=" pl__all" href="/2015/01/29/MJExtension.html">
+            <span class="pl__circle"></span>
+            <span class="pl__title">MJExtension 解析</span>
+            <span class="pl__date">Jan 2015</span>
+          </a>
+        
+          <a class=" pl__all" href="/2015/01/23/iOS-tq.html">
+            <span class="pl__circle"></span>
+            <span class="pl__title">iOS开发进阶 读书笔记</span>
+            <span class="pl__date">Jan 2015</span>
+          </a>
+        
+          <a class=" pl__all" href="/2015/01/14/cache.html">
+            <span class="pl__circle"></span>
+            <span class="pl__title">各种缓存机制和实现方式</span>
+            <span class="pl__date">Jan 2015</span>
+          </a>
+        
+          <a class=" pl__all" href="/2015/01/12/sql.html">
+            <span class="pl__circle"></span>
+            <span class="pl__title">SQL细节补全</span>
+            <span class="pl__date">Jan 2015</span>
+          </a>
+        
+          <a class=" pl__all" href="/2015/01/06/jquery.html">
+            <span class="pl__circle"></span>
+            <span class="pl__title">JQuery 学习笔记</span>
+            <span class="pl__date">Jan 2015</span>
+          </a>
+        
+          <a class=" pl__all" href="/2015/01/05/css-selected.html">
+            <span class="pl__circle"></span>
+            <span class="pl__title">CSS选择器</span>
+            <span class="pl__date">Jan 2015</span>
+          </a>
+        
+          <a class=" pl__all" href="/2014/12/31/server-konwledge.html">
+            <span class="pl__circle"></span>
+            <span class="pl__title">Server知识</span>
+            <span class="pl__date">Dec 2014</span>
+          </a>
+        
+          <a class=" pl__all" href="/2014/12/26/yekyll-document.html">
+            <span class="pl__circle"></span>
+            <span class="pl__title">Jekyll的使用</span>
+            <span class="pl__date">Dec 2014</span>
+          </a>
+        
+        </nav>
+      </div> <!-- end #posts-list -->
+    </aside> <!-- end #sidebar -->
+
+    <div id="post">
+      <!-- 加载文章 -->
+      <div id="pjax">
+        <article id="post__content">
+  <h1 id="post__title" data-identifier="20150204">解析字符串</h1>
+  <h1 id="nspredicate">NSPredicate</h1>
+<p>Cocoa 提供了NSPredicate 用于指定过滤条件，谓词是指在计算机中表示计算真假值的函数，
+它使用起来有点儿像SQL 的查询条件，主要用于从集合中分拣出符合条件的对象，也可以
+用于字符串的正则匹配。</p>
+
+<p>在iOS中是创造一个NSPredicate，然后使用NSArray,NSSet,NSOrderedSet…等基础类使用 filter 开始的 Method 和参数 NSPredicate 过滤字符串</p>
+
+<p>//判断是否匹配对象<br />
+-(BOOL)evaluateWithObject:(id)object;    // evaluate a predicate against a single object</p>
+
+<h3 id="section">1 比较和逻辑运算符</h3>
+<p>==和=、&gt;、&gt;=和=&gt;、&lt;、&lt;=和=&lt;、!=和&lt;&gt;<br />
+此外，谓词字符串语法还支持括号表达式和AND、OR、NOT逻辑运算符或者C样式的等效表达式&amp;&amp;、||和!<br />
+示例：<br />
+predicate=[NSPredicate predicateWithFormat:@”(engine.horsepower&gt;50) AND (engine.horsepower&lt;200)”];</p>
+
+<h3 id="section-1">2 数组运算符</h3>
+<p>predicate=[NSPredicate predicateWithFormat:@”engine.horsepower BETWEEN {50,200}”];<br />
+花括号表示数组，BETWEEN将数组中的第一个元素看成是数组的下界，第二个元素看成是数组的上界。<br />
+可以使用%@格式说明符插入你自己的NSArray对象：<br />
+NSArray *betweens=[NSArray arrayWithObjects:<br />
+                    [NSNumber numberWithInt:50],<br />
+                    [NSNumber numberWithInt:200],nil];<br />
+predicate=[NSPredicate predicateWithFormat:@”engine.horsepower BETWEEN %@”,betweens];  </p>
+
+<p>也可以使用变量：<br />
+predicateTemplate=[NSPredicate predicateWithFormat:@”engine.horsepower BETWEEN $POWERS”];<br />
+varDict=[NSDictionary dictionaryWithObjectsAndKeys:betweens,@”POWERS”,nil];<br />
+predicate=[predicateTemplate predicateWithSubstitutionVariables:varDict];<br />
+数组并不仅仅用来指定某个区间的端点值，你可以使用IN运算符查找数组中是否含有某个特定值，具有SQL编程经验的编程人员应该对以下代码非常熟悉：<br />
+predicate=[NSPredicate predicateWithFormat:@”name IN {‘Herbie’,’Snugs’,’Badger’,’Flap’}”];  </p>
+
+<p>ANY，SOME：指定下列表达式中的任意元素。比如，ANY children.age &lt; 18。<br />
+ALL：指定下列表达式中的所有元素。比如，ALL children.age &lt; 18。<br />
+NONE：指定下列表达式中没有的元素。比如，NONE children.age &lt; 18。它在逻辑上等于NOT (ANY …)。  </p>
+
+<h3 id="section-2">3 字符串运算符</h3>
+<p>前面介绍字符串时，我们介绍过关系运算符。此外，还有一些针对字符串的关系运算符：<br />
+BEGINSWITH<br />
+ENDSWITH<br />
+CONTAINS<br />
+MATCHES：左边的表达式根据ICU v3 的regex风格比较，等于右边的表达式。</p>
+
+<p>例如：<br />
+“name BEGINSWITH ‘Bad’” 匹配 “Badger” ，使用”name ENDSWITH ‘vis’” 匹配 “Elvis”，以及 “name CONTAINS ‘udg’”  
+这些匹配是区分大小写的，也区分重音符。为了减少名称匹配规则，可以为这些运算符添加[c]、[d]或[cd]修饰符。其中，c表示“不区分大小写”，d表示“不区分发音符号”，[cd]表示都不区分。例如 “name BEGINSWITH[cd] ‘HERB’”  
+###4  LIKE运算符
+通配符： ? 匹配单个字符 * 匹配任意个字符<br />
+“name LIKE ‘*er’” 匹配任何包含er的名称，等效于CONTAINS<br />
+“name LIKE ‘???er*’” <br />
+另外，LIKE也接受[cd]修饰符<br />
+如果你热衷于正则表达式，可以使用MATCHES运算符。赋给该运算符一个正则表达式，谓词将会计算出他的值。</p>
+
+<h3 id="self">5  SELF</h3>
+<p>NSArray *names1=[NSArray arrayWithObjects:@”Herbie”,@”Badger”,@”Judge”,@”Elvis”,nil];<br />
+NSArray *names2=[NSArray arrayWithObjects:@”Judge”,@”Paper Car”,@”Badger”,@”Finto”,nil];  </p>
+
+<p>predicate=[NSPredicate predicateWithFormat:@”SELF IN %@”,names1];<br />
+results=[names2 filteredArrayUsingPredicate:predicate];<br />
+NSLog(@”%@”,results);  </p>
+
+<p>输出：
+{
+ Judge,
+ Badger
+}</p>
+
+<h3 id="section-3">6</h3>
+<p>数组操作</p>
+
+<p>array[index]：指定数组中特定索引处的元素。<br />
+array[FIRST]：指定数组中的第一个元素。<br />
+array[LAST]：指定数组中的最后一个元素。<br />
+array[SIZE]：指定数组的大小。<br />
+布尔值谓词  </p>
+
+<p>TRUEPREDICATE：结果始终为真的谓词。<br />
+FALSEPREDICATE：结果始终为假的谓词。  </p>
+
+<h1 id="nsscanner">NSScanner</h1>
+<p>这是一个扫描器类 我们用它解析字符串  </p>
+
+<pre><code>NSScanner *scanner = [NSScanner scannerWithString:string];
+//设置被忽略的字符
+scanner.charactersToBeSkipped = [NSCharacterSet whitespaceCharacterSet];
+</code></pre>
+<p>我们先写一个没有错误检查的版本。扫描器的工作原理是这样的：它接收一个字符串，并将光标设置在字符串的开始处。然后调用扫描方法，像这样：[sanner scanString:@”=” intoString:NULL]。如果扫描成功，该方法会返回 YES，光标会自动后移。scanCharactersFromSet:intoString: 方法的工作原理和之前的相似，只不过它扫描的是字符集，并将扫描的结果放入第二个参数的字符串指针所指向的地址中。我们使用 &amp;&amp; 对不同的扫描方法进行 “与” 操作。这种方式的好处是只有与 &amp;&amp; 操作符左边的扫描成功时，&amp;&amp; 右边的扫描方法才会被调用。</p>
+
+<p>简单来说就是逐字逐句的去解析字符串 然后把解析出来的内容可以存储到字典或者进行其他任何操作，需要注意的就是我们如何去处理没有解析成功的内容，这是一个值得处理的饿问题  </p>
+
+<pre><code>NSMutableDictionary *result = [NSMutableDictionary dictionary];
+while (!scanner.isAtEnd) {
+    NSString *key = nil;
+    NSString *value = nil;
+    NSCharacterSet *letters = [NSCharacterSet letterCharacterSet];
+    BOOL didScan = [scanner scanCharactersFromSet:letters intoString:&amp;key] &amp;&amp;
+                   [scanner scanString:@"=" intoString:NULL] &amp;&amp;
+                   [scanner scanString:@"#" intoString:NULL] &amp;&amp;
+                   [scanner scanCharactersFromSet:hexadecimalCharacterSet intoString:&amp;value] &amp;&amp;
+                   value.length == 6;
+    result[key] = value;
+    [scanner scanCharactersFromSet:[NSCharacterSet newlineCharacterSet] 
+                        intoString:NULL]; // 继续扫描下一行
+}
+return result;
+
+</code></pre>
+
+<pre><code>错误的处理
+if (!didScan) {
+        NSString *message = [NSString stringWithFormat:@"Couldn't parse: %u", scanner.scanLocation];
+        NSDictionary *errorDetail = @{NSLocalizedDescriptionKey: message};
+        *error = [NSError errorWithDomain:MyErrorDomain code:FormatError userInfo:errorDetail];
+        return nil;
+    }
+</code></pre>
+
+<h1 id="nsexpression">NSExpression</h1>
+
+<p>用于计算的类
+有点说不清楚 直接上代码吧</p>
+
+<pre><code>NSExpression *expression = [NSExpression expressionWithFormat:@"4 + 5 - 2**3"];
+id value = [expression expressionValueWithObject:nil context:nil]; // =&gt; 1
+
+NSArray *numbers = @[@1, @2, @3, @4, @4, @5, @9, @11];
+NSExpression *expression = [NSExpression expressionForFunction:@"stddev:" arguments:@[[NSExpression expressionForConstantValue:numbers]]];
+id value = [expression expressionValueWithObject:nil context:nil]; // =&gt; 3.21859...
+
+NSExpression *expression = [NSExpression expressionWithFormat:@"FUNCTION(4.2, 'factorial')"];
+id value = [expression expressionValueWithObject:nil context:nil]; // 32.578...
+</code></pre>
+
+<h1 id="nscache">NSCache</h1>
+<p>NSCache 基本上就是一个会自动移除对象来释放内存的 NSMutableDictionary
+#NSCharacter​Set
+获取一个字符集，用于过滤</p>
+
+<pre><code>NSString *string = @"Lorem    ipsum dolar   sit  amet.";
+string = [string stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+
+NSArray *components = [string componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+components = [components filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"self &lt;&gt; ''"]];
+
+string = [components componentsJoinedByString:@" "];
+</code></pre>
+<p>首先，删除字符串首尾的空格；然后用 NSString -componentsSeparatedByCharactersInSet: 在空格处将字符串分割成一个 NSArray；再用一个 NSPredicate 去除空串；最后，用 NSArray -componentsJoinedByString: 用单个空格符将数组重新拼成字符串。注意：这种方法仅适用于英语这种用空格分割的语言。
+#NSSort​Descriptor
+用于排序，设置一个排序键值，然后设置升序降序，之后就完成了排序，很优雅</p>
+
+<pre><code>NSArray *firstNames = @[ @"Alice", @"Bob", @"Charlie", @"Quentin" ];
+NSArray *lastNames = @[ @"Smith", @"Jones", @"Smith", @"Alberts" ];
+NSArray *ages = @[ @24, @27, @33, @31 ];
+
+NSMutableArray *people = [NSMutableArray array];
+[firstNames enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+    Person *person = [[Person alloc] init];
+    person.firstName = [firstNames objectAtIndex:idx];
+    person.lastName = [lastNames objectAtIndex:idx];
+    person.age = [ages objectAtIndex:idx];
+    [people addObject:person];
+}];
+
+NSSortDescriptor *firstNameSortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"firstName"
+  ascending:YES
+  selector:@selector(localizedStandardCompare:)];
+NSSortDescriptor *lastNameSortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"lastName"
+  ascending:YES
+  selector:@selector(localizedStandardCompare:)];
+NSSortDescriptor *ageSortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"age"
+  ascending:NO];
+
+NSLog(@"By age: %@", [people sortedArrayUsingDescriptors:@[ageSortDescriptor]]);
+// "Charlie Smith", "Quentin Alberts", "Bob Jones", "Alice Smith"
+
+
+NSLog(@"By first name: %@", [people sortedArrayUsingDescriptors:@[firstNameSortDescriptor]]);
+// "Alice Smith", "Bob Jones", "Charlie Smith", "Quentin Alberts"
+
+
+NSLog(@"By last name, first name: %@", [people sortedArrayUsingDescriptors:@[lastNameSortDescriptor, firstNameSortDescriptor]]);
+// "Quentin Alberts", "Bob Jones", "Alice Smith", "Charlie Smith"
+</code></pre>
+
+
+</article> <!-- end #post__content -->
+
+<div id="post__share">
+  <a id="icon-twitter" class="fontello" href="https://twitter.com/intent/tweet?url=http://wing-of-war.github.io//2015/02/04/string.html&text=解析字符串" target="_blank"></a>
+  <a id="icon-cc" class="fontello" href="http://creativecommons.org/licenses/by-nc-sa/3.0" target="_blank"></a>
+  <a id="icon-weibo" class="fontello" href="http://v.t.sina.com.cn/share/share.php?url=http://wing-of-war.github.io//2015/02/04/string.html&title=解析字符串" target="_blank"></a>
+</div> <!-- end #post__share -->
+
+<div id="disqus_thread">
+  <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  <a href="http://disqus.com" class="dsq-brlink" target="_blank">Loading Disqus comments...</a>
+</div> <!-- end #disqus_thread -->
+
+<p id="copyright">Powered by <a href="http://jekyllrb.com" target="_blank">Jekyll</a>&nbsp;&nbsp;|&nbsp;&nbsp;Theme <a href="https://github.com/P233/3-Jekyll" target="_blank">3-Jekyll</a></p>
+      </div> <!-- end #pjax -->
+
+      <!-- 右侧文章导航栏 -->
+      <div id="post__toc-trigger">
+        <div id="post__toc">
+          <span id="post__toc-title">Table of Contents</span>
+          <ul id="post__toc-ul"></ul>
+        </div>
+      </div>
+    </div> <!-- end #post -->
+
+<!-- 右侧导航按钮 -->
+    <button id="js-fullscreen"><span id="icon-arrow" class="fontello"></span></button>
+
+    <script src="/assets/js/jquery-2.0.3.min.js"></script>
+    <script src="/assets/js/jquery.pjax.js"></script>
+    <script src="/assets/js/nprogress.js"></script>
+    <script src="/assets/js/script.js"></script>
+  </body>
+</html>
