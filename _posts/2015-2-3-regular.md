@@ -1,5 +1,5 @@
 ---
-title: Objective-C-RegEx-Categories 正则表达式
+title: 正则表达式相关
 layout: post
 ---
 
@@ -85,5 +85,5 @@ struct NSMatchingOptions : RawOptionSetType {
 
 #正则表达式
 
-[半小时正则](http://deerchao.net/tutorials/regex/regex.htm)
-
+[半小时正则](http://deerchao.net/tutorials/regex/regex.htm)  
+[简单笔记](http://www.tuicool.com/articles/JRN7Vn)
